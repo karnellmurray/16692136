@@ -18,7 +18,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="#discover">Discover</a></li>
-      <li><a href="#disciplines">Disciplines</a></li>
+      <li><a href="#disciplines">Tags</a></li>
       <li><a href="#stories">Stories</a></li>
       <li><a href="#about">About</a></li>
     </ul>
@@ -57,24 +57,22 @@
         </div>
         <div class="stat-item">
           <div class="stat-number" id="stat-disciplines">—</div>
-          <div class="stat-label">Disciplines</div>
+          <div class="stat-label">Tags</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ── Video Showcase ───────────────────────────────────────────── -->
-  <!-- To add more videos: append their IDs to the playlist parameter, comma-separated -->
-  <!-- e.g. playlist=ZHq81mQEhio,VIDEO_ID_2,VIDEO_ID_3                                -->
   <section class="video-showcase">
     <div class="video-embed">
-      <iframe
-        src="https://www.youtube.com/embed/ZHq81mQEhio?playlist=ZHq81mQEhio&loop=1&rel=0"
-        title="Blkuzz — Studio Reel"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure"
-        allowfullscreen
-      ></iframe>
+      <video id="hqVideo" autoplay muted playsinline
+        style="width:100%;height:100%;object-fit:cover;display:block;background:#000">
+      </video>
+      <button id="hqSoundBtn" aria-label="Toggle sound">
+        <svg id="hqIconMuted" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        <svg id="hqIconSound" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      </button>
     </div>
   </section>
 
@@ -118,8 +116,8 @@
   <section class="section" id="disciplines" style="padding-top:0">
     <div class="section-inner">
       <div class="section-header fade-up">
-        <span class="section-tag">Disciplines</span>
-        <h2 class="section-title">Every creative<br>discipline</h2>
+        <span class="section-tag">Tags</span>
+        <h2 class="section-title">Every creative<br>tag</h2>
       </div>
       <div class="disciplines-grid fade-up" id="disciplinesGrid">
         <!-- populated by JS -->
@@ -282,7 +280,7 @@
         <div class="footer-col-title">Platform</div>
         <ul class="footer-links">
           <li><a href="#discover">Discover Members</a></li>
-          <li><a href="#disciplines">Disciplines</a></li>
+          <li><a href="#disciplines">Tags</a></li>
           <li><a href="#stories">Collab Stories</a></li>
           <li><a href="#how">How It Works</a></li>
         </ul>
@@ -307,7 +305,7 @@
       </div>
     </div>
     <div class="footer-legal">
-      <span>© 2026 Blkuzz Ltd. All rights reserved. Registered in England & Wales.</span>
+      <span>© 2025 Blkuzz Ltd. All rights reserved. Registered in England & Wales.</span>
 
     </div>
   </footer>

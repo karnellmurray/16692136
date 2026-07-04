@@ -146,14 +146,15 @@ exports.getDisciplines = async (req, res) => {
 exports.getStats = async (req, res) => {
   try {
     const db = require('mongoose').connection.db
-    const [totalMembers, totalDisciplines] = await Promise.all([
+    const [totalMembers, totalDisciplines, totalCollabs] = await Promise.all([
       Signup.countDocuments(),
-      db.collection('tags').countDocuments()
+      db.collection('tags').countDocuments(),
+      db.collection('projects').countDocuments({ 'collaborators.0': { $exists: true } })
     ])
 
     res.json({
       totalMembers,
-      totalCollabs: 200,
+      totalCollabs,
       disciplines: totalDisciplines
     })
   } catch (err) {

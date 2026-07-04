@@ -21,8 +21,9 @@ app.use(
         fontSrc:    ["'self'", 'https://fonts.gstatic.com'],
         scriptSrc:  ["'self'", "'unsafe-inline'"],
         imgSrc:     ["'self'", 'data:', 'https:'],
-        connectSrc: ["'self'", 'https://www.youtube.com', 'https://www.youtube-nocookie.com'],
-        frameSrc:   ["'self'", 'https://www.youtube.com', 'https://www.youtube-nocookie.com']
+        mediaSrc:   ["'self'", 'https:'],
+        connectSrc: ["'self'"],
+        frameSrc:   ["'none'"]
       }
     },
     // Allow compute-pressure so YouTube's player works inside the iframe

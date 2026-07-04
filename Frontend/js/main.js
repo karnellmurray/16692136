@@ -111,7 +111,7 @@ function buildTicker(disciplines) {
   const track = document.getElementById('tickerTrack')
 
   const pool = disciplines.length
-    ? disciplines.map(d => pluralize(d.name))
+    ? disciplines.flatMap(d => d.tags || []).map(t => pluralize(t))
     : ['Filmmakers', 'Musicians', 'Designers', 'Photographers', 'Dancers', 'Writers', 'Painters', 'Architects']
 
   const items = pool.sort(() => Math.random() - 0.5).slice(0, 8)
@@ -200,7 +200,7 @@ function makeTile(name, tag, count, active) {
   btn.dataset.tag = tag || ''
   btn.innerHTML = `
     <div class="discipline-name">${escHtml(name)}</div>
-    <div class="discipline-count">${count} member${count !== 1 ? 's' : ''}</div>
+    ${active ? `<div class="discipline-count">${count} member${count !== 1 ? 's' : ''}</div>` : ''}
   `
   return btn
 }
@@ -468,12 +468,63 @@ function initCardHotspots() {
   })
 }
 
+/* ─── HQ Video ───────────────────────────────────────────────────── */
+let hqVideos = []
+let hqIdx    = 0
+
+const hqVideoEl = document.getElementById('hqVideo')
+
+async function loadHqVideos() {
+  try {
+    const res  = await fetch(`${API}/hq-videos`)
+    const data = await res.json()
+    hqVideos = Array.isArray(data) ? data : []
+    if (!hqVideos.length) return
+
+    hqIdx = Math.floor(Math.random() * hqVideos.length)
+    playHqVideo(hqIdx)
+  } catch {}
+}
+
+function playHqVideo(idx) {
+  if (!hqVideoEl || !hqVideos.length) return
+  const v = hqVideos[idx]
+  hqVideoEl.src = v.url
+  hqVideoEl.load()
+  hqVideoEl.play().catch(() => {})
+  fetch(`${API}/hq-videos/view`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ key: v.key })
+  }).catch(() => {})
+}
+
+if (hqVideoEl) {
+  hqVideoEl.addEventListener('ended', () => {
+    hqIdx = (hqIdx + 1) % hqVideos.length
+    playHqVideo(hqIdx)
+  })
+}
+
+const hqSoundBtn     = document.getElementById('hqSoundBtn')
+const hqIconMuted    = document.getElementById('hqIconMuted')
+const hqIconSound    = document.getElementById('hqIconSound')
+
+if (hqSoundBtn && hqVideoEl) {
+  hqSoundBtn.addEventListener('click', () => {
+    hqVideoEl.muted = !hqVideoEl.muted
+    hqIconMuted.style.display = hqVideoEl.muted ? '' : 'none'
+    hqIconSound.style.display = hqVideoEl.muted ? 'none' : ''
+  })
+}
+
 /* ─── Boot ───────────────────────────────────────────────────────── */
 ;(async function init() {
   await loadStats()
   await Promise.all([
     loadDisciplines(),
     loadFeaturedMembers(),
-    loadSpotlightMember()
+    loadSpotlightMember(),
+    loadHqVideos()
   ])
 })()
