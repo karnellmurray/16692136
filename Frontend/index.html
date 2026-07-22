@@ -19,7 +19,7 @@
     <ul class="nav-links">
       <li><a href="#discover">Discover</a></li>
       <li><a href="#disciplines">Tags</a></li>
-      <li><a href="#stories">Stories</a></li>
+      <!-- <li><a href="#stories">Stories</a></li> -->
       <li><a href="#about">About</a></li>
     </ul>
     <button class="btn btn-gold nav-cta" id="applyBtn">Apply for Access</button>
@@ -84,7 +84,7 @@
   </div>
 
   <!-- ── Membership ────────────────────────────────────────────────── -->
-  <section class="section" id="about">
+  <section class="section" id="membership">
     <div class="section-inner">
       <div class="membership-grid">
         <div class="fade-up">
@@ -104,8 +104,7 @@
         </div>
         <div class="fade-up" style="transition-delay:0.15s">
           <div class="profile-card-static" id="spotlightCard">
-            <div class="profile-avatar">—</div>
-            <div class="profile-name">Loading…</div>
+            <div class="spinner-wrap"><div class="spinner"></div></div>
           </div>
         </div>
       </div>
@@ -193,7 +192,7 @@
     </div>
   </section>
 
-  <!-- ── Collab Stories ─────────────────────────────────────────────── -->
+  <!-- ── Collab Stories (hidden — uncomment to reinstate) ─────────────
   <section class="section" id="stories" style="padding-top:0">
     <div class="section-inner">
       <div class="section-header fade-up">
@@ -249,6 +248,27 @@
       </div>
     </div>
   </section>
+  ── End Collab Stories ──────────────────────────────────────────── -->
+
+  <!-- ── About ────────────────────────────────────────────────────── -->
+  <section class="section" id="about">
+    <div class="section-inner">
+      <div class="about-wrap fade-up">
+        <div class="section-header" style="margin-bottom:2.5rem">
+          <span class="section-tag">About</span>
+          <h2 class="section-title">About<br>Blkuzz</h2>
+        </div>
+        <div class="about-body">
+          <p class="about-lead">Blkuzz, pronounced <em>"Blackers"</em>, is a private ecosystem for collaboration. Built for true creatives. Those individuals who have a deep desperation to create, and let the world see.</p>
+          <p class="about-statement">That desperation fuels everything we do here.</p>
+          <p>We wanted to create something so seamless that it could take an idea from its earliest conceptual stage all the way through to completion, with the right people around you at every step. People who have what you don't. Who fill the gaps, cover the skills you're missing, and help bring the thing to life.</p>
+          <p>We prioritise building. Getting creations into the world. And doing it through collaboration, community, and the tools we've created for you, now at your disposal.</p>
+          <p class="about-list">Set up your portfolio. Build your team. Document your journey. Let your peers follow along.</p>
+          <p class="about-sign">Happy collaborating.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ── Download CTA ───────────────────────────────────────────────── -->
   <section class="download-section">
@@ -281,17 +301,18 @@
         <ul class="footer-links">
           <li><a href="#discover">Discover Members</a></li>
           <li><a href="#disciplines">Tags</a></li>
-          <li><a href="#stories">Collab Stories</a></li>
+          <!-- <li><a href="#stories">Collab Stories</a></li> -->
           <li><a href="#how">How It Works</a></li>
         </ul>
       </div>
       <div>
         <div class="footer-col-title">Company</div>
         <ul class="footer-links">
-          <li><a href="#">About Blkuzz</a></li>
+          <li><a href="#about">About Blkuzz</a></li>
           <!-- <li><a href="#">Press Kit</a></li>
           <li><a href="#">Careers</a></li> -->
-          <li><a href="#">Contact</a></li>
+          <li><span class="footer-link-plain">Contact</span></li>
+          <li><a href="mailto:info@blkuzz.com" style="color:#F5F5F0;font-size:0.8rem">info@blkuzz.com</a></li>
         </ul>
       </div>
       <div>
@@ -325,13 +346,19 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="fieldUsername">Username</label>
-            <input class="form-input" id="fieldUsername" type="text" placeholder="@handle" required />
+            <div class="field-wrap">
+              <input class="form-input" id="fieldUsername" type="text" placeholder="@handle" required />
+              <span class="field-icon" id="iconUsername"></span>
+            </div>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label" for="fieldEmail">Email</label>
-            <input class="form-input" id="fieldEmail" type="email" placeholder="you@domain.com" required />
+            <div class="field-wrap">
+              <input class="form-input" id="fieldEmail" type="email" placeholder="you@domain.com" required />
+              <span class="field-icon" id="iconEmail"></span>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label" for="fieldPassword">Password</label>
@@ -346,10 +373,23 @@
           <div class="form-group">
             <label class="form-label" for="fieldLocation">Location</label>
             <input class="form-input" id="fieldLocation" type="text" placeholder="City, UK" required />
+            <div style="font-family:var(--ff-mono);font-size:0.55rem;color:rgba(255,255,255,0.35);letter-spacing:0.06em;margin-top:5px;text-align:center">Format: City, UK — e.g. London, UK · Manchester, UK · Lagos, NG</div>
           </div>
           <div class="form-group">
             <label class="form-label" for="fieldPhone">Phone Number</label>
             <input class="form-input" id="fieldPhone" type="tel" placeholder="+44 7700 000000" required />
+            <button type="button" id="sendCodeBtn" style="background:transparent;border:1px solid #FDC214;color:#FDC214;font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:0.15em;padding:4px 14px;cursor:pointer;white-space:nowrap;text-transform:uppercase;border-radius:999px;margin-top:6px;display:block;margin-left:auto;margin-right:auto">Send Code</button>
+          </div>
+        </div>
+        <div class="form-row" id="otpRow" style="display:none">
+          <div class="form-group">
+            <div style="display:flex;gap:8px;align-items:stretch">
+              <input class="form-input" id="fieldOtp" type="text" inputmode="numeric" maxlength="6" placeholder="Enter 6-digit code" style="flex:1;letter-spacing:0.25em" />
+              <button type="button" id="verifyCodeBtn" style="background:transparent;border:none;color:#FDC214;font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:0.15em;padding:0 12px;cursor:pointer;white-space:nowrap;text-transform:uppercase">Verify</button>
+            </div>
+          </div>
+          <div class="form-group" style="display:flex;align-items:flex-end;padding-bottom:4px">
+            <span id="otpStatus" style="font-family:var(--ff-mono);font-size:0.65rem;letter-spacing:0.08em"></span>
           </div>
         </div>
         <div class="form-group">

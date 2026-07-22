@@ -10,16 +10,16 @@ window.addEventListener('scroll', () => {
 }, { passive: true })
 
 /* ─── Toast system ───────────────────────────────────────────────── */
-function showToast(title, message) {
+function showToast(title, message, { html = false, duration = 3500 } = {}) {
   const container = document.getElementById('toastContainer')
   const toast = document.createElement('div')
   toast.className = 'toast'
-  toast.innerHTML = `<div class="toast-title">${escHtml(title)}</div>${escHtml(message)}`
+  toast.innerHTML = `<div class="toast-title">${escHtml(title)}</div>${html ? message : escHtml(message)}`
   container.appendChild(toast)
   setTimeout(() => {
     toast.classList.add('removing')
     toast.addEventListener('animationend', () => toast.remove())
-  }, 3500)
+  }, duration)
 }
 
 function escHtml(str) {
@@ -35,8 +35,15 @@ function escHtml(str) {
 const modalOverlay = document.getElementById('modalOverlay')
 const modalClose   = document.getElementById('modalClose')
 
-function openModal() { modalOverlay.classList.add('open') }
-function closeModal() { modalOverlay.classList.remove('open') }
+function openModal() {
+  populateDisciplineSelect(allDisciplines)
+  resetOtp()
+  modalOverlay.classList.add('open')
+}
+function closeModal() {
+  modalOverlay.classList.remove('open')
+  resetOtp()
+}
 
 document.getElementById('applyBtn').addEventListener('click', openModal)
 document.getElementById('heroApplyBtn').addEventListener('click', openModal)
@@ -45,6 +52,187 @@ document.getElementById('downloadApplyBtn').addEventListener('click', openModal)
 modalClose.addEventListener('click', closeModal)
 modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal() })
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
+
+/* ─── Location formatter ─────────────────────────────────────────── */
+function toTitleCase(str) {
+  return str.toLowerCase().split(' ')
+    .map(w => w.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('-'))
+    .join(' ')
+}
+
+function formatLocation(raw) {
+  const parts = raw.split(',')
+  if (parts.length < 2) return toTitleCase(parts[0])
+  const city    = toTitleCase(parts[0].trim())
+  const country = parts.slice(1).join(',').trim().toUpperCase()
+  return `${city}, ${country}`
+}
+
+function displayLocation(location) {
+  if (!location) return ''
+  return formatLocation(location)
+}
+
+function validateLocation(location) {
+  if (!location) return { valid: false, error: 'Please enter your location.' }
+  if (!/^[A-Z][a-zA-Z\s\-]+(,\s)[A-Z][a-zA-Z\s]+$/.test(location)) {
+    return { valid: false, error: 'Please use the format: City, UK' }
+  }
+  return { valid: true }
+}
+
+const locationEl = document.getElementById('fieldLocation')
+locationEl.addEventListener('input', e => {
+  const pos = e.target.selectionStart
+  const formatted = formatLocation(e.target.value)
+  e.target.value = formatted
+  try { e.target.setSelectionRange(pos, pos) } catch {}
+})
+
+/* ─── Field icons ────────────────────────────────────────────────── */
+const SVG_TICK = `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#00cc66" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+const SVG_CROSS = `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`
+
+function setFieldIcon(iconId, state) {
+  const el = document.getElementById(iconId)
+  if (!el) return
+  el.className = 'field-icon'
+  if (state === 'ok')    { el.classList.add('icon-ok');    el.innerHTML = SVG_TICK  }
+  if (state === 'error') { el.classList.add('icon-error'); el.innerHTML = SVG_CROSS }
+  if (!state)            { el.innerHTML = '' }
+}
+
+/* ─── Availability checks ───────────────────────────────────────── */
+async function checkField(field, value, iconId) {
+  if (!value) { setFieldIcon(iconId, null); return }
+  try {
+    const res  = await fetch(`${API}/check?field=${field}&value=${encodeURIComponent(value)}`)
+    const data = await res.json()
+    setFieldIcon(iconId, data.available ? 'ok' : 'error')
+  } catch { setFieldIcon(iconId, null) }
+}
+
+function debounce(fn, ms) {
+  let t
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms) }
+}
+
+const usernameEl = document.getElementById('fieldUsername')
+const emailEl    = document.getElementById('fieldEmail')
+
+const checkUsername = debounce(val => { if (val.length >= 3) checkField('username', val, 'iconUsername') }, 400)
+const checkEmail    = debounce(val => { if (val.includes('@') && val.includes('.')) checkField('email', val, 'iconEmail') }, 400)
+
+usernameEl.addEventListener('input', e => {
+  e.target.value = e.target.value.toLowerCase()
+  setFieldIcon('iconUsername', null)
+  checkUsername(e.target.value.trim())
+})
+
+emailEl.addEventListener('input', e => {
+  e.target.value = e.target.value.toLowerCase()
+  setFieldIcon('iconEmail', null)
+  checkEmail(e.target.value.trim())
+})
+
+/* ─── Phone OTP ──────────────────────────────────────────────────── */
+let phoneVerified = false
+
+const sendCodeBtn  = document.getElementById('sendCodeBtn')
+const verifyCodeBtn = document.getElementById('verifyCodeBtn')
+const otpRow       = document.getElementById('otpRow')
+const otpStatus    = document.getElementById('otpStatus')
+
+function resetOtp() {
+  phoneVerified = false
+  otpRow.style.display = 'none'
+  document.getElementById('fieldOtp').value = ''
+  otpStatus.textContent = ''
+  otpStatus.style.color = ''
+  sendCodeBtn.textContent = 'Send Code'
+  sendCodeBtn.disabled = false
+}
+
+sendCodeBtn.addEventListener('click', async () => {
+  const phone = document.getElementById('fieldPhone').value.trim()
+  if (!PHONE_RE.test(phone)) { showToast('Invalid phone', 'Please enter a valid UK phone number.'); return }
+
+  sendCodeBtn.textContent = 'Checking…'
+  sendCodeBtn.disabled = true
+
+  try {
+    const checkRes  = await fetch(`${API}/check?field=phone&value=${encodeURIComponent(phone)}`)
+    const checkData = await checkRes.json()
+    if (!checkData.available) {
+      showToast('Already registered', 'This phone number is already linked to an account.')
+      sendCodeBtn.textContent = 'Send Code'
+      sendCodeBtn.disabled = false
+      return
+    }
+  } catch {
+    showToast('Error', 'Could not verify phone number. Please try again.')
+    sendCodeBtn.textContent = 'Send Code'
+    sendCodeBtn.disabled = false
+    return
+  }
+
+  sendCodeBtn.textContent = 'Sending…'
+  phoneVerified = false
+  otpStatus.textContent = ''
+
+  try {
+    const res  = await fetch(`${API}/verify/send`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ phone })
+    })
+    const data = await res.json()
+    if (!res.ok) { showToast('Error', data.error); sendCodeBtn.textContent = 'Send Code'; sendCodeBtn.disabled = false; return }
+    otpRow.style.display = 'flex'
+    sendCodeBtn.textContent = 'Resend'
+    sendCodeBtn.disabled = false
+    otpStatus.textContent = 'Code sent — check your messages.'
+    otpStatus.style.color = '#aaa'
+  } catch {
+    showToast('Error', 'Could not send code. Please try again.')
+    sendCodeBtn.textContent = 'Send Code'
+    sendCodeBtn.disabled = false
+  }
+})
+
+verifyCodeBtn.addEventListener('click', async () => {
+  const phone = document.getElementById('fieldPhone').value.trim()
+  const code  = document.getElementById('fieldOtp').value.trim()
+  if (!code) return
+
+  verifyCodeBtn.textContent = 'Checking…'
+  verifyCodeBtn.disabled = true
+
+  try {
+    const res  = await fetch(`${API}/verify/check`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ phone, code })
+    })
+    const data = await res.json()
+    if (res.ok && data.valid) {
+      phoneVerified = true
+      otpStatus.textContent = '✓ Phone verified'
+      otpStatus.style.color = '#00cc66'
+      verifyCodeBtn.textContent = '✓ Verified'
+    } else {
+      otpStatus.textContent = data.error || 'Incorrect code. Try again.'
+      otpStatus.style.color = '#FF0000'
+      verifyCodeBtn.textContent = 'Verify'
+      verifyCodeBtn.disabled = false
+    }
+  } catch {
+    otpStatus.textContent = 'Something went wrong. Try again.'
+    otpStatus.style.color = '#ff4444'
+    verifyCodeBtn.textContent = 'Verify'
+    verifyCodeBtn.disabled = false
+  }
+})
 
 document.getElementById('applyForm').addEventListener('submit', async e => {
   e.preventDefault()
@@ -61,6 +249,9 @@ document.getElementById('applyForm').addEventListener('submit', async e => {
   if (!/^[a-z0-9_]{3,20}$/.test(username.toLowerCase()))  { showToast('Invalid username', 'Username must be 3–20 characters: letters, numbers or underscores only.'); return }
   if (password.length < 8)                                  { showToast('Weak password', 'Password must be at least 8 characters.'); return }
   if (!PHONE_RE.test(phone))                                { showToast('Invalid phone', 'Please enter a valid phone number.'); return }
+  const locCheck = validateLocation(location)
+  if (!locCheck.valid)                                      { showToast('Invalid location', locCheck.error); return }
+  if (!phoneVerified)                                       { showToast('Verify your number', 'Please verify your phone number before submitting.'); return }
 
   try {
     const res  = await fetch(`${API}/signups`, {
@@ -71,11 +262,16 @@ document.getElementById('applyForm').addEventListener('submit', async e => {
     const data = await res.json()
     if (res.status === 409) {
       showToast('Already taken', data.error)
+      const isUser  = data.field === 'username' || data.error?.toLowerCase().includes('username')
+      const iconId  = isUser ? 'iconUsername' : 'iconEmail'
+      const inputId = isUser ? 'fieldUsername' : 'fieldEmail'
+      setFieldIcon(iconId, 'error')
+      document.getElementById(inputId)?.addEventListener('input', () => setFieldIcon(iconId, null), { once: true })
       return
     }
     if (!res.ok) throw new Error(data.error)
     closeModal()
-    showToast('Application received', `Thanks ${name}! We'll review your application and be in touch soon.`)
+    showToast('Application received', `Thanks ${escHtml(username)}! You can now log into the members portal. <a href="http://localhost:3001/portal/login" style="color:#FDC214;text-decoration:underline">Login here</a>`, { html: true, duration: 7000 })
     e.target.reset()
     if (data.totalMembers != null) animateCount('stat-members', data.totalMembers)
   } catch {
@@ -157,10 +353,13 @@ function animateCount(id, target) {
 
 function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4) }
 
+const SPINNER_HTML = '<div class="spinner-wrap"><div class="spinner"></div></div>'
+
 /* ─── Disciplines ────────────────────────────────────────────────── */
 let allDisciplines = []
 
 async function loadDisciplines() {
+  document.getElementById('disciplinesGrid').innerHTML = SPINNER_HTML
   try {
     const res  = await fetch(`${API}/disciplines`)
     const data = await res.json()
@@ -177,32 +376,31 @@ async function loadDisciplines() {
 
 function buildDisciplinesGrid(disciplines) {
   const grid = document.getElementById('disciplinesGrid')
-
-  const allTile = makeTile('Total', null, totalMemberCount, true)
-  const tiles   = disciplines.map(d => makeTile(d.name, d.name, d.count, false))
-
   grid.innerHTML = ''
-  grid.appendChild(allTile)
-  tiles.forEach(t => grid.appendChild(t))
 
-  grid.querySelectorAll('.discipline-tile').forEach(tile => {
-    tile.addEventListener('click', () => {
-      grid.querySelectorAll('.discipline-tile').forEach(t => t.classList.remove('active'))
-      tile.classList.add('active')
-      openModal()
-    })
+  const allPill = makeTagPill('All', null, true)
+  grid.appendChild(allPill)
+
+  disciplines.flatMap(d => d.tags || []).forEach(tag => {
+    grid.appendChild(makeTagPill(tag, tag, false))
   })
 }
 
-function makeTile(name, tag, count, active) {
-  const btn = document.createElement('button')
-  btn.className = 'discipline-tile' + (active ? ' active' : '')
-  btn.dataset.tag = tag || ''
-  btn.innerHTML = `
-    <div class="discipline-name">${escHtml(name)}</div>
-    ${active ? `<div class="discipline-count">${count} member${count !== 1 ? 's' : ''}</div>` : ''}
-  `
-  return btn
+function makeTagPill(label, tag, active) {
+  const el = document.createElement('button')
+  el.className = 'discipline-tile' + (active ? ' active' : '')
+  el.textContent = label
+  el.addEventListener('click', () => {
+    document.querySelectorAll('#disciplinesGrid .discipline-tile').forEach(p => p.classList.remove('active'))
+    el.classList.add('active')
+    if (tag) {
+      loadMembers({ tag })
+    } else {
+      loadFeaturedMembers()
+    }
+    document.getElementById('discover')?.scrollIntoView({ behavior: 'smooth' })
+  })
+  return el
 }
 
 let selectedTags = []
@@ -213,9 +411,9 @@ function populateDisciplineSelect(disciplines) {
   picker.innerHTML = ''
   selectedTags = []
 
-  const fallback = ['Film & Video', 'Visual Arts', 'Design & Architecture', 'Music & Audio', 'Content & Writing', 'Marketing & Events']
+  const fallback = ['Filmmaker', 'Visual Artist', 'Graphic Designer', 'Musician', 'Writer', 'Photographer', 'Dancer', 'Producer']
   const tags = disciplines.length
-    ? disciplines.map(d => d.name)
+    ? disciplines.flatMap(d => d.tags || [])
     : fallback
 
   tags.forEach(name => {
@@ -245,6 +443,7 @@ async function loadSpotlightMember() {
   const card = document.getElementById('spotlightCard')
   if (!card) return
 
+  card.innerHTML = SPINNER_HTML
   try {
     const res    = await fetch(`${API}/members/spotlight`)
     const { member } = await res.json()
@@ -252,7 +451,7 @@ async function loadSpotlightMember() {
 
     const name       = escHtml(member.name || 'Unknown')
     const discipline = escHtml(member.discipline || 'Creative')
-    const location   = escHtml(member.location || 'UK')
+    const location   = escHtml(displayLocation(member.location) || 'UK')
     const bio        = escHtml((member.bio || '').slice(0, 180))
     const bioSuffix  = member.bio && member.bio.length > 180 ? '…' : ''
     const tags       = (member.tags || []).slice(0, 4)
@@ -291,6 +490,7 @@ async function loadSpotlightMember() {
 
 /* ─── Featured members ───────────────────────────────────────────── */
 async function loadFeaturedMembers() {
+  document.getElementById('membersGrid').innerHTML = SPINNER_HTML
   try {
     const res  = await fetch(`${API}/members/featured`)
     const data = await res.json()
@@ -302,6 +502,7 @@ async function loadFeaturedMembers() {
 
 /* ─── Members (filtered) ─────────────────────────────────────────── */
 async function loadMembers(params = {}) {
+  document.getElementById('membersGrid').innerHTML = SPINNER_HTML
   const query = new URLSearchParams()
   if (params.category) query.set('category', params.category)
   if (params.tag)      query.set('tag',      params.tag)
@@ -390,7 +591,7 @@ function buildLockedCard() {
   div.onclick = openModal
   div.innerHTML = `
     <div class="lock-icon">⊘</div>
-    <p class="lock-text">This profile and ${totalMemberCount > 5 ? totalMemberCount - 5 : totalMemberCount} others are visible to Blkuzz members only.</p>
+    <p class="lock-text">This profile and others are visible to Blkuzz members only.</p>
     <div class="lock-cta">Apply for Access →</div>
   `
   return div
@@ -528,3 +729,7 @@ if (hqSoundBtn && hqVideoEl) {
     loadHqVideos()
   ])
 })()
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') loadStats()
+})

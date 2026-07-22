@@ -2,6 +2,7 @@ const bcrypt        = require('bcryptjs')
 const User          = require('../models/User')
 const Signup        = require('../models/Signup')
 const { presignAvatar } = require('../config/aws')
+const { normalisePhone } = require('../utils/phone')
 
 const SAFE_SELECT = '-passwordHash -email -isAdmin'
 
@@ -143,6 +144,21 @@ exports.getDisciplines = async (req, res) => {
   }
 }
 
+exports.checkAvailability = async (req, res) => {
+  const { field, value } = req.query
+  if (!field || !value || !['username', 'email', 'phone'].includes(field)) {
+    return res.status(400).json({ error: 'Invalid request' })
+  }
+  try {
+    const exists = field === 'phone'
+      ? await Signup.exists({ phone: normalisePhone(value) })
+      : await Signup.exists({ [field]: { $regex: new RegExp(`^${value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } })
+    res.json({ available: !exists })
+  } catch (err) {
+    res.status(500).json({ error: 'Check failed' })
+  }
+}
+
 exports.getStats = async (req, res) => {
   try {
     const db = require('mongoose').connection.db
@@ -187,19 +203,38 @@ exports.submitSignup = async (req, res) => {
       return res.status(400).json({ error: 'Please enter a valid phone number.' })
     }
 
+    const uLower = username.toLowerCase().trim()
+    const eLower = email.toLowerCase().trim()
+    const escape = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+    const normPhone = normalisePhone(phone)
+    const [takenUser, takenEmail, takenPhone] = await Promise.all([
+      Signup.findOne({ username: { $regex: new RegExp(`^${escape(uLower)}$`, 'i') } }),
+      Signup.findOne({ email:    { $regex: new RegExp(`^${escape(eLower)}$`, 'i') } }),
+      Signup.findOne({ phone:    normPhone }),
+    ])
+    if (takenUser)  return res.status(409).json({ error: 'This username is already taken.',             field: 'username' })
+    if (takenEmail) return res.status(409).json({ error: 'This email has already been used to apply.',  field: 'email'    })
+    if (takenPhone) return res.status(409).json({ error: 'This phone number is already registered.',    field: 'phone'    })
+
     const passwordHash = await bcrypt.hash(password, 12)
-    const signup = new Signup({ name, username: username.toLowerCase(), email, passwordHash, tags: Array.isArray(tags) ? tags.slice(0, 4) : [], location, phone, bio })
+    const signup = new Signup({ name, username: uLower, email: eLower, passwordHash, tags: Array.isArray(tags) ? tags.slice(0, 4) : [], location, phone: normPhone, bio })
     await signup.save()
 
     const totalMembers = await Signup.countDocuments()
     res.status(201).json({ message: 'Application received', totalMembers })
   } catch (err) {
     if (err.code === 11000) {
-      const field = Object.keys(err.keyValue || {})[0]
-      const msg = field === 'username'
-        ? 'This username is already taken.'
-        : 'This email has already been used to apply.'
-      return res.status(409).json({ error: msg })
+      const field = Object.keys(err.keyPattern || err.keyValue || {})[0]
+      const messages = {
+        username: 'This username is already taken.',
+        email:    'This email has already been used to apply.',
+        phone:    'This phone number is already registered.',
+      }
+      return res.status(409).json({
+        error: messages[field] || 'A duplicate value was found.',
+        field: field || 'unknown',
+      })
     }
     console.error('submitSignup error:', err)
     res.status(500).json({ error: 'Failed to save application' })

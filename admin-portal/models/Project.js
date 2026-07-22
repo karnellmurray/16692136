@@ -5,7 +5,7 @@ const ProjectSchema = new mongoose.Schema({
   slug:        { type: String },
   creator:     { type: mongoose.Schema.Types.ObjectId, ref: 'Signup' },
   disciplines: [String],
-  status:      { type: String, default: 'active' },
+  status:      { type: String, enum: ['active', 'completed', 'on-hold', 'abandoned'], default: 'active' },
   followers:   [{ type: mongoose.Schema.Types.ObjectId, ref: 'Signup' }],
   createdAt:   { type: Date, default: Date.now },
 })

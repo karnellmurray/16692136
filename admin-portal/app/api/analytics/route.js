@@ -11,10 +11,11 @@ export async function GET() {
 
   await connectDB()
 
-  const [memberDisciplines, projectDisciplines] = await Promise.all([
+  const [memberTags, projectDisciplines] = await Promise.all([
     Signup.aggregate([
-      { $match: { username: { $exists: true, $ne: null }, discipline: { $exists: true, $ne: null } } },
-      { $group: { _id: '$discipline', count: { $sum: 1 } } },
+      { $match: { username: { $exists: true, $ne: null }, tags: { $exists: true, $ne: [] } } },
+      { $unwind: '$tags' },
+      { $group: { _id: '$tags', count: { $sum: 1 } } },
       { $sort: { count: -1 } },
     ]),
     Project.aggregate([
@@ -24,12 +25,12 @@ export async function GET() {
     ]),
   ])
 
-  const total = memberDisciplines.reduce((s, d) => s + d.count, 0) || 1
-  const byDiscipline = memberDisciplines.map(d => ({
+  const total = memberTags.reduce((s, d) => s + d.count, 0) || 1
+  const byTag = memberTags.map(d => ({
     label: d._id,
     members: d.count,
     pct: Math.round((d.count / total) * 100),
   }))
 
-  return NextResponse.json({ byDiscipline, projectDisciplines })
+  return NextResponse.json({ byTag, projectDisciplines })
 }

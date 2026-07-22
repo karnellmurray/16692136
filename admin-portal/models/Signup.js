@@ -8,6 +8,7 @@ const SignupSchema = new mongoose.Schema({
   discipline:   { type: String },
   location:     { type: String },
   bio:          { type: String },
+  tags:         [{ type: String }],
   avatar:       { url: String, key: String },
   profileImage: { type: String },
   followers:    [{ type: mongoose.Schema.Types.ObjectId, ref: 'Signup' }],
