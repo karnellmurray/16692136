@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Boldstrom';
+  src: url('/portal/fonts/Boldstrom.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  background: #000;
+  color: #F5F5F0;
+  font-family: Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: #FDC214; color: #000; }
+
+@keyframes feed-spin {
+  to { transform: rotate(360deg); }
+}
+.feed-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2.5px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: feed-spin 0.75s linear infinite;
+}
+
+@keyframes dir-scan {
+  0%   { top: 0%;   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+.dir-scanline { animation: dir-scan 3s ease-in-out infinite; }
+.dir-search::placeholder { color: #FDC214; opacity: 1; }
+.search-input-dark::placeholder { color: #333; opacity: 1; }
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+.status-pulse { animation: status-pulse 2s ease-in-out infinite; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(253,194,20,0.3); border-radius: 4px; }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #000 inset;
+  -webkit-text-fill-color: #FDC214;
+  caret-color: #FDC214;
+}
