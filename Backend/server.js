@@ -5,7 +5,6 @@ const mongoose  = require('mongoose')
 const helmet    = require('helmet')
 const cors      = require('cors')
 const rateLimit = require('express-rate-limit')
-const path      = require('path')
 const webRoutes = require('./routes/web')
 
 const app  = express()
@@ -52,11 +51,12 @@ const apiLimiter = rateLimit({
 app.use('/web/api', apiLimiter)
 app.use('/web/api', webRoutes)
 
-const frontendPath = path.join(__dirname, '..', 'Frontend')
-app.use(express.static(frontendPath))
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', service: 'blkuzz-api' })
+})
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'))
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not found' })
 })
 
 mongoose
