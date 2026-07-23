@@ -30,9 +30,18 @@ app.use(
   })
 )
 
+const allowedOrigins    = [process.env.CORS_ORIGIN, 'http://localhost:3002'].filter(Boolean)
+const vercelPreviewRegex = /^https:\/\/[a-z0-9-]+\.karnellmurrays-projects\.vercel\.app$/
+
 app.use(
   cors({
-    origin:      process.env.CORS_ORIGIN || 'http://localhost:3002',
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin) || vercelPreviewRegex.test(origin)) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
     credentials: true
   })
 )
