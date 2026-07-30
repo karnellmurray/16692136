@@ -164,12 +164,33 @@
      .card-wrap has a *fixed* height with vertically-centered content, so
      wrapped content pushes the whole block up/down past the card's edges
      instead of the card resizing — that's what was overlapping the name.
-     Shrinking the pill and forcing one line (truncating as a last
-     resort) keeps total content height predictable. */
+     js/mobile.js does the real work of shrinking each pill's font-size
+     to fit on one line (CSS alone can't measure arbitrary text against
+     a fixed width). nowrap/ellipsis stay here only as a fallback for
+     the brief moment before that script runs, or if it somehow can't
+     shrink a pill enough (MIN_FONT_PX floor).
+
+     Centering: desktop's own rule for this exact element (styles.css:789)
+     is display:inline-flex + justify-content:center with letter-spacing:
+     2px, and that's never looked off-center. The bug only appeared here
+     because this mobile override switched it to inline-block +
+     text-align:center (to make text-overflow:ellipsis behave), and
+     text-align:center is specifically the mechanism that's biased by
+     letter-spacing's trailing space — justify-content:center measures/
+     centers the flex item differently and doesn't show the same issue.
+     Reverting to flex (matching desktop) restores 2px letter-spacing
+     with no JS measurement/transform needed. Trade-off: ellipsis
+     rendering on flex containers can be inconsistent across browsers,
+     but js/mobile.js's font-shrinking handles fitting in the vast
+     majority of cases, so this is only a rare fallback now. */
   .card-discipline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     max-width: 100%;
-    font-size: 0.5rem;
-    padding: 4px 12px;
+    font-size: 0.58rem;
+    letter-spacing: 2px;
+    padding: 3px 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
