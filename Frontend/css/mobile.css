@@ -138,12 +138,45 @@
   }
   .stat-item { text-align: left; }
 
-  /* ─── Member cards ─────────────────────────────────────────────────
-     .card-face is a flex column with align-items:flex-start, so its
-     children size to their own content width instead of stretching to
-     the card's width. That's invisible on wide desktop cards, but on
-     the narrow mobile grid a long bold name can render wider than the
-     card and spill past its border. Cap it and truncate instead. ── */
+  /* Grid rows default to stretching every item to match the tallest
+     card in that row — with cards now content-sized instead of fixed,
+     that would leave dead empty space in shorter cards. Let each card
+     keep its own natural height instead. */
+  .members-grid {
+    align-items: start;
+  }
+
+  /* ─── Member cards: grow to fit content ─────────────────────────────
+     Desktop's 3D flip-card technique needs a *fixed*-height .card-wrap
+     with both faces absolutely positioned on top of each other (only
+     one visible at a time via backface-visibility + a hover rotateY).
+     Every attempt to fit long discipline text (Camera Operator, Graphic
+     Designer, ...) into that fixed box on the narrow mobile grid — via
+     shrinking, truncating, and JS-measuring — kept surfacing new edge
+     cases (garbled ellipsis, clipped text, off-center text, edge-
+     crowding/overlap). The hover-flip doesn't meaningfully work on
+     touch anyway, so it's disabled here entirely: the back face is
+     hidden, the front face joins normal document flow instead of being
+     absolutely positioned, and the card grows to fit whatever content
+     it has. No JS needed — see js/mobile.js removal in this commit. */
+  .card-wrap {
+    height: auto;
+    perspective: none;
+  }
+  .creator-card {
+    height: auto;
+  }
+  .card-wrap:hover .creator-card {
+    transform: none;
+  }
+  .card-face {
+    position: static;
+    min-height: 200px;
+  }
+  .card-back {
+    display: none;
+  }
+
   .card-name {
     max-width: 100%;
     font-size: 0.9rem;
@@ -159,41 +192,20 @@
     white-space: nowrap;
   }
 
-  /* .card-discipline had no white-space:nowrap, so a longer discipline
-     (e.g. "Music Manager") wraps to 2 lines on the narrow mobile grid.
-     .card-wrap has a *fixed* height with vertically-centered content, so
-     wrapped content pushes the whole block up/down past the card's edges
-     instead of the card resizing — that's what was overlapping the name.
-     js/mobile.js does the real work of shrinking each pill's font-size
-     to fit on one line (CSS alone can't measure arbitrary text against
-     a fixed width). nowrap/ellipsis stay here only as a fallback for
-     the brief moment before that script runs, or if it somehow can't
-     shrink a pill enough (MIN_FONT_PX floor).
-
-     Centering: desktop's own rule for this exact element (styles.css:789)
-     is display:inline-flex + justify-content:center with letter-spacing:
-     2px, and that's never looked off-center. The bug only appeared here
-     because this mobile override switched it to inline-block +
-     text-align:center (to make text-overflow:ellipsis behave), and
-     text-align:center is specifically the mechanism that's biased by
-     letter-spacing's trailing space — justify-content:center measures/
-     centers the flex item differently and doesn't show the same issue.
-     Reverting to flex (matching desktop) restores 2px letter-spacing
-     with no JS measurement/transform needed. Trade-off: ellipsis
-     rendering on flex containers can be inconsistent across browsers,
-     but js/mobile.js's font-shrinking handles fitting in the vast
-     majority of cases, so this is only a rare fallback now. */
+  /* Discipline: dropped the pill/badge shape in favor of plain text
+     that's allowed to wrap — the card grows to fit it now, so there's
+     nothing left to measure, shrink, or center against a fixed box. */
   .card-discipline {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 100%;
-    font-size: 0.58rem;
+    display: block;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-bottom: 0.4rem;
+    color: #FDC214;
+    font-size: 0.68rem;
     letter-spacing: 2px;
-    padding: 3px 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-width: 100%;
+    white-space: normal;
   }
 
   /* Locked-card CTA: "Apply for Access →" was just barely too wide for
