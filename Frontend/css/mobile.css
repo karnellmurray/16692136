@@ -108,7 +108,9 @@
   }
 
   .hero-headline {
-    font-size: clamp(2.4rem, 9vw, 3.5rem);
+    font-size: clamp(1.9rem, 8.5vw, 3.5rem);
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   .hero-accent {
@@ -144,6 +146,22 @@
      card and spill past its border. Cap it and truncate instead. ── */
   .card-name {
     max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* .card-discipline had no white-space:nowrap, so a longer discipline
+     (e.g. "Music Manager") wraps to 2 lines on the narrow mobile grid.
+     .card-wrap has a *fixed* height with vertically-centered content, so
+     wrapped content pushes the whole block up/down past the card's edges
+     instead of the card resizing — that's what was overlapping the name.
+     Shrinking the pill and forcing one line (truncating as a last
+     resort) keeps total content height predictable. */
+  .card-discipline {
+    max-width: 100%;
+    font-size: 0.55rem;
+    padding: 3px 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -196,6 +214,29 @@
      across terms/privacy/club-rules, and all three now load this file. */
   .page-club-rules .bg-circle-4 {
     top: 200px;
+  }
+
+  /* Ticker: couldn't find a CSS/JS cause for it rendering blank — the
+     JS always falls back to a hardcoded word list even if the API call
+     fails, and .ticker-item is dark-on-gold with good contrast, so
+     nothing should hide it. width:max-content on an animated flex
+     container has had WebKit quirks historically; this is a defensive
+     hardening pass, not a confirmed fix — flag it back if still blank. */
+  .ticker-track {
+    min-width: 100%;
+  }
+  .ticker-item {
+    flex-shrink: 0;
+  }
+
+  /* Apply for Access form: .form-input sets background:transparent, but
+     without -webkit-appearance:none, iOS Safari renders text/email/tel/
+     password inputs with native white chrome regardless of custom CSS —
+     that's why fields showed solid white instead of transparent. */
+  .form-input,
+  .form-select {
+    -webkit-appearance: none;
+    appearance: none;
   }
 
 }
