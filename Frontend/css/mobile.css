@@ -168,8 +168,8 @@
      resort) keeps total content height predictable. */
   .card-discipline {
     max-width: 100%;
-    font-size: 0.55rem;
-    padding: 3px 8px;
+    font-size: 0.5rem;
+    padding: 4px 12px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
