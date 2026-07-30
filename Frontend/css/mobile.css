@@ -146,9 +146,17 @@
      card and spill past its border. Cap it and truncate instead. ── */
   .card-name {
     max-width: 100%;
+    font-size: 0.9rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  /* "Active member" was wrapping to 2 lines next to the avatar on the
+     narrow mobile card — shrink it and force one line. */
+  .card-status {
+    font-size: 0.6rem;
+    white-space: nowrap;
   }
 
   /* .card-discipline had no white-space:nowrap, so a longer discipline
@@ -216,17 +224,11 @@
     top: 200px;
   }
 
-  /* Ticker: couldn't find a CSS/JS cause for it rendering blank — the
-     JS always falls back to a hardcoded word list even if the API call
-     fails, and .ticker-item is dark-on-gold with good contrast, so
-     nothing should hide it. width:max-content on an animated flex
-     container has had WebKit quirks historically; this is a defensive
-     hardening pass, not a confirmed fix — flag it back if still blank. */
-  .ticker-track {
-    min-width: 100%;
-  }
-  .ticker-item {
-    flex-shrink: 0;
+  /* Ticker: broken on mobile Safari with no confirmed root cause found
+     in code — removed from mobile view entirely rather than leave a
+     blank gold bar. */
+  .ticker {
+    display: none;
   }
 
   /* Apply for Access form: .form-input sets background:transparent, but
