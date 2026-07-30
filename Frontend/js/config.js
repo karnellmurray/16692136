@@ -1,3 +1,5 @@
 /* ─── Blkuzz config ──────────────────────────────────────────────── */
 
-const API_URL = 'https://one6692136.onrender.com'
+const API_URL = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+  ? 'http://localhost:3000'
+  : 'https://one6692136.onrender.com'

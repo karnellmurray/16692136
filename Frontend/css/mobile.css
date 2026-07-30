@@ -1,0 +1,201 @@
+/* ─── Mobile overrides ──────────────────────────────────────────────
+   Everything below max-width:1024px handles the mobile layout, so
+   desktop (1024px and up) is untouched. Loaded after styles.css so
+   these rules win the cascade without editing anything in styles.css.
+
+   The two rules just below are the one necessary exception: they hide
+   the new burger-toggle elements by default. Without this, a native
+   checkbox renders as a visible control even on desktop, since it has
+   no styling above 1024px to suppress it. ─── */
+.nav-toggle-checkbox,
+.nav-burger { display: none; }
+
+@media (max-width: 1024px) {
+
+  /* ─── Nav → burger menu (CSS-only, via hidden checkbox) ──────────── */
+  .nav-toggle-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav-burger {
+    order: 1;
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin-right: 1.25rem;
+    cursor: pointer;
+    z-index: 1001;
+    background-color: #FDC214;
+    -webkit-mask-image: url('/icons/menu.png');
+    mask-image: url('/icons/menu.png');
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    transition: transform 0.25s ease;
+  }
+  #navToggle:checked ~ .nav-burger {
+    transform: rotate(90deg);
+  }
+
+  .nav-cta { order: 3; }
+
+  /* Logo moves inside the flyout menu instead of sitting in the top bar.
+     Scoped to .page-home — .nav-logo is shared with terms/privacy/
+     club-rules, which have no #navToggle checkbox to reveal it again. */
+  .page-home .nav-logo { display: none; }
+  #navToggle:checked ~ .nav-logo {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 2rem;
+    right: 0;
+    width: min(78vw, 300px);
+    z-index: 1002;
+  }
+
+  .nav-links {
+    order: 4;
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(78vw, 300px);
+    margin: 0;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(12px);
+    border-left: 1px solid var(--text-20, rgba(245,245,240,0.2));
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 2rem;
+    padding: 6rem 2.5rem 2rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    box-shadow: -20px 0 50px rgba(0, 0, 0, 0.5);
+  }
+  .nav-links li { width: 100%; }
+  .nav-links a { font-size: 1.05rem; }
+
+  #navToggle:checked ~ .nav-links {
+    display: flex;
+    transform: translateX(0);
+  }
+
+  /* ─── Hero ─────────────────────────────────────────────────────────
+     Desktop uses a rigid height:100vh + min-height:680px box with a
+     side-by-side headline/stats row. That doesn't fit small viewports
+     (content gets clipped by the fixed height, or the row runs out of
+     width), so it's rebuilt here to grow with its content instead. ── */
+  .hero {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 7rem 1.5rem 2.5rem;
+  }
+
+  .hero-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .hero-headline {
+    font-size: clamp(2.4rem, 9vw, 3.5rem);
+  }
+
+  .hero-accent {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+  }
+
+  .hero-sub {
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+  .hero-actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .hero-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 1.5rem;
+    padding-bottom: 0;
+  }
+  .stat-item { text-align: left; }
+
+  /* ─── Member cards ─────────────────────────────────────────────────
+     .card-face is a flex column with align-items:flex-start, so its
+     children size to their own content width instead of stretching to
+     the card's width. That's invisible on wide desktop cards, but on
+     the narrow mobile grid a long bold name can render wider than the
+     card and spill past its border. Cap it and truncate instead. ── */
+  .card-name {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Locked-card CTA: "Apply for Access →" was just barely too wide for
+     the narrow mobile card, so the arrow alone dropped to its own line. */
+  .card-locked {
+    padding: 1.25rem;
+  }
+  .lock-cta {
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  /* Download CTA: there's already a <br> splitting the headline into
+     "Your next collab" / "is one click away", but the desktop font-size
+     was too large for mobile width, so each half wrapped again into
+     extra lines. Shrinking it (and the section's side padding) lets
+     each half sit on its own single line as intended. */
+  .download-section {
+    padding: 5rem 1.5rem;
+  }
+  .download-headline {
+    font-size: clamp(1.2rem, 6.5vw, 2rem);
+    letter-spacing: 0.5px;
+  }
+
+  /* Terms of Use: the title forces white-space:nowrap + width:max-content
+     (plus a desktop-tuned translateX(-60px) nudge) so it never wraps —
+     but "Blkuzz Terms & Conditions" as one line is simply wider than a
+     phone screen, pushing it off the right edge regardless of centering.
+     Letting it wrap on mobile keeps it fully in view and centered. */
+  .legal h1 {
+    white-space: normal;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto 0.5rem;
+    text-align: center;
+    transform: none;
+    line-height: 1.15;
+  }
+  .legal h1 .h1-text {
+    display: inline;
+  }
+
+  /* Club Rules: nudge the smallest circle down a little on mobile.
+     Scoped to .page-club-rules — .bg-circle-4 is a shared class name
+     across terms/privacy/club-rules, and all three now load this file. */
+  .page-club-rules .bg-circle-4 {
+    top: 200px;
+  }
+
+}
