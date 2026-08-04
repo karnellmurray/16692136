@@ -378,33 +378,38 @@ function buildDisciplinesGrid(disciplines) {
   const grid = document.getElementById('disciplinesGrid')
   grid.innerHTML = ''
 
-  const allPill = makeTagPill('All', null, true)
-  grid.appendChild(allPill)
-
   const tags = disciplines.flatMap(d => d.tags || [])
 
   // Mobile-only collapse/expand UI — see mobile.css. display:contents
   // on .discipline-tags-wrap keeps this a no-op on desktop; the wrap
   // only becomes a real collapsible block below the 1024px breakpoint.
-  // "All" itself is the toggle (on top of its existing filter-reset
-  // click handler from makeTagPill) — the summary label hides once open.
   const summary = document.createElement('span')
   summary.className = 'discipline-tags-summary'
   summary.innerHTML = `<span class="tags-count">${tags.length}</span> <span class="tags-label">Tags</span>`
-  grid.appendChild(summary)
 
   const wrap = document.createElement('div')
   wrap.className = 'discipline-tags-wrap'
-  allPill.addEventListener('click', () => {
+
+  // "All" is also the toggle for the mobile list, on top of its normal
+  // filter-reset behavior — skipScroll runs inside makeTagPill's own
+  // click handler (not a second listener) so there's no ordering issue
+  // between "toggle the panel" and "scroll to results". Only skip the
+  // scroll on mobile, and only when actually closing the panel —
+  // desktop's behavior (where the wrap is always display:contents,
+  // i.e. effectively non-existent) is untouched.
+  const allPill = makeTagPill('All', null, true, () => {
     const open = wrap.classList.toggle('open')
     summary.classList.toggle('hidden', open)
+    return window.innerWidth <= 1024 && !open
   })
+  grid.appendChild(allPill)
+  grid.appendChild(summary)
 
   tags.forEach(tag => wrap.appendChild(makeTagPill(tag, tag, false)))
   grid.appendChild(wrap)
 }
 
-function makeTagPill(label, tag, active) {
+function makeTagPill(label, tag, active, onClick) {
   const el = document.createElement('button')
   el.className = 'discipline-tile' + (active ? ' active' : '')
   el.textContent = label
@@ -416,7 +421,10 @@ function makeTagPill(label, tag, active) {
     } else {
       loadFeaturedMembers()
     }
-    document.getElementById('discover')?.scrollIntoView({ behavior: 'smooth' })
+    const skipScroll = onClick ? onClick() : false
+    if (!skipScroll) {
+      document.getElementById('discover')?.scrollIntoView({ behavior: 'smooth' })
+    }
   })
   return el
 }
