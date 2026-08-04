@@ -3,12 +3,20 @@
    desktop (1024px and up) is untouched. Loaded after styles.css so
    these rules win the cascade without editing anything in styles.css.
 
-   The two rules just below are the one necessary exception: they hide
-   the new burger-toggle elements by default. Without this, a native
-   checkbox renders as a visible control even on desktop, since it has
-   no styling above 1024px to suppress it. ─── */
+   The rules just below are the necessary exceptions: they establish a
+   desktop-safe default for new elements before the mobile-only
+   behavior kicks in inside the media query. ─── */
 .nav-toggle-checkbox,
 .nav-burger { display: none; }
+
+/* .discipline-tags-wrap (built in main.js's buildDisciplinesGrid) only
+   exists for mobile's collapse/expand UI. display:contents makes it
+   invisible to layout on desktop — its tag-pill children act as direct
+   children of .disciplines-grid, exactly as if this wrapper weren't
+   there, so desktop's tag flow is completely unaffected. The summary
+   label ("N Creative Tags") is mobile-only too. */
+.discipline-tags-summary { display: none; }
+.discipline-tags-wrap { display: contents; }
 
 @media (max-width: 1024px) {
 
@@ -138,27 +146,28 @@
   }
   .stat-item { text-align: left; }
 
-  /* Grid rows default to stretching every item to match the tallest
-     card in that row — with cards now content-sized instead of fixed,
-     that would leave dead empty space in shorter cards. Let each card
-     keep its own natural height instead. */
+  /* Single column of full-width "landscape" cards instead of the
+     cramped 2-column grid — that narrow width was the root cause of
+     every pill-fitting issue. A full-width card gives the discipline
+     pill plenty of room, so it goes back to matching desktop's badge
+     styling exactly instead of needing special mobile treatment. */
   .members-grid {
-    align-items: start;
+    grid-template-columns: 1fr;
   }
 
   /* ─── Member cards: grow to fit content ─────────────────────────────
      Desktop's 3D flip-card technique needs a *fixed*-height .card-wrap
      with both faces absolutely positioned on top of each other (only
      one visible at a time via backface-visibility + a hover rotateY).
-     Every attempt to fit long discipline text (Camera Operator, Graphic
-     Designer, ...) into that fixed box on the narrow mobile grid — via
-     shrinking, truncating, and JS-measuring — kept surfacing new edge
-     cases (garbled ellipsis, clipped text, off-center text, edge-
+     Fitting content into that fixed box on a narrow card kept surfacing
+     bugs (garbled ellipsis, clipped text, off-center text, edge-
      crowding/overlap). The hover-flip doesn't meaningfully work on
      touch anyway, so it's disabled here entirely: the back face is
      hidden, the front face joins normal document flow instead of being
      absolutely positioned, and the card grows to fit whatever content
-     it has. No JS needed — see js/mobile.js removal in this commit. */
+     it has. Still kept even with the wider single-column card, since a
+     long bio or name could still overflow a fixed height regardless of
+     width. */
   .card-wrap {
     height: auto;
     perspective: none;
@@ -192,20 +201,51 @@
     white-space: nowrap;
   }
 
-  /* Discipline: dropped the pill/badge shape in favor of plain text
-     that's allowed to wrap — the card grows to fit it now, so there's
-     nothing left to measure, shrink, or center against a fixed box. */
-  .card-discipline {
-    display: block;
-    background: none;
-    border: none;
-    padding: 0;
-    margin-bottom: 0.4rem;
-    color: #FDC214;
-    font-size: 0.68rem;
-    letter-spacing: 2px;
-    max-width: 100%;
-    white-space: normal;
+  /* Every Creative Tag: potentially ~100 tags dumped on screen at once
+     doesn't work on mobile. "All" is the activator/closer — tapping it
+     reveals the full list below, and hides the "N Tags" label that
+     sits next to it while collapsed.
+
+     .disciplines-grid has no explicit align-items (defaults to
+     stretch), so the big "100" text tallens its flex row and stretches
+     every sibling in it — including the "All" pill — to match. Center
+     instead so "All" keeps its normal size. All the individual tag
+     pills live nested inside .discipline-tags-wrap (not as direct
+     children), so .disciplines-grid itself only ever has "All" +
+     the summary (or "All" + the open wrap) as visible row items —
+     space-between pins them to opposite edges. */
+  .disciplines-grid {
+    align-items: center;
+    justify-content: space-between;
+  }
+  .discipline-tags-summary {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+  }
+  .discipline-tags-summary.hidden {
+    display: none;
+  }
+  .discipline-tags-summary .tags-count {
+    font-family: var(--ff-head);
+    font-size: 3rem;
+    color: white;
+  }
+  .discipline-tags-summary .tags-label {
+    font-family: var(--ff-body);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    color: var(--text-20);
+  }
+  .discipline-tags-wrap {
+    display: none;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+    margin-top: 12px;
+  }
+  .discipline-tags-wrap.open {
+    display: flex;
   }
 
   /* Locked-card CTA: "Apply for Access →" was just barely too wide for

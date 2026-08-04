@@ -381,9 +381,27 @@ function buildDisciplinesGrid(disciplines) {
   const allPill = makeTagPill('All', null, true)
   grid.appendChild(allPill)
 
-  disciplines.flatMap(d => d.tags || []).forEach(tag => {
-    grid.appendChild(makeTagPill(tag, tag, false))
+  const tags = disciplines.flatMap(d => d.tags || [])
+
+  // Mobile-only collapse/expand UI — see mobile.css. display:contents
+  // on .discipline-tags-wrap keeps this a no-op on desktop; the wrap
+  // only becomes a real collapsible block below the 1024px breakpoint.
+  // "All" itself is the toggle (on top of its existing filter-reset
+  // click handler from makeTagPill) — the summary label hides once open.
+  const summary = document.createElement('span')
+  summary.className = 'discipline-tags-summary'
+  summary.innerHTML = `<span class="tags-count">${tags.length}</span> <span class="tags-label">Tags</span>`
+  grid.appendChild(summary)
+
+  const wrap = document.createElement('div')
+  wrap.className = 'discipline-tags-wrap'
+  allPill.addEventListener('click', () => {
+    const open = wrap.classList.toggle('open')
+    summary.classList.toggle('hidden', open)
   })
+
+  tags.forEach(tag => wrap.appendChild(makeTagPill(tag, tag, false)))
+  grid.appendChild(wrap)
 }
 
 function makeTagPill(label, tag, active) {
