@@ -10,6 +10,11 @@ const webRoutes = require('./routes/web')
 const app  = express()
 const PORT = process.env.PORT || 3000
 
+// Render sits behind a single reverse proxy that sets X-Forwarded-For;
+// trust exactly that one hop so express-rate-limit sees the real client
+// IP instead of the proxy's.
+app.set('trust proxy', 1)
+
 // Security headers — relax CSP to allow Google Fonts and inline styles/scripts
 app.use(
   helmet({
