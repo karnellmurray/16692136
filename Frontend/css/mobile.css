@@ -248,6 +248,18 @@
     display: flex;
   }
 
+  /* "Meet the Creatives" → Filter button dropdown: fixed at
+     max-height:300px + overflow:hidden on desktop, which clips
+     anything beyond that. The same filter items wrap into far more
+     rows on a narrow mobile width than on desktop, so 300px runs out
+     much sooner — give it real room and let it scroll internally
+     instead of hard-clipping. */
+  .discipline-filters.open {
+    max-height: 60vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   /* Locked-card CTA: "Apply for Access →" was just barely too wide for
      the narrow mobile card, so the arrow alone dropped to its own line. */
   .card-locked {
