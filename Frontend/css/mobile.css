@@ -284,6 +284,15 @@
     letter-spacing: 0.5px;
   }
 
+  /* Download CTA watermark: clamp(8rem, 18vw, 18rem) has an 8rem
+     (128px) floor, so on a narrow phone the vw value (which would
+     shrink it correctly) never gets to apply — it's stuck at 128px,
+     wider than the screen, and clipped by .download-section's
+     overflow:hidden. Let it actually shrink with the viewport. */
+  .download-watermark {
+    font-size: clamp(3.5rem, 22vw, 18rem);
+  }
+
   /* Terms of Use: the title forces white-space:nowrap + width:max-content
      (plus a desktop-tuned translateX(-60px) nudge) so it never wraps —
      but "Blkuzz Terms & Conditions" as one line is simply wider than a
