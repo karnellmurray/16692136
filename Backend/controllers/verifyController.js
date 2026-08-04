@@ -9,30 +9,31 @@ exports.sendCode = async (req, res) => {
   const code = String(Math.floor(100000 + Math.random() * 900000))
 
   try {
+    const recentOtp = await Otp.findOne({
+      phone: e164,
+      createdAt: { $gt: new Date(Date.now() - 60 * 1000) }
+    })
+
+    if (recentOtp) {
+      return res.status(429).json({
+        error: 'Please wait 60 seconds before requesting another code.'
+      })
+    }
+
     await Otp.deleteMany({ phone: e164 })
     await Otp.create({ phone: e164, code })
 
-    const gatewayUrl = process.env.SMS_GATEWAY_URL || 'http://192.168.0.11:8080'
-    const gwUser     = process.env.SMS_GATEWAY_USER
-    const gwPass     = process.env.SMS_GATEWAY_PASS
+    const twilio = require('twilio')
+    const client = twilio(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
+    )
 
-    const headers = { 'Content-Type': 'application/json' }
-    if (gwUser && gwPass) {
-      headers['Authorization'] = 'Basic ' + Buffer.from(`${gwUser}:${gwPass}`).toString('base64')
-    }
-
-    const gwRes  = await fetch(`${gatewayUrl}/message`, {
-      method:  'POST',
-      headers,
-      body:    JSON.stringify({
-        message:      `Your verification code is ${code}. Valid for 10 minutes -Blkuzz Headquarters`,
-        phoneNumbers: [e164],
-      }),
+    await client.messages.create({
+      to: e164,
+      from: 'Blkuzz',
+      body: `Your Blkuzz verification code is ${code}. Valid for 10 minutes. Do not reply to this number.`
     })
-    if (!gwRes.ok) {
-      const gwErr = await gwRes.text().catch(() => gwRes.status)
-      throw new Error(`SMS gateway error: ${gwErr}`)
-    }
 
     res.json({ sent: true })
   } catch (err) {
