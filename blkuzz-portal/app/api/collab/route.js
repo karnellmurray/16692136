@@ -91,7 +91,7 @@ export async function POST(req) {
     collabRequest: collabReq._id,
     status:        'pending',
     text:          notifText,
-    link:         source === 'bulletin' && bulletinPostId ? `/home/bulletin?post=${bulletinPostId}` : source === 'bulletin' ? '/home/bulletin' : undefined,
+    link:         source === 'bulletin' && bulletinPostId ? `/home/collaborate?post=${bulletinPostId}` : source === 'bulletin' ? '/home/collaborate' : undefined,
     bulletinPost: source === 'bulletin' && bulletinPostId ? bulletinPostId : undefined,
   })
 

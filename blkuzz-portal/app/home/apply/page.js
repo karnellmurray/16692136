@@ -282,7 +282,7 @@ export default function WorkWithUsPage() {
               </h1>
               <div style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)`, margin: '20px auto' }} />
               <p style={{ fontSize: 12, color: '#555', lineHeight: 1.75, maxWidth: 300, textAlign: 'center' }}>
-                We select a small number of projects each quarter to develop into Blkuzz company content. If you have a project you'd like to work on, get in touch.
+                We select a small number of projects each quarter to develop into Blkuzz company content. If you have a project you&apos;d like to work on, get in touch.
               </p>
             </div>
           </div>
@@ -356,7 +356,7 @@ export default function WorkWithUsPage() {
           ) : existing ? (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '40px 48px', textAlign: 'center' }}>
               <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase', border: `1px solid ${GOLD}30`, padding: '4px 12px' }}>Under review</div>
-              <div style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 600, color: '#fff', lineHeight: 1.2 }}>"{existing.projectTitle}"</div>
+              <div style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 600, color: '#fff', lineHeight: 1.2 }}>&quot;{existing.projectTitle}&quot;</div>
               <div style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
               <div style={{ fontFamily: MONO, fontSize: 8, color: '#444', letterSpacing: '0.1em', lineHeight: 2 }}>
                 Submitted {new Date(existing.submittedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}<br />

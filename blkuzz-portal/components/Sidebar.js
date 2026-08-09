@@ -12,7 +12,7 @@ import { apiFetch } from '@/lib/api'
 const NAV = [
   { href: '/home/feed',      label: 'Feed',            icon: Rss },
   { href: '/home/projects',  label: 'Projects',        icon: FolderOpen },
-  { href: '/home/bulletin',  label: 'Bulletin Board',  icon: Pin },
+  { href: '/home/collaborate', label: 'Collaborate',   icon: Pin },
   { href: '/home/inbox',     label: 'Inbox',           icon: Mail },
   { href: '/home/groupchat/lobby', label: 'Groupchat', icon: MessageSquare },
   { href: '/home/apply',     label: 'Work with us',    icon: Send },

@@ -648,7 +648,7 @@ export default function ProfilePage() {
 
             {/* Profile being shared */}
             <div style={{ padding: '8px 14px', borderBottom: '1px solid #111', fontFamily: MONO, fontSize: 8, color: '#444', letterSpacing: '0.1em' }}>
-              Sharing <span style={{ color: '#888' }}>@{user?.username}</span>'s member file
+              Sharing <span style={{ color: '#888' }}>@{user?.username}</span>&apos;s member file
             </div>
 
             {/* Search */}

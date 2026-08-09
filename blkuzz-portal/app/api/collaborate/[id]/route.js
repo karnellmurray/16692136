@@ -32,7 +32,7 @@ export async function PATCH(req, { params }) {
     await post.save()
     return NextResponse.json(post)
   } catch (err) {
-    console.error('[PATCH /api/bulletin/[id]]', err)
+    console.error('[PATCH /api/collaborate/[id]]', err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }
@@ -52,7 +52,7 @@ export async function DELETE(req, { params }) {
     await post.deleteOne()
     return NextResponse.json({ ok: true })
   } catch (err) {
-    console.error('[DELETE /api/bulletin/[id]]', err)
+    console.error('[DELETE /api/collaborate/[id]]', err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }

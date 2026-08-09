@@ -300,7 +300,7 @@ export default function EditProfilePage() {
               + Add
             </button>
           </div>
-          <Hint style={{ marginTop: 6 }}>Be specific — "Portrait photography" over "Photography". · {form.skills.length}/20</Hint>
+          <Hint style={{ marginTop: 6 }}>Be specific — &quot;Portrait photography&quot; over &quot;Photography&quot;. · {form.skills.length}/20</Hint>
         </div>
 
         {/* Availability */}

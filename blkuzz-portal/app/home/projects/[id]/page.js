@@ -110,7 +110,7 @@ function ChapterProgress({ chapters, isAuthor, onToggle }) {
         Project Updates
       </span>
       <p className="font-mono text-[9px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
-        Post about your project milestones. Share your thoughts and ideas, let members know what you're up to.
+        Post about your project milestones. Share your thoughts and ideas, let members know what you&apos;re up to.
       </p>
     </div>
   )

@@ -1,8 +1,7 @@
 'use client'
 import { useState, useEffect, useMemo } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Bell, Mail, Search, User, LayoutGrid, FolderOpen, Pin, MessageSquare, Volume2, VolumeX } from 'lucide-react'
+import { Bell, Mail, User, Volume2, VolumeX } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
 
 // ─── Discipline pluralisation ─────────────────────────────────────────────────
@@ -252,36 +251,6 @@ function ScreenCard({ card, position, onVideoEnded, onVideoPlay }) {
   )
 }
 
-// ─── Bottom nav ──────────────────────────────────────────────────────────────
-const NAV_ITEMS = [
-  { label: 'Feed',     href: '/home/feed',        Icon: LayoutGrid    },
-  { label: 'Projects', href: '/home/projects',     Icon: FolderOpen    },
-  { label: 'Bulletin', href: '/home/bulletin',     Icon: Pin           },
-  { label: 'Chat',     href: '/home/groupchat',    Icon: MessageSquare },
-  { label: 'Profile',  href: '/home/profile/edit', Icon: User          },
-]
-
-function BottomNav() {
-  const router   = useRouter()
-  const pathname = usePathname()
-  return (
-    <div className="flex" style={{ background: '#0a0a0a' }}>
-      {NAV_ITEMS.map(({ label, href, Icon }) => {
-        const active = pathname === href
-        return (
-          <button key={href} onClick={() => router.push(href)}
-            className="flex-1 flex flex-col items-center py-2 gap-1 cursor-pointer">
-            <Icon size={18} style={{ color: active ? '#FDC214' : '#333' }} />
-            <span className="font-mono text-[7px] tracking-[0.1em] uppercase"
-              style={{ color: active ? '#FDC214' : '#333' }}>
-              {label}
-            </span>
-          </button>
-        )
-      })}
-    </div>
-  )
-}
 
 // ─── Ticker ──────────────────────────────────────────────────────────────────
 const TICKER_BLOCK_WIDTHS = [14, 22, 10, 18, 8, 20, 12, 24, 11, 16, 19, 9]
@@ -542,7 +511,7 @@ export default function FeedPage() {
 
   // Fetch bulletin callouts with media
   useEffect(() => {
-    apiFetch('/api/bulletin')
+    apiFetch('/api/collaborate')
       .then(r => r.ok ? r.json() : [])
       .then(data => {
         const list = Array.isArray(data) ? data.filter(p => p.media?.length > 0 || p.projectRef?.coverImage) : []
@@ -772,16 +741,11 @@ export default function FeedPage() {
         })()}
       </div>
 
-      {/* Bottom nav — always visible at the bottom of the 100vh container */}
-      <div style={{ flexShrink: 0 }}>
-        <BottomNav />
-      </div>
-
       {/* Notification panel */}
       {notifOpen && (
         <div className="fixed inset-0 z-50" onClick={() => setNotifOpen(false)}>
-          <div className="absolute top-10 right-4 w-80 bg-black overflow-hidden" style={{ border: '1px solid #FDC214' }}
-            style={{ maxHeight: '70vh', display: 'flex', flexDirection: 'column' }}
+          <div className="absolute top-10 right-4 w-80 bg-black overflow-hidden"
+            style={{ border: '1px solid #FDC214', maxHeight: '70vh', display: 'flex', flexDirection: 'column' }}
             onClick={e => e.stopPropagation()}>
 
             <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: '1px solid rgba(253,194,20,0.35)' }}>

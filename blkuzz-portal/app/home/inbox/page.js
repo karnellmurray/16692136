@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useSession } from 'next-auth/react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { io } from 'socket.io-client'
@@ -33,7 +33,7 @@ function Avatar({ user, size = 36, style = {} }) {
 
 let socket
 
-export default function InboxPage() {
+function InboxPageContent() {
   const { data: session }   = useSession()
   const searchParams        = useSearchParams()
   const router              = useRouter()
@@ -275,7 +275,7 @@ export default function InboxPage() {
                       </div>
                       <div style={{ fontSize: 10, color: '#aaa', lineHeight: 1.5 }}>{req.text}</div>
                       {(req.bulletinPost || req.link) && (
-                        <a href={req.bulletinPost ? `/portal/home/bulletin?post=${req.bulletinPost}` : `/portal${req.link}`}
+                        <a href={req.bulletinPost ? `/portal/home/collaborate?post=${req.bulletinPost}` : `/portal${req.link}`}
                           style={{ display: 'inline-block', background: 'transparent', fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', color: '#FDC214', textTransform: 'uppercase', marginTop: 4, textDecoration: 'none' }}>
                           View callout →
                         </a>
@@ -460,5 +460,15 @@ export default function InboxPage() {
         </div>
       )}
     </div>
+  )
+}
+
+// useSearchParams() bails out of static prerendering unless wrapped in
+// Suspense — without this, `next build` fails on this page entirely.
+export default function InboxPage() {
+  return (
+    <Suspense fallback={null}>
+      <InboxPageContent />
+    </Suspense>
   )
 }

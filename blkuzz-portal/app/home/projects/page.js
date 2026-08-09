@@ -1,8 +1,8 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { Search, Plus, User, Users, Heart, LayoutGrid, FolderOpen, Pin, MessageSquare, X } from 'lucide-react'
+import { Search, Plus, User, Users, Heart, X } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
 
 // ─── Discipline colour config ─────────────────────────────────────────────────
@@ -94,36 +94,6 @@ function FeaturedArt({ project }) {
   )
 }
 
-// ─── Bottom nav ───────────────────────────────────────────────────────────────
-const NAV_ITEMS = [
-  { label: 'Feed',     href: '/home/feed',        Icon: LayoutGrid    },
-  { label: 'Projects', href: '/home/projects',     Icon: FolderOpen    },
-  { label: 'Bulletin', href: '/home/bulletin',     Icon: Pin           },
-  { label: 'Chat',     href: '/home/groupchat',    Icon: MessageSquare },
-  { label: 'Profile',  href: '/home/profile/edit', Icon: User          },
-]
-
-function BottomNav() {
-  const router   = useRouter()
-  const pathname = usePathname()
-  return (
-    <div className="flex" style={{ background: '#0a0a0a' }}>
-      {NAV_ITEMS.map(({ label, href, Icon }) => {
-        const active = pathname.startsWith(href.replace('/edit', ''))
-        return (
-          <button key={href} onClick={() => router.push(href)}
-            className="flex-1 flex flex-col items-center py-2 gap-1">
-            <Icon size={18} style={{ color: active ? '#FDC214' : '#333' }} />
-            <span className="font-mono text-[7px] tracking-[0.1em] uppercase"
-              style={{ color: active ? '#FDC214' : '#333' }}>
-              {label}
-            </span>
-          </button>
-        )
-      })}
-    </div>
-  )
-}
 
 // ─── Create modal ─────────────────────────────────────────────────────────────
 function CreateModal({ onClose, onCreated }) {
@@ -824,7 +794,6 @@ export default function ProjectsPage() {
         </div>
       )}
 
-      <BottomNav />
       {modal && <CreateModal onClose={() => setModal(false)} onCreated={() => { setModal(false); load() }} />}
     </div>
   )

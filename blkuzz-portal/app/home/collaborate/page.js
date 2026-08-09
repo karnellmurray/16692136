@@ -55,7 +55,7 @@ export default function BulletinPage() {
 
   const load = (currentFilter) => {
     const f = currentFilter ?? filter
-    const url = f === 'My posts' ? '/api/bulletin?mine=1' : '/api/bulletin'
+    const url = f === 'My posts' ? '/api/collaborate?mine=1' : '/api/collaborate'
     apiFetch(url).then(r => r.json()).then(data => {
       setPosts(Array.isArray(data) ? data : [])
       setLoading(false)
@@ -166,7 +166,7 @@ export default function BulletinPage() {
         completed:   form.completed,
         date:        form.date || null,
       }
-      const url    = editingPost ? `/api/bulletin/${editingPost._id}` : '/api/bulletin'
+      const url    = editingPost ? `/api/collaborate/${editingPost._id}` : '/api/collaborate'
       const method = editingPost ? 'PATCH' : 'POST'
       const res    = await apiFetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       if (!res.ok) {
@@ -214,7 +214,7 @@ export default function BulletinPage() {
             <p className="font-mono text-[8px] tracking-[0.25em] uppercase mb-1" style={{ color: '#333' }}>
               Open frequency — collab requests &amp; call-outs
             </p>
-            <h1 className="font-head text-white text-2xl mb-2" style={{ letterSpacing: '2px' }}>Bulletin Board</h1>
+            <h1 className="font-head text-white text-2xl mb-2" style={{ letterSpacing: '2px' }}>Collaborate</h1>
             <div className="flex gap-4 font-mono text-[8px] tracking-wide" style={{ color: '#333' }}>
               <span><span style={{ color: '#FDC214' }}>{stats.open}</span> open listings</span>
               <span><span style={{ color: '#D2042D' }}>{stats.urgent}</span> urgent</span>
@@ -308,7 +308,7 @@ export default function BulletinPage() {
                             className="font-mono text-[7px] tracking-[0.1em] uppercase"
                             style={{ color: 'rgba(255,255,255,0.8)' }}>edit</button>
                           <button onClick={async () => {
-                            await apiFetch(`/api/bulletin/${post._id}`, { method: 'DELETE' })
+                            await apiFetch(`/api/collaborate/${post._id}`, { method: 'DELETE' })
                             load()
                           }} title="Delete">
                             <img src="/portal/icons/trash-bin.png" alt="delete" style={{ width: 12, height: 12, filter: 'invert(21%) sepia(95%) saturate(7000%) hue-rotate(342deg) brightness(85%) contrast(115%)' }} />
@@ -356,7 +356,7 @@ export default function BulletinPage() {
                             })
                             if (res.ok) setSentRequests(prev => new Set([...prev, post._id]))
                           }}
-                          className="font-mono text-[7px] tracking-[0.1em] uppercase px-2.5 py-1 transition-colors"
+                          className="font-mono text-[10px] tracking-[0.1em] uppercase px-4 py-2 transition-colors"
                           style={{
                             border:       declined ? '1px solid rgba(210,4,45,0.3)' : `1px solid ${sent ? 'rgba(0,200,0,0.4)' : `${ch.color}40`}`,
                             color:        declined ? '#D2042D80' : sent ? '#008000' : ch.color,

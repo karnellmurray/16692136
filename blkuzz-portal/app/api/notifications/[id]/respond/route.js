@@ -54,7 +54,7 @@ export async function POST(req, { params }) {
     }
 
     const me = await Signup.findById(session.user.id, 'username').lean()
-    const isBulletin = notif.link === '/home/bulletin'
+    const isBulletin = notif.link === '/home/collaborate'
     const reqLabel = isBulletin ? 'bulletin request' : 'collab request'
 
     if (action === 'accept') {

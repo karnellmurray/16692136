@@ -43,7 +43,7 @@ export async function GET(req) {
 
     return NextResponse.json(normalised)
   } catch (err) {
-    console.error('[GET /api/bulletin]', err)
+    console.error('[GET /api/collaborate]', err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }
@@ -72,7 +72,7 @@ export async function POST(req) {
 
     return NextResponse.json(post, { status: 201 })
   } catch (err) {
-    console.error('[POST /api/bulletin]', err)
+    console.error('[POST /api/collaborate]', err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }

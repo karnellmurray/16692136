@@ -1,10 +1,7 @@
 const bcrypt        = require('bcryptjs')
-const User          = require('../models/User')
 const Signup        = require('../models/Signup')
 const { presignAvatar } = require('../config/aws')
 const { normalisePhone } = require('../utils/phone')
-
-const SAFE_SELECT = '-passwordHash -email -isAdmin'
 
 exports.getMembers = async (req, res) => {
   try {
@@ -99,12 +96,16 @@ exports.getFeaturedMembers = async (req, res) => {
 
 exports.getMemberByUsername = async (req, res) => {
   try {
-    const member = await User.findOne({ username: req.params.username })
-                             .select(SAFE_SELECT)
+    const member = await Signup.findOne({ username: req.params.username.toLowerCase() })
+                             .select('-passwordHash -email')
                              .lean()
 
     if (!member) {
       return res.status(404).json({ error: 'Member not found' })
+    }
+
+    if (member.avatar?.url) {
+      member.avatar.url = await presignAvatar(member.avatar.url)
     }
 
     res.json({ member })
