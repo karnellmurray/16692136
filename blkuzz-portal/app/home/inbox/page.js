@@ -63,7 +63,10 @@ function InboxPageContent() {
   // Connect Socket.io
   useEffect(() => {
     if (!session?.user?.id) return
-    socket = io('http://localhost:3001')
+    // Socket.io is attached to this app's own HTTP server (see server.js),
+    // so it always lives at the current origin — hardcoding a host here
+    // broke as soon as the app ran on any port other than 3001.
+    socket = io()
     socket.emit('join', session.user.id)
     socket.on('direct-message', msg => {
       setMessages(prev => prev.some(m => m._id === msg._id) ? prev : [...prev, msg])

@@ -264,7 +264,10 @@ function GroupChatRoomPageInner({ locked = false }) {
       if (Array.isArray(data)) setAllUsers(data)
     }).catch(() => {})
 
-    socket = io('http://localhost:3001')
+    // Socket.io is attached to this app's own HTTP server (see server.js),
+    // so it always lives at the current origin — hardcoding a host here
+    // broke as soon as the app ran on any port other than 3001.
+    socket = io()
     socket.on('connect', () => setConnected(true))
     socket.on('disconnect', () => setConnected(false))
     socket.on('group-message', msg => {

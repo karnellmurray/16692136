@@ -3,6 +3,8 @@
 const API      = `${API_URL}/web/api`
 const PHONE_RE = /^[\d\s\+\-\(\)]{7,20}$/
 
+document.getElementById('loginLink')?.setAttribute('href', `${PORTAL_URL}/login`)
+
 /* ─── Nav scroll ─────────────────────────────────────────────────── */
 const nav = document.getElementById('nav')
 window.addEventListener('scroll', () => {
@@ -271,7 +273,7 @@ document.getElementById('applyForm').addEventListener('submit', async e => {
     }
     if (!res.ok) throw new Error(data.error)
     closeModal()
-    showToast('Application received', `Thanks ${escHtml(username)}! You can now log into the members portal. <a href="http://localhost:3001/portal/login" style="color:#FDC214;text-decoration:underline">Login here</a>`, { html: true, duration: 7000 })
+    showToast('Application received', `Thanks ${escHtml(username)}! You can now log into the members portal. <a href="${PORTAL_URL}/login" style="color:#FDC214;text-decoration:underline">Login here</a>`, { html: true, duration: 7000 })
     e.target.reset()
     if (data.totalMembers != null) animateCount('stat-members', data.totalMembers)
   } catch {
