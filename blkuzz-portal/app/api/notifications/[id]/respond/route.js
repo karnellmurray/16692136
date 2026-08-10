@@ -82,6 +82,7 @@ export async function POST(req, { params }) {
         status:        'declined',
         text:          `@${me.username} declined your ${reqLabel}`,
         bulletinPost:  notif.bulletinPost || undefined,
+        project:       notif.project || undefined,
         read:          false,
       })
     }

@@ -36,7 +36,7 @@ export async function POST(req) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { to, context, source, bulletinPostId } = await req.json()
+  const { to, context, source, bulletinPostId, projectId } = await req.json()
   if (!to) return NextResponse.json({ error: 'Missing to' }, { status: 400 })
 
   const myId = session.user.id
@@ -48,15 +48,19 @@ export async function POST(req) {
 
   const sender = await Signup.findById(myId, 'username').lean()
 
-  // Bulletin callout responses always go through — they're independent of existing collab status.
-  // For regular collab requests, block duplicates.
+  // Bulletin callout responses and project collab requests always go through —
+  // they're independent of existing collab status. For regular collab
+  // requests, block duplicates.
   let collabReq
-  if (source === 'bulletin') {
-    // Block if this specific post was already declined
-    if (bulletinPostId) {
+  if (source === 'bulletin' || source === 'project') {
+    // Block if this specific post/project was already declined
+    const declinedFilter = source === 'bulletin'
+      ? (bulletinPostId ? { bulletinPost: bulletinPostId } : null)
+      : (projectId ? { project: projectId } : null)
+    if (declinedFilter) {
       const declined = await Notification.findOne({
-        from: myId, user: to, type: 'collab_request',
-        bulletinPost: bulletinPostId, status: 'declined',
+        from: myId, user: to, type: 'collab_request', status: 'declined',
+        ...declinedFilter,
       }).lean()
       if (declined) return NextResponse.json({ status: 'declined' }, { status: 409 })
     }
@@ -80,9 +84,18 @@ export async function POST(req) {
     ? context
       ? `@${sender.username} responded to your callout — "${context}"`
       : `@${sender.username} responded to your callout`
-    : context
-      ? `@${sender.username} wants to collab — "${context}"`
-      : `@${sender.username} wants to collaborate with you`
+    : source === 'project'
+      ? context
+        ? `@${sender.username} wants to collab on your project — "${context}"`
+        : `@${sender.username} wants to collab on your project`
+      : context
+        ? `@${sender.username} wants to collab — "${context}"`
+        : `@${sender.username} wants to collaborate with you`
+
+  const link = source === 'bulletin' && bulletinPostId ? `/home/collaborate?post=${bulletinPostId}`
+    : source === 'bulletin' ? '/home/collaborate'
+    : source === 'project' && projectId ? `/home/projects/${projectId}`
+    : undefined
 
   await Notification.create({
     user:          to,
@@ -91,8 +104,9 @@ export async function POST(req) {
     collabRequest: collabReq._id,
     status:        'pending',
     text:          notifText,
-    link:         source === 'bulletin' && bulletinPostId ? `/home/collaborate?post=${bulletinPostId}` : source === 'bulletin' ? '/home/collaborate' : undefined,
+    link,
     bulletinPost: source === 'bulletin' && bulletinPostId ? bulletinPostId : undefined,
+    project:      source === 'project' && projectId ? projectId : undefined,
   })
 
   return NextResponse.json({ status: 'pending', requestId: collabReq._id })

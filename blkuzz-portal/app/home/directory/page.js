@@ -168,6 +168,7 @@ export default function DirectoryPage() {
   const [discipline, setDiscipline] = useState('All')
   const [sort, setSort]             = useState(null)
   const [page, setPage]             = useState(1)
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
   useEffect(() => {
     apiFetch('/api/directory')
@@ -214,7 +215,7 @@ export default function DirectoryPage() {
   const remaining = filtered.length - visible.length
 
   return (
-    <div className="font-space" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden' }}>
+    <div className="font-space page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden' }}>
 
       {/* Topbar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid #1a1a1a', flexShrink: 0 }}>
@@ -254,22 +255,49 @@ export default function DirectoryPage() {
         </div>
       </div>
 
-      {/* Tag pills */}
+      {/* Tag filter — collapsible toggle-button panel on mobile, pill row at lg+ */}
       {disciplines.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 px-4 py-2.5 border-b border-[#141414]" style={{ flexShrink: 0 }}>
-          {['All', ...disciplines].map(d => (
-            <button key={d} onClick={() => { setDiscipline(d); if (d === 'All') setSort(null); setPage(1) }}
-              className="font-mono text-[7px] tracking-[0.15em] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
-              style={{
-                borderColor: discipline === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
-                color:       discipline === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
-                background:  discipline === d ? '#FDC214' : 'transparent',
-                cursor: 'pointer',
-              }}>
-              {d}
+        <>
+          <div className="lg:hidden border-b border-[#141414]" style={{ flexShrink: 0 }}>
+            <button onClick={() => setFiltersOpen(o => !o)}
+              className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.15em]"
+              style={{ background: 'transparent', border: 'none', color: discipline !== 'All' ? '#FDC214' : 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
+              <span>Filters{discipline !== 'All' ? ` · ${discipline}` : ''}</span>
+              <span style={{ color: '#FDC214', fontSize: 14 }}>{filtersOpen ? '−' : '+'}</span>
             </button>
-          ))}
-        </div>
+            {filtersOpen && (
+              <div className="flex flex-wrap gap-1.5 px-4 pb-2.5">
+                {['All', ...disciplines].map(d => (
+                  <button key={d} onClick={() => { setDiscipline(d); if (d === 'All') setSort(null); setPage(1) }}
+                    className="font-mono text-[7px] tracking-[0.15em] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
+                    style={{
+                      borderColor: discipline === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
+                      color:       discipline === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
+                      background:  discipline === d ? '#FDC214' : 'transparent',
+                      cursor: 'pointer',
+                    }}>
+                    {d}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="hidden lg:flex flex-wrap gap-1.5 px-4 py-2.5 border-b border-[#141414]" style={{ flexShrink: 0 }}>
+            {['All', ...disciplines].map(d => (
+              <button key={d} onClick={() => { setDiscipline(d); if (d === 'All') setSort(null); setPage(1) }}
+                className="font-mono text-[7px] tracking-[0.15em] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
+                style={{
+                  borderColor: discipline === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
+                  color:       discipline === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
+                  background:  discipline === d ? '#FDC214' : 'transparent',
+                  cursor: 'pointer',
+                }}>
+                {d}
+              </button>
+            ))}
+          </div>
+        </>
       )}
 
 

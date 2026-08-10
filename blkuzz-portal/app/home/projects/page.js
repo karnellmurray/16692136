@@ -18,6 +18,32 @@ const DISC = {
 }
 const discCfg = d => DISC[d] ?? DISC.Other
 
+const PLURAL_MAP = {
+  'Music':         'Musicians',
+  'Film':          'Filmmakers',
+  'Photography':   'Photographers',
+  'Fashion':       'Fashion Designers',
+  'Visual Art':    'Visual Artists',
+  'Design':        'Designers',
+  'Writing':       'Writers',
+  'Dance':         'Dancers',
+  'Theatre':       'Theatre Makers',
+  'Architecture':  'Architects',
+  'Illustration':  'Illustrators',
+  'Animation':     'Animators',
+  'Technology':    'Developers',
+  'Sculpture':     'Sculptors',
+  'Poetry':        'Poets',
+  'Sound Design':  'Sound Designers',
+  'Directing':     'Directors',
+  'Ceramics':      'Ceramicists',
+  'Streetwear':    'Streetwear Designers',
+  'Gaming':        'Game Designers',
+  'Comedy':        'Comedians',
+  'Business':      'Business People',
+}
+const pluralise = d => PLURAL_MAP[d] ?? `${d}s`
+
 const STATIC_FILTERS = ['Explore', 'My Projects', 'Following']
 
 // ─── SVG art per discipline ───────────────────────────────────────────────────
@@ -98,7 +124,6 @@ function FeaturedArt({ project }) {
 // ─── Create modal ─────────────────────────────────────────────────────────────
 function CreateModal({ onClose, onCreated }) {
   const [form, setForm]               = useState({ title: '', tagline: '', description: '', location: '', status: 'active' })
-  const [disciplines, setDisciplines] = useState([])
   const [chapInput, setChapInput]     = useState('')
   const [submitting, setSubmitting]   = useState(false)
   const [coverFile, setCoverFile]       = useState(null)
@@ -110,8 +135,6 @@ function CreateModal({ onClose, onCreated }) {
   const imgDragging   = useRef(false)
   const imgDragAnchor = useRef({ mx: 0, my: 0, px: 50, py: 50 })
   const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
-
-  const toggleDiscipline = d => setDisciplines(p => p.includes(d) ? p.filter(x => x !== d) : [...p, d])
 
   const pickFile = file => {
     if (!file) return
@@ -138,14 +161,7 @@ function CreateModal({ onClose, onCreated }) {
     }
   }, [])
 
-  const [availableTags, setAvailableTags] = useState([])
   const [submitError, setSubmitError] = useState(null)
-
-  useEffect(() => {
-    apiFetch('/api/projects/tags').then(r => r.json()).then(tags => {
-      if (Array.isArray(tags)) setAvailableTags(tags)
-    })
-  }, [])
 
   const submit = async e => {
     e.preventDefault()
@@ -170,7 +186,7 @@ function CreateModal({ onClose, onCreated }) {
       const res  = await apiFetch('/api/projects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, disciplines, chapters, coverImage, coverImagePosition }),
+        body: JSON.stringify({ ...form, chapters, coverImage, coverImagePosition }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed to create project')
@@ -189,12 +205,6 @@ function CreateModal({ onClose, onCreated }) {
     'bg-transparent text-[#e8e8e8] placeholder-white/40',
     'transition-colors',
   ].join(' ')
-
-  const pillStyle = (active) => ({
-    borderColor: '#FDC214',
-    color:       active ? '#0a0a0a' : '#FDC214',
-    background:  active ? '#FDC214' : 'transparent',
-  })
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ background: 'rgba(0,0,0,0.85)' }}
@@ -222,25 +232,6 @@ function CreateModal({ onClose, onCreated }) {
             </label>
             <input name="title" value={form.title} onChange={handle} required
               placeholder="e.g. SOUL — FW26" className={inputCls} />
-          </div>
-
-          {/* Discipline pills — multi-select */}
-          <div className="px-5 pt-4 pb-4">
-            <label className="font-mono text-[7px] tracking-[0.25em] uppercase block mb-3" style={{ color: '#e8e8e8' }}>
-              Tags * <span style={{ color: '#555' }}>— select all that apply</span>
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {availableTags.length === 0 && (
-                <span className="font-mono text-[8px]" style={{ color: '#333' }}>Loading tags…</span>
-              )}
-              {availableTags.map(d => (
-                <button key={d} type="button" onClick={() => toggleDiscipline(d)}
-                  className="font-mono text-[8px] tracking-[0.12em] uppercase px-3 py-1.5 border rounded-full transition-colors"
-                  style={pillStyle(disciplines.includes(d))}>
-                  {d}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Tagline */}
@@ -380,7 +371,7 @@ function CreateModal({ onClose, onCreated }) {
                 {submitError}
               </p>
             )}
-            <button type="submit" disabled={submitting || !form.title || !disciplines.length}
+            <button type="submit" disabled={submitting || !form.title}
               className="w-full font-mono text-[9px] tracking-[0.25em] uppercase py-3.5 rounded-full transition-colors disabled:opacity-30"
               style={{ background: '#FDC214', color: '#0a0a0a' }}>
               {submitting ? 'Creating…' : 'Create Project →'}
@@ -449,12 +440,14 @@ function GridCard({ project, uid, onDelete }) {
           )}
           <span className="font-mono text-[7px]" style={{ color: '#FDC214' }}>@{project.creator?.username}</span>
         </div>
-        <div className="flex flex-wrap gap-1 mb-1.5">
-          {project.disciplines?.map((d, i) => (
-            <span key={i} className="font-mono text-[6px] tracking-[0.1em] uppercase px-1.5 py-0.5 border rounded-full"
-              style={{ borderColor: 'rgba(0,128,0,0.4)', color: '#008000' }}>{d}</span>
-          ))}
-        </div>
+        {project.collaboratorsNeeded && project.collaboratorDisciplines?.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-1.5">
+            {project.collaboratorDisciplines.map((d, i) => (
+              <span key={i} className="font-head text-[6px] uppercase px-1.5 py-0.5 border rounded-full"
+                style={{ borderColor: '#FDC214', color: '#0a0a0a', background: '#FDC214', letterSpacing: '1px' }}>{pluralise(d)}</span>
+            ))}
+          </div>
+        )}
         <div className="flex items-center gap-2.5 mb-2">
           <span className="font-mono text-[7px] flex items-center gap-1" style={{ color: '#333' }}>
             <Users size={9} /> {count}
@@ -503,6 +496,7 @@ export default function ProjectsPage() {
   const [loading, setLoading]   = useState(true)
   const [filter, setFilter]         = useState('My Projects')
   const [disciplines, setDisciplines] = useState([])
+  const [filtersOpen, setFiltersOpen] = useState(false)
   const [modal, setModal]           = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -646,21 +640,49 @@ export default function ProjectsPage() {
         ))}
       </div>
 
-      {/* Discipline tag pills */}
+      {/* Discipline tag filter — collapsible toggle-button panel on mobile, pill row at lg+ */}
       {disciplines.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 px-4 py-2.5 border-b border-[#141414]">
-          {disciplines.map(d => (
-            <button key={d} onClick={() => setFilter(filter === d ? 'My Projects' : d)}
-              className="font-mono text-[7px] tracking-[0.15em] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
-              style={{
-                borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
-                color:       filter === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
-                background:  filter === d ? '#FDC214' : 'transparent',
-              }}>
-              {d}
+        <>
+          <div className="lg:hidden border-b border-[#141414]">
+            <button onClick={() => setFiltersOpen(o => !o)}
+              className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.15em]"
+              style={{ background: 'transparent', border: 'none', color: !STATIC_FILTERS.includes(filter) ? '#FDC214' : 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
+              <span>Filters{!STATIC_FILTERS.includes(filter) ? ` · ${filter}` : ''}</span>
+              <span style={{ color: '#FDC214', fontSize: 14 }}>{filtersOpen ? '−' : '+'}</span>
             </button>
-          ))}
-        </div>
+            {filtersOpen && (
+              <div className="flex flex-wrap gap-1.5 px-4 pb-2.5">
+                {disciplines.map(d => (
+                  <button key={d} onClick={() => setFilter(filter === d ? 'My Projects' : d)}
+                    className="font-mono text-[7px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
+                    style={{
+                      borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
+                      color:       filter === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
+                      background:  filter === d ? '#FDC214' : 'transparent',
+                      letterSpacing: '1px',
+                    }}>
+                    {d}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="hidden lg:flex flex-wrap gap-1.5 px-4 py-2.5 border-b border-[#141414]">
+            {disciplines.map(d => (
+              <button key={d} onClick={() => setFilter(filter === d ? 'My Projects' : d)}
+                className="font-mono text-[7px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
+                style={{
+                  borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
+                  color:       filter === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
+                  background:  filter === d ? '#FDC214' : 'transparent',
+                  letterSpacing: '1px',
+                }}>
+                {d}
+              </button>
+            ))}
+          </div>
+        </>
       )}
 
       {loading ? (
@@ -733,12 +755,14 @@ export default function ProjectsPage() {
                   )}
                 </div>
 
-                <div className="flex flex-wrap gap-1 mb-2">
-                  {featured.disciplines?.map((d, i) => (
-                    <span key={i} className="font-mono text-[7px] tracking-[0.12em] uppercase px-1.5 py-0.5 border rounded-full"
-                      style={{ borderColor: 'rgba(0,128,0,0.4)', color: '#008000' }}>{d}</span>
-                  ))}
-                </div>
+                {featured.collaboratorsNeeded && featured.collaboratorDisciplines?.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {featured.collaboratorDisciplines.map((d, i) => (
+                      <span key={i} className="font-head text-[7px] uppercase px-1.5 py-0.5 border rounded-full"
+                        style={{ borderColor: '#FDC214', color: '#0a0a0a', background: '#FDC214', letterSpacing: '1px' }}>{pluralise(d)}</span>
+                    ))}
+                  </div>
+                )}
 
                 <h2 className="font-head text-[16px] leading-tight mb-1" style={{ letterSpacing: '2px', color: '#FDC214' }}>
                   {featured.title}

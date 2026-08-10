@@ -9,9 +9,9 @@ import { apiFetch } from '@/lib/api'
 const DISC = {
   Music:        { color: '#D2042D', bg: '#1a0000' },
   Film:         { color: '#008000', bg: '#001a0d' },
-  Photography:  { color: '#00aaff', bg: '#00081a' },
+  Photography:  { color: '#FDC214', bg: '#00081a' },
   Fashion:      { color: '#ff8833', bg: '#1a0800' },
-  'Visual Art': { color: '#00aaff', bg: '#00081a' },
+  'Visual Art': { color: '#FDC214', bg: '#00081a' },
   Design:       { color: '#e8ff00', bg: '#1a1700' },
   Other:        { color: '#888888', bg: '#111111' },
 }
@@ -727,14 +727,10 @@ function MilestonesTab({ project, posts, isAuthor, currentUserId, currentUsernam
   )
 }
 
-const DISCIPLINES = ['Music', 'Film', 'Photography', 'Fashion', 'Visual Art', 'Design', 'Other']
-
 function AboutTab({ project, isAuthor, onRefresh }) {
   const [editing, setEditing]         = useState(false)
   const [saving, setSaving]           = useState(false)
-  const [discInput, setDiscInput]     = useState('')
   const [allTags, setAllTags]         = useState([])
-  const [showSuggestions, setShowSuggestions]       = useState(false)
   const [showCollabSuggest, setShowCollabSuggest]   = useState(false)
   const [collabInput, setCollabInput]               = useState('')
 
@@ -744,17 +740,10 @@ function AboutTab({ project, isAuthor, onRefresh }) {
     })
   }, [])
 
-  useEffect(() => {
-    if (!showSuggestions) return
-    const close = () => setShowSuggestions(false)
-    window.addEventListener('scroll', close, { passive: true })
-    return () => window.removeEventListener('scroll', close)
-  }, [showSuggestions])
   const [form, setForm]               = useState({
     title:                   project.title                  ?? '',
     tagline:                 project.tagline                ?? '',
     description:             project.description            ?? '',
-    disciplines:             project.disciplines            ?? [],
     location:                project.location               ?? '',
     status:                  project.status                 ?? 'active',
     collaboratorsNeeded:     project.collaboratorsNeeded    ?? false,
@@ -767,7 +756,6 @@ function AboutTab({ project, isAuthor, onRefresh }) {
       title:                   project.title                  ?? '',
       tagline:                 project.tagline                ?? '',
       description:             project.description            ?? '',
-      disciplines:             project.disciplines            ?? [],
       location:                project.location               ?? '',
       status:                  project.status                 ?? 'active',
       collaboratorsNeeded:     project.collaboratorsNeeded    ?? false,
@@ -775,13 +763,6 @@ function AboutTab({ project, isAuthor, onRefresh }) {
       otherDisciplines:        project.otherDisciplines        ?? '',
     })
   }, [project])
-
-  const addDisc = val => {
-    const t = val.trim()
-    if (t && !form.disciplines.includes(t)) setForm(f => ({ ...f, disciplines: [...f.disciplines, t] }))
-    setDiscInput('')
-  }
-  const removeDisc = t => setForm(f => ({ ...f, disciplines: f.disciplines.filter(x => x !== t) }))
 
   const handle = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
@@ -801,7 +782,6 @@ function AboutTab({ project, isAuthor, onRefresh }) {
         title:                   form.title.trim(),
         tagline:                 form.tagline.trim(),
         description:             form.description.trim(),
-        disciplines:             form.disciplines,
         location:                form.location.trim(),
         status:                  form.status,
         collaboratorsNeeded:     form.collaboratorsNeeded,
@@ -840,28 +820,6 @@ function AboutTab({ project, isAuthor, onRefresh }) {
           }
         </div>
       ))}
-      {/* Disciplines */}
-      <div>
-        <p className="font-mono text-[7px] tracking-[0.2em] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Project Tags</p>
-        <div className="flex flex-wrap gap-1.5">
-          {allTags.map(t => {
-            const selected = form.disciplines.includes(t)
-            return (
-              <button key={t} type="button"
-                onClick={() => selected ? removeDisc(t) : addDisc(t)}
-                className="font-mono text-[7px] tracking-[0.12em] uppercase px-2.5 py-1 border rounded-full transition-colors"
-                style={{
-                  borderColor: '#FDC214',
-                  color:       selected ? '#0a0a0a' : '#FDC214',
-                  background:  selected ? '#FDC214' : 'transparent',
-                }}>
-                {t}
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
       {/* Status */}
       <div>
         <p className="font-mono text-[7px] tracking-[0.2em] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Status</p>
@@ -922,29 +880,6 @@ function AboutTab({ project, isAuthor, onRefresh }) {
           })}
           {form.collaboratorDisciplines.includes('Other') && (
             <div className="w-full mt-2 flex flex-col gap-2">
-              {form.disciplines.length > 0 && (
-                <div className="flex flex-wrap gap-1.5">
-                  {form.disciplines.map(t => {
-                    const selected = form.otherDisciplines?.split(',').map(x => x.trim()).includes(t)
-                    return (
-                      <button key={t} type="button"
-                        onClick={() => {
-                          const current = form.otherDisciplines ? form.otherDisciplines.split(',').map(x => x.trim()).filter(Boolean) : []
-                          const next = selected ? current.filter(x => x !== t) : [...current, t]
-                          handle('otherDisciplines', next.join(', '))
-                        }}
-                        className="font-mono text-[7px] tracking-[0.1em] uppercase px-2.5 py-1 border rounded-full transition-colors"
-                        style={{
-                          borderColor: selected ? '#FDC214' : '#333',
-                          color:       selected ? '#FDC214' : 'rgba(255,255,255,0.4)',
-                          background:  selected ? 'rgba(253,194,20,0.08)' : 'transparent',
-                        }}>
-                        {t}
-                      </button>
-                    )
-                  })}
-                </div>
-              )}
               <div className="relative">
                 <input
                   placeholder="Search tags…"
@@ -1021,17 +956,8 @@ function AboutTab({ project, isAuthor, onRefresh }) {
       <p className="font-body text-[13px] leading-relaxed mb-5" style={{ color: '#ffffff' }}>
         {project.description || 'No description yet.'}
       </p>
-      {project.disciplines?.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mb-5">
-          {project.disciplines.map((t, i) => (
-            <span key={i} className="font-head text-[7px] uppercase px-2.5 py-1 border rounded-full"
-              style={{ borderColor: '#FDC214', color: '#FDC214', background: 'transparent', letterSpacing: '2px' }}>{t}</span>
-          ))}
-        </div>
-      )}
       <div className="border-t border-[#141414] pt-4 grid grid-cols-2 gap-4 mb-5">
         {[
-          ['Tags',     project.disciplines?.join(', ') || '—', 'white'],
           ['Status',   project.status ? project.status.charAt(0).toUpperCase() + project.status.slice(1) : '—', project.status === 'completed' ? 'red' : 'green'],
           ['Location', project.location || '—',                 'white'],
         ].map(([label, val, color]) => (
@@ -1431,6 +1357,11 @@ export default function ProjectDetailPage() {
   const [tab, setTab]                   = useState('Milestones')
   const [following, setFollowing]       = useState(false)
   const [followerCount, setFollowerCount] = useState(0)
+  const [collabSent, setCollabSent]     = useState(false)
+  const [collabDeclined, setCollabDeclined] = useState(false)
+  const [collabModal, setCollabModal]   = useState(false)
+  const [collabMessage, setCollabMessage] = useState('')
+  const [collabSending, setCollabSending] = useState(false)
 
   const load = async () => {
     const [projRes, postsRes] = await Promise.all([
@@ -1448,6 +1379,34 @@ export default function ProjectDetailPage() {
   }
 
   useEffect(() => { if (id) load() }, [id, session])
+
+  useEffect(() => {
+    if (!project?._id) return
+    apiFetch('/api/notifications').then(r => r.json()).then(data => {
+      const declined = (data.notifications ?? []).some(
+        n => n.type === 'collab_request' && n.status === 'declined' && (n.project?._id ?? n.project)?.toString() === project._id.toString()
+      )
+      setCollabDeclined(declined)
+    })
+  }, [project?._id])
+
+  const sendCollab = async () => {
+    setCollabSending(true)
+    try {
+      const res = await apiFetch('/api/collab', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: creatorId, context: collabMessage.trim() || undefined, source: 'project', projectId: project._id }),
+      })
+      if (res.ok) {
+        setCollabSent(true)
+        setCollabModal(false)
+        setCollabMessage('')
+      }
+    } finally {
+      setCollabSending(false)
+    }
+  }
 
   const toggleFollow = async () => {
     const res  = await apiFetch(`/api/projects/${id}/follow`, { method: 'POST' })
@@ -1643,7 +1602,59 @@ export default function ProjectDetailPage() {
             {following ? '✓ Following' : '+ Follow'}
           </button>
         )}
+        {!isAuthor && creatorId && (
+          <button
+            disabled={collabSent || collabDeclined}
+            onClick={() => setCollabModal(true)}
+            className="font-mono text-[8px] tracking-[0.15em] uppercase px-3.5 py-1.5 border shrink-0 transition-colors"
+            style={{
+              borderColor: collabDeclined ? 'rgba(210,4,45,0.3)' : `${collabSent ? 'rgba(253,194,20,0.4)' : '#FDC214'}`,
+              color:       collabDeclined ? '#D2042D80' : collabSent ? '#FDC214' : '#0a0a0a',
+              background:  collabDeclined ? 'transparent' : collabSent ? 'transparent' : '#FDC214',
+              opacity:     collabSent || collabDeclined ? 0.7 : 1,
+              cursor:      collabSent || collabDeclined ? 'default' : 'pointer',
+            }}>
+            {collabDeclined ? 'Declined' : collabSent ? 'Requested ✓' : 'Collab'}
+          </button>
+        )}
       </div>
+
+      {collabModal && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+          <div className="border rounded-2xl w-full max-w-md p-6" style={{ borderColor: '#FDC214', background: '#0a0a0a' }}>
+            <div className="relative flex items-center justify-center mb-6">
+              <h2 className="font-head text-white text-lg tracking-widest uppercase">Send Collab Request</h2>
+              <button onClick={() => setCollabModal(false)} className="absolute right-0">
+                <img src="/portal/icons/cross-y.png" alt="close" style={{ width: 18, height: 18, opacity: 0.6 }} />
+              </button>
+            </div>
+            <p className="font-mono text-[9px] tracking-[0.1em] uppercase mb-3" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              To @{project.creator?.username} — {project.title}
+            </p>
+            <textarea
+              value={collabMessage}
+              onChange={e => setCollabMessage(e.target.value)}
+              rows={4}
+              maxLength={300}
+              placeholder="Add a message with your request (optional)…"
+              className="w-full bg-transparent rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none resize-none placeholder-white/40"
+              style={{ border: '1px solid #FDC214' }}
+            />
+            <div className="flex gap-2 mt-4">
+              <button onClick={() => setCollabModal(false)}
+                className="flex-1 font-mono text-[9px] tracking-[0.15em] uppercase px-4 py-2.5 border transition-colors"
+                style={{ borderColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.5)', borderRadius: 9999 }}>
+                Cancel
+              </button>
+              <button onClick={sendCollab} disabled={collabSending}
+                className="flex-1 font-mono text-[9px] tracking-[0.15em] uppercase px-4 py-2.5 transition-colors disabled:opacity-50"
+                style={{ background: '#FDC214', color: '#0a0a0a', borderRadius: 9999 }}>
+                {collabSending ? 'Sending…' : 'Send Request'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats row */}
       <div className="flex border-b border-[#141414]">

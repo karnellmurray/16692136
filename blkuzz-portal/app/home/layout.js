@@ -16,7 +16,7 @@ export default async function HomeLayout({ children }) {
   return (
     <div className="min-h-screen bg-black flex">
       <Sidebar />
-      <main className="ml-60 flex-1 min-h-screen p-8">
+      <main className="lg:ml-60 flex-1 min-h-screen p-8 pt-20 lg:pt-8">
         {children}
       </main>
     </div>

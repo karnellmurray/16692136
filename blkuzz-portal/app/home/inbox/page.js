@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { io } from 'socket.io-client'
 import { apiFetch } from '@/lib/api'
-import { Send, Lock, Paperclip, FolderOpen, MoreVertical, User } from 'lucide-react'
+import { Send, Lock, Paperclip, FolderOpen, MoreVertical, User, ArrowLeft } from 'lucide-react'
 
 function timeAgo(date) {
   const s = Math.floor((Date.now() - new Date(date)) / 1000)
@@ -18,6 +18,8 @@ function initials(username) {
   if (!username) return '?'
   return username.replace(/[^a-zA-Z0-9]/g, '').slice(0, 2).toUpperCase()
 }
+
+const isVideo = url => /\.(mp4|mov|webm|ogg|avi|m4v|mkv|3gp)(\?|$)/i.test(url)
 
 function Avatar({ user, size = 36, style = {} }) {
   const url = user?.avatarUrl || user?.avatar?.url || user?.profileImage || null
@@ -51,8 +53,12 @@ function InboxPageContent() {
   const [requests, setRequests]           = useState([])
   const [menuOpen, setMenuOpen]           = useState(false)
   const [confirmModal, setConfirmModal]   = useState(null) // 'block' | 'block-report'
+  const [mediaUrls, setMediaUrls]         = useState([])
+  const [uploading, setUploading]         = useState(false)
+  const [lightbox, setLightbox]           = useState(null)
   const menuRef                           = useRef(null)
   const bottomRef                         = useRef(null)
+  const fileInputRef                      = useRef(null)
 
   // Connect Socket.io
   useEffect(() => {
@@ -137,19 +143,37 @@ function InboxPageContent() {
 
   const send = async e => {
     e.preventDefault()
-    if (!text.trim() || !activeId) return
+    if ((!text.trim() && !mediaUrls.length) || !activeId) return
     setSending(true)
     const res = await apiFetch(`/api/messages/${activeId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: text.trim() }),
+      body: JSON.stringify({ content: text.trim(), media: mediaUrls }),
     })
     const msg = await res.json()
     setMessages(prev => [...prev, { ...msg, senderUsername: session.user.username }])
     socket?.emit('direct-message', { to: activeId, msg: { ...msg, senderUsername: session.user.username } })
     setText('')
+    setMediaUrls([])
     setSending(false)
     loadConversations()
+  }
+
+  const handleFiles = async e => {
+    const files = Array.from(e.target.files ?? [])
+    if (!files.length) return
+    setUploading(true)
+    const urls = await Promise.all(files.map(async file => {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('type', 'post')
+      const res  = await apiFetch('/api/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      return data.url ?? null
+    }))
+    setMediaUrls(prev => [...prev, ...urls.filter(Boolean)])
+    setUploading(false)
+    e.target.value = ''
   }
 
   const me = session?.user?.id
@@ -159,13 +183,13 @@ function InboxPageContent() {
   )
 
   if (pageLoading) return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
       LOADING...
     </div>
   )
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden', fontFamily: 'Space Grotesk, sans-serif' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden', fontFamily: 'Space Grotesk, sans-serif' }}>
 
       {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid #1a1a1a', flexShrink: 0 }}>
@@ -179,8 +203,8 @@ function InboxPageContent() {
       {/* Body */}
       <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
 
-        {/* Sidebar */}
-        <div style={{ width: '40%', borderRight: '1px solid #141414', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+        {/* Sidebar — on mobile, hidden once a conversation is open; always visible at lg+ */}
+        <div className={`w-full lg:w-[40%] ${activeId ? 'hidden lg:flex' : 'flex'}`} style={{ borderRight: '1px solid #141414', flexDirection: 'column', minHeight: 0 }}>
           {/* Tab switcher */}
           <div style={{ display: 'flex', borderBottom: '1px solid #141414', flexShrink: 0 }}>
             {[{ key: 'messages', label: 'TRANSMISSIONS', badge: totalUnread }, { key: 'requests', label: 'REQUESTS', badge: requests.length }].map(t => (
@@ -189,7 +213,9 @@ function InboxPageContent() {
               >
                 <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.18em', color: tab === t.key ? '#FDC214' : '#333', textTransform: 'uppercase' }}>{t.label}</span>
                 {t.badge > 0 && (
-                  <span style={{ background: '#D2042D', color: '#fff', fontSize: 7, fontFamily: 'IBM Plex Mono, monospace', borderRadius: 9999, padding: '1px 5px', lineHeight: 1.4 }}>{t.badge}</span>
+                  t.key === 'requests'
+                    ? <span className="w-2 h-2 rounded-full inline-block" style={{ background: '#D2042D', boxShadow: '0 0 6px 2px rgba(210,4,45,0.5)' }} />
+                    : <span style={{ background: '#D2042D', color: '#fff', fontSize: 7, fontFamily: 'IBM Plex Mono, monospace', borderRadius: 9999, padding: '1px 5px', lineHeight: 1.4 }}>{t.badge}</span>
                 )}
               </button>
             ))}
@@ -274,10 +300,10 @@ function InboxPageContent() {
                         @{req.from?.username || 'Unknown'}
                       </div>
                       <div style={{ fontSize: 10, color: '#aaa', lineHeight: 1.5 }}>{req.text}</div>
-                      {(req.bulletinPost || req.link) && (
+                      {(req.bulletinPost || req.project || req.link) && (
                         <a href={req.bulletinPost ? `/portal/home/collaborate?post=${req.bulletinPost}` : `/portal${req.link}`}
                           style={{ display: 'inline-block', background: 'transparent', fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', color: '#FDC214', textTransform: 'uppercase', marginTop: 4, textDecoration: 'none' }}>
-                          View callout →
+                          {req.bulletinPost ? 'View callout →' : req.project ? 'View project →' : 'View →'}
                         </a>
                       )}
                       <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#333', marginTop: 4 }}>
@@ -321,8 +347,8 @@ function InboxPageContent() {
           )}
         </div>
 
-        {/* Thread */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+        {/* Thread — on mobile, only shown once a conversation is open */}
+        <div className={activeId ? 'flex' : 'hidden lg:flex'} style={{ flex: 1, flexDirection: 'column', minHeight: 0 }}>
           {!activeId ? (
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#333', letterSpacing: '0.15em' }}>SELECT A TRANSMISSION</span>
@@ -331,6 +357,9 @@ function InboxPageContent() {
             <>
               {/* Thread header */}
               <div style={{ padding: '10px 14px', borderBottom: '1px solid #141414', display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+                <button onClick={() => { setActiveId(null); setActiveUser(null); setMessages([]) }} className="lg:hidden" style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#FDC214', flexShrink: 0, lineHeight: 0 }}>
+                  <ArrowLeft size={16} />
+                </button>
                 {!activeUser ? (
                   <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px 0' }}>
                     <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: '#333', letterSpacing: '0.2em' }}>LOADING...</span>
@@ -389,18 +418,29 @@ function InboxPageContent() {
                           {isMine ? 'you' : `@${msg.senderUsername || activeUser?.username || ''}`}
                         </div>
                       )}
-                      <div style={{
-                        maxWidth: '85%', padding: '8px 11px', fontSize: 11, lineHeight: 1.5, position: 'relative',
-                        ...(isMine
-                          ? { background: 'transparent', border: '1px solid #777', color: '#777', borderRadius: 5 }
-                          : { background: 'transparent', border: '1px solid #fff', color: '#fff', borderRadius: 5 }
-                        )
-                      }}>
-                        {/^https?:\/\/\S+$/.test(msg.content?.trim())
-                          ? <a href={msg.content.trim()} target="_blank" rel="noopener noreferrer" style={{ color: '#FDC214', textDecoration: 'underline', wordBreak: 'break-all' }}>{msg.content.trim()}</a>
-                          : msg.content
-                        }
-                      </div>
+                      {msg.media?.length > 0 && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: '75%' }}>
+                          {msg.media.map((url, mi) => (
+                            isVideo(url)
+                              ? <video key={mi} src={url} controls onClick={() => setLightbox(url)} style={{ width: '100%', maxWidth: 220, borderRadius: 5, cursor: 'pointer', border: '1px solid #1a1a1a', display: 'block' }} />
+                              : <img key={mi} src={url} alt="" onClick={() => setLightbox(url)} style={{ width: '100%', maxWidth: 220, borderRadius: 5, cursor: 'pointer', border: '1px solid #1a1a1a', objectFit: 'cover', display: 'block' }} />
+                          ))}
+                        </div>
+                      )}
+                      {msg.content && (
+                        <div style={{
+                          maxWidth: '85%', padding: '8px 11px', fontSize: 11, lineHeight: 1.5, position: 'relative',
+                          ...(isMine
+                            ? { background: 'transparent', border: '1px solid #777', color: '#777', borderRadius: 5 }
+                            : { background: 'transparent', border: '1px solid #fff', color: '#fff', borderRadius: 5 }
+                          )
+                        }}>
+                          {/^https?:\/\/\S+$/.test(msg.content?.trim())
+                            ? <a href={msg.content.trim()} target="_blank" rel="noopener noreferrer" style={{ color: '#FDC214', textDecoration: 'underline', wordBreak: 'break-all' }}>{msg.content.trim()}</a>
+                            : msg.content
+                          }
+                        </div>
+                      )}
                       {(i === messages.length - 1 || messages[i + 1]?.sender !== msg.sender) && (
                         <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, color: '#2a2a2a', padding: '0 2px', marginTop: 2 }}>
                           {msg.createdAt ? timeAgo(msg.createdAt) : ''}
@@ -413,26 +453,53 @@ function InboxPageContent() {
               </div>
 
               {/* Compose */}
-              <form onSubmit={send} style={{ borderTop: '1px solid #141414', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0, background: '#0a0a0a' }}>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                  <Paperclip size={17} style={{ color: '#FDC214', cursor: 'pointer' }} />
-                  <FolderOpen size={17} style={{ color: '#FDC214', cursor: 'pointer' }} />
-                </div>
-                <input
-                  value={text}
-                  onChange={e => setText(e.target.value)}
-                  placeholder="Message..."
-                  className="placeholder-white"
-                  style={{ flex: 1, background: '#111', border: '1px solid #1a1a1a', color: '#e8e8e8', fontFamily: 'Space Grotesk, sans-serif', fontSize: 11, padding: '8px 12px', outline: 'none', borderRadius: 9999 }}
-                />
-                <button type="submit" disabled={sending || !text.trim()} style={{ background: 'transparent', border: 'none', padding: '7px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                  <Send size={15} style={{ color: '#FDC214' }} />
-                </button>
-              </form>
+              <div style={{ borderTop: '1px solid #141414', flexShrink: 0, background: '#0a0a0a' }}>
+                {mediaUrls.length > 0 && (
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', padding: '10px 14px 0' }}>
+                    {mediaUrls.map((url, i) => (
+                      <div key={i} style={{ position: 'relative' }}>
+                        {isVideo(url)
+                          ? <video src={url} style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4, display: 'block' }} />
+                          : <img src={url} alt="" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4, display: 'block' }} />
+                        }
+                        <button type="button" onClick={() => setMediaUrls(prev => prev.filter((_, j) => j !== i))}
+                          style={{ position: 'absolute', top: -5, right: -5, width: 15, height: 15, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FDC214', color: '#0a0a0a', fontSize: 9, fontWeight: 700, border: 'none', cursor: 'pointer', lineHeight: 0 }}>×</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <input ref={fileInputRef} type="file" accept="image/*,video/*" multiple className="hidden" onChange={handleFiles} />
+                <form onSubmit={send} style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <Paperclip size={17} onClick={() => fileInputRef.current?.click()} style={{ color: uploading ? '#00C853' : '#FDC214', cursor: uploading ? 'default' : 'pointer' }} />
+                    <FolderOpen size={17} style={{ color: '#FDC214', cursor: 'pointer' }} />
+                  </div>
+                  <input
+                    value={text}
+                    onChange={e => setText(e.target.value)}
+                    placeholder="Message..."
+                    className="placeholder-white"
+                    style={{ flex: 1, background: '#111', border: '1px solid #1a1a1a', color: '#e8e8e8', fontFamily: 'Space Grotesk, sans-serif', fontSize: 11, padding: '8px 12px', outline: 'none', borderRadius: 9999 }}
+                  />
+                  <button type="submit" disabled={sending || (!text.trim() && !mediaUrls.length)} style={{ background: 'transparent', border: 'none', padding: '7px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                    <Send size={15} style={{ color: '#FDC214' }} />
+                  </button>
+                </form>
+              </div>
             </>
           )}
         </div>
       </div>
+
+      {lightbox && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90" onClick={() => setLightbox(null)}>
+          {isVideo(lightbox)
+            ? <video src={lightbox} controls autoPlay className="max-w-[90vw] max-h-[90vh]" onClick={e => e.stopPropagation()} />
+            : <img src={lightbox} alt="" className="max-w-[90vw] max-h-[90vh] object-contain" onClick={e => e.stopPropagation()} />
+          }
+          <button onClick={() => setLightbox(null)} className="absolute top-4 right-4"><img src="/portal/icons/cross-y.png" alt="close" style={{ width: 18, height: 18, opacity: 0.6 }} /></button>
+        </div>
+      )}
 
       {/* Block / Block & Report confirmation modals */}
       {confirmModal && (

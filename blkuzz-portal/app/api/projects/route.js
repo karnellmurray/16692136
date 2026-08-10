@@ -75,8 +75,8 @@ export async function POST(req) {
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { title, disciplines, tagline, description, location, tags, chapters, coverImage, coverImagePosition, status } = await req.json()
-    if (!title?.trim() || !disciplines?.length) {
-      return NextResponse.json({ error: 'title and at least one discipline are required' }, { status: 400 })
+    if (!title?.trim()) {
+      return NextResponse.json({ error: 'title is required' }, { status: 400 })
     }
 
     await connectDB()
@@ -95,7 +95,7 @@ export async function POST(req) {
       title:       title.trim(),
       slug,
       creator:     session.user.id,
-      disciplines: Array.isArray(disciplines) ? disciplines : [disciplines],
+      disciplines: Array.isArray(disciplines) ? disciplines : [],
       tagline:     tagline?.trim(),
       description: description?.trim(),
       location:    location?.trim(),

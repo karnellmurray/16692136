@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Bell, Mail, User, Volume2, VolumeX } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
@@ -292,6 +293,7 @@ function Ticker({ items }) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function FeedPage() {
+  const router = useRouter()
   const [time, setTime]               = useState('')
   const [projects, setProjects]       = useState([])
   const [projectIdx, setProjectIdx]   = useState(0)
@@ -629,7 +631,7 @@ export default function FeedPage() {
   })
 
   return (
-    <div className="font-space" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden' }}>
+    <div className="font-space page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden' }}>
 
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#1f1f1f]" style={{ background: '#0a0a0a' }}>
@@ -676,25 +678,8 @@ export default function FeedPage() {
         <span className="font-mono text-[9px] text-[#333]">6 live</span>
       </div>
 
-      {/* Mosaic grid — fills all remaining space in the fixed container */}
-      <div style={{
-        flex: 1,
-        minHeight: 0,
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr 1fr',
-        gridTemplateRows: '1fr 1fr 1fr',
-        gap: 2,
-        padding: 2,
-        boxSizing: 'border-box',
-      }}>
-        {screens.map((card, i) => (
-          <ScreenCard key={card.id} card={card} position={CARD_POSITIONS[i]}
-            onVideoEnded={i === 2 ? nextHqVideo : undefined}
-            onVideoPlay={i === 2 && card.videoKey ? () => incrementHqView(card.videoKey) : undefined} />
-        ))}
-
-        {/* Collab ad — covers bottom-right cell */}
-        {collabAds.length > 0 && (() => {
+      {(() => {
+        const adTile = collabAds.length > 0 && (() => {
           const ad = collabAds[collabAdIdx]
           return (
             <div style={{
@@ -738,13 +723,33 @@ export default function FeedPage() {
               )}
             </div>
           )
-        })()}
-      </div>
+        })()
+
+        return (
+          <div style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr',
+            gridTemplateRows: '1fr 1fr 1fr',
+            gap: 2,
+            padding: 2,
+            boxSizing: 'border-box',
+          }}>
+            {screens.map((card, i) => (
+              <ScreenCard key={card.id} card={card} position={CARD_POSITIONS[i]}
+                onVideoEnded={i === 2 ? nextHqVideo : undefined}
+                onVideoPlay={i === 2 && card.videoKey ? () => incrementHqView(card.videoKey) : undefined} />
+            ))}
+            {adTile}
+          </div>
+        )
+      })()}
 
       {/* Notification panel */}
       {notifOpen && (
-        <div className="fixed inset-0 z-50" onClick={() => setNotifOpen(false)}>
-          <div className="absolute top-10 right-4 w-80 bg-black overflow-hidden"
+        <div className="fixed inset-0 z-50 flex items-center justify-center lg:block" onClick={() => setNotifOpen(false)}>
+          <div className="w-[90vw] max-w-80 lg:absolute lg:top-10 lg:right-4 lg:w-80 bg-black overflow-hidden"
             style={{ border: '1px solid #FDC214', maxHeight: '70vh', display: 'flex', flexDirection: 'column' }}
             onClick={e => e.stopPropagation()}>
 
@@ -759,9 +764,14 @@ export default function FeedPage() {
               {notifications.length === 0 && (
                 <p className="font-mono text-[8px] text-center py-8" style={{ color: 'rgba(255,255,255,0.3)' }}>No notifications</p>
               )}
-              {notifications.map(n => (
+              {notifications.map(n => {
+                const target = n.type === 'collab_request' && n.bulletinPost
+                  ? `/home/collaborate?post=${n.bulletinPost}`
+                  : n.link
+                return (
                 <div key={n._id} className="px-4 py-3 border-b border-[#0f0f0f]"
-                  style={{ background: n.read ? 'transparent' : 'rgba(253,194,20,0.03)' }}>
+                  style={{ background: n.read ? 'transparent' : 'rgba(253,194,20,0.03)', cursor: target ? 'pointer' : 'default' }}
+                  onClick={() => { if (target) { setNotifOpen(false); router.push(target) } }}>
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
                       {n.type === 'collab_invite' && (
@@ -777,13 +787,13 @@ export default function FeedPage() {
                         <span className="w-1 h-1 rounded-full inline-block mr-1.5" style={{ background: '#FDC214', verticalAlign: 'middle' }} />
                       )}
                     </div>
-                    <button onClick={() => deleteNotif(n._id)} className="shrink-0 mt-0.5">
+                    <button onClick={e => { e.stopPropagation(); deleteNotif(n._id) }} className="shrink-0 mt-0.5">
                       <img src="/portal/icons/trash-bin.png" alt="delete" style={{ width: 12, height: 12, filter: 'invert(21%) sepia(95%) saturate(7000%) hue-rotate(342deg) brightness(85%) contrast(115%)' }} />
                     </button>
                   </div>
                   <p className="font-mono text-[8px] leading-relaxed mb-1" style={{ color: 'rgba(255,255,255,0.7)' }}>
                     {n.type === 'collab_request' && n.from?.username
-                      ? <><Link href={`/home/profile/${n.from.username}`} style={{ color: '#00aaff', textDecoration: 'none' }}>@{n.from.username}</Link>{n.text.replace(new RegExp(`@${n.from.username}`, 'i'), '')}</>
+                      ? <><Link href={`/home/profile/${n.from.username}`} onClick={e => e.stopPropagation()} style={{ color: '#00aaff', textDecoration: 'none' }}>@{n.from.username}</Link>{n.text.replace(new RegExp(`@${n.from.username}`, 'i'), '')}</>
                       : n.text
                     }
                   </p>
@@ -797,12 +807,12 @@ export default function FeedPage() {
                   </p>
                   {(n.type === 'collab_invite' || n.type === 'collab_request') && n.status === 'pending' && (
                     <div className="flex gap-2 mt-2">
-                      <button onClick={() => respondToInvite(n._id, 'accept')}
+                      <button onClick={e => { e.stopPropagation(); respondToInvite(n._id, 'accept') }}
                         className="font-mono text-[7px] tracking-widest uppercase px-3 py-1.5"
                         style={{ background: '#008000', color: '#fff', borderRadius: 50 }}>
                         Accept
                       </button>
-                      <button onClick={() => respondToInvite(n._id, 'decline')}
+                      <button onClick={e => { e.stopPropagation(); respondToInvite(n._id, 'decline') }}
                         className="font-mono text-[7px] tracking-widest uppercase px-3 py-1.5"
                         style={{ border: '1px solid #D2042D', color: '#D2042D', borderRadius: 50 }}>
                         Decline
@@ -816,7 +826,7 @@ export default function FeedPage() {
                         {n.status}
                       </span>
                       {n.type === 'collab_request' && n.status === 'accepted' && n.from?._id && (
-                        <Link href={`/home/inbox?with=${n.from._id}`}
+                        <Link href={`/home/inbox?with=${n.from._id}`} onClick={e => e.stopPropagation()}
                           className="font-mono text-[6px] tracking-widest uppercase px-2 py-0.5"
                           style={{ border: '1px solid #FDC214', color: '#FDC214', borderRadius: 50, textDecoration: 'none' }}>
                           Message
@@ -825,7 +835,7 @@ export default function FeedPage() {
                     </div>
                   )}
                 </div>
-              ))}
+              )})}
             </div>
           </div>
         </div>
@@ -833,8 +843,8 @@ export default function FeedPage() {
 
       {/* Inbox preview panel */}
       {inboxOpen && (
-        <div className="fixed inset-0 z-50" onClick={() => setInboxOpen(false)}>
-          <div className="absolute top-10 right-4 w-80 bg-black overflow-hidden"
+        <div className="fixed inset-0 z-50 flex items-center justify-center lg:block" onClick={() => setInboxOpen(false)}>
+          <div className="w-[90vw] max-w-80 lg:absolute lg:top-10 lg:right-4 lg:w-80 bg-black overflow-hidden"
             style={{ maxHeight: '70vh', display: 'flex', flexDirection: 'column' }}
             onClick={e => e.stopPropagation()}>
 

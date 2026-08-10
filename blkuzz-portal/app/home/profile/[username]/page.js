@@ -261,19 +261,19 @@ export default function ProfilePage() {
   }
 
   if (loading) return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
       LOADING...
     </div>
   )
 
   if (notFound) return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
       MEMBER FILE NOT FOUND
     </div>
   )
 
   if (data?.isBlocked) return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
       THIS PROFILE IS NOT AVAILABLE
     </div>
   )
@@ -290,7 +290,7 @@ export default function ProfilePage() {
         .share-search::placeholder { color: #FDC214; opacity: 0.5; }
       `}} />
 
-      <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', fontFamily: SANS, overflow: 'hidden' }}>
+      <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', fontFamily: SANS, overflow: 'hidden' }}>
 
         {/* Spacer */}
         <div style={{ height: 16, background: '#0a0a0a', flexShrink: 0 }} />
@@ -434,7 +434,7 @@ export default function ProfilePage() {
             {/* ── BIO ── */}
             {tab === 'bio' && (
               <>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+                <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 16, marginBottom: 20 }}>
 
                   {/* Profile / Bio */}
                   <div>
@@ -469,7 +469,7 @@ export default function ProfilePage() {
                 </div>
 
                 {(projects.filter(p => p.status === 'active').length > 0 || collabs.length > 0) && (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+                  <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 16, marginBottom: 20 }}>
 
                     {/* Active projects */}
                     <div>

@@ -251,7 +251,7 @@ export default function WorkWithUsPage() {
   const closed = config.slotsRemaining <= 0
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', fontFamily: SANS, overflow: 'hidden' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', fontFamily: SANS, overflow: 'hidden' }}>
 
       {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid #1a1a1a', flexShrink: 0 }}>
@@ -261,11 +261,11 @@ export default function WorkWithUsPage() {
         </div>
       </div>
 
-      {/* Two-column body */}
-      <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
+      {/* Two-column body — stacks vertically with one shared scroll on mobile; side-by-side with independent column scroll at lg+ */}
+      <div className="flex-col lg:flex-row overflow-y-auto lg:overflow-visible" style={{ flex: 1, display: 'flex', minHeight: 0 }}>
 
         {/* LEFT — editorial */}
-        <div style={{ width: '44%', borderRight: '1px solid #141414', overflowY: 'auto', scrollbarWidth: 'none', display: 'flex', flexDirection: 'column' }}>
+        <div className="w-full lg:w-[44%] lg:overflow-y-auto" style={{ borderRight: '1px solid #141414', scrollbarWidth: 'none', display: 'flex', flexDirection: 'column' }}>
 
           {/* Hero */}
           <div style={{ position: 'relative', padding: '52px 32px 48px', borderBottom: '1px solid #141414', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -328,13 +328,13 @@ export default function WorkWithUsPage() {
         </div>
 
         {/* RIGHT — form */}
-        <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'none', display: 'flex', flexDirection: 'column' }}>
+        <div className="lg:overflow-y-auto" style={{ flex: 1, scrollbarWidth: 'none', display: 'flex', flexDirection: 'column' }}>
 
           {loading ? (
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MONO, fontSize: 8, color: '#222', letterSpacing: '0.2em' }}>—</div>
 
           ) : submitState === 'done' ? (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 24, padding: '40px 48px', textAlign: 'center' }}>
+            <div className="px-6 lg:px-12" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 24, paddingTop: 40, paddingBottom: 40, textAlign: 'center' }}>
               <WaxSeal size={180} />
               <div style={{ fontFamily: SERIF, fontSize: 32, fontWeight: 600, color: '#fff', lineHeight: 1.15 }}>
                 Your submission<br />has been received.
@@ -346,7 +346,7 @@ export default function WorkWithUsPage() {
             </div>
 
           ) : closed ? (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12, padding: 48, textAlign: 'center' }}>
+            <div className="px-6 lg:px-12" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12, paddingTop: 48, paddingBottom: 48, textAlign: 'center' }}>
               <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.25em', color: '#333', textTransform: 'uppercase' }}>
                 Submissions for {config.currentQuarter} are now closed.
               </div>
@@ -354,7 +354,7 @@ export default function WorkWithUsPage() {
             </div>
 
           ) : existing ? (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '40px 48px', textAlign: 'center' }}>
+            <div className="px-6 lg:px-12" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, paddingTop: 40, paddingBottom: 40, textAlign: 'center' }}>
               <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase', border: `1px solid ${GOLD}30`, padding: '4px 12px' }}>Under review</div>
               <div style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 600, color: '#fff', lineHeight: 1.2 }}>&quot;{existing.projectTitle}&quot;</div>
               <div style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
@@ -365,7 +365,7 @@ export default function WorkWithUsPage() {
             </div>
 
           ) : (
-            <div style={{ padding: '40px 48px' }}>
+            <div className="px-6 lg:px-12" style={{ paddingTop: 40, paddingBottom: 40 }}>
               <div style={{ marginBottom: 32 }}>
                 <div className="font-head" style={{ fontSize: 22, letterSpacing: '2px', color: GOLD, marginBottom: 6 }}>Submit your pitch</div>
                 <div style={{ fontFamily: MONO, fontSize: 8, color: '#333', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{config.currentQuarter} 2026 · Closes when slots fill</div>

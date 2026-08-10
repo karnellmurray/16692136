@@ -62,7 +62,10 @@ export default function BulletinPage() {
     })
   }
 
-  useEffect(() => { load() }, [])
+  useEffect(() => {
+    load()
+    localStorage.setItem('collaborate:lastSeen', new Date().toISOString())
+  }, [])
 
   useEffect(() => { load(filter) }, [filter])
 
@@ -198,7 +201,7 @@ export default function BulletinPage() {
   }, [posts, filter, session])
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden' }}>
 
       {/* Live bar */}
       <div className="flex items-center justify-center gap-2 px-4 py-2.5 flex-shrink-0" style={{ borderBottom: '1px solid #1f1f1f', background: '#0a0a0a' }}>
@@ -248,7 +251,7 @@ export default function BulletinPage() {
       <div className="flex px-6 py-2 font-mono text-[7px] tracking-[0.15em] uppercase flex-shrink-0" style={{ borderBottom: '1px solid #141414', color: '#2a2a2a' }}>
         <div style={{ width: 64 }}>Channel</div>
         <div className="flex-1">Transmission</div>
-        <div style={{ width: 44 }} className="text-right">Logged</div>
+        <div style={{ width: 44 }} className="hidden lg:block text-right">Logged</div>
       </div>
 
       {/* Scrollable listings */}
@@ -333,11 +336,11 @@ export default function BulletinPage() {
                       </div>
                     )}
                     {post.media?.length > 0 && (
-                      <div className={`grid gap-1 mb-2 ${post.media.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+                      <div className={`grid gap-1 mb-2 grid-cols-1 ${post.media.length > 1 ? 'lg:grid-cols-2' : ''}`}>
                         {post.media.map((url, i) => (
                           isVideo(url)
-                            ? <video key={i} src={url} controls onClick={() => setLightbox(url)} className="w-full rounded cursor-pointer" style={{ height: 200, objectFit: 'cover', display: 'block', border: '1px solid #1a1a1a' }} />
-                            : <img key={i} src={url} alt="" onClick={() => setLightbox(url)} className="w-full rounded cursor-pointer" style={{ height: 200, objectFit: 'cover', display: 'block', border: '1px solid #1a1a1a' }} />
+                            ? <video key={i} src={url} controls onClick={() => setLightbox(url)} className="w-full rounded cursor-pointer h-40 lg:h-[200px]" style={{ objectFit: 'cover', display: 'block', border: '1px solid #1a1a1a' }} />
+                            : <img key={i} src={url} alt="" onClick={() => setLightbox(url)} className="w-full rounded cursor-pointer h-40 lg:h-[200px]" style={{ objectFit: 'cover', display: 'block', border: '1px solid #1a1a1a' }} />
                         ))}
                       </div>
                     )}
@@ -372,7 +375,7 @@ export default function BulletinPage() {
                   </div>
 
                   {/* Time col */}
-                  <div className="font-mono text-[7px] shrink-0" style={{ width: 44, color: '#2a2a2a', padding: '10px 12px 10px 0', textAlign: 'right' }}>
+                  <div className="hidden lg:block font-mono text-[7px] shrink-0" style={{ width: 44, color: '#2a2a2a', padding: '10px 12px 10px 0', textAlign: 'right' }}>
                     {shortTimeAgo(post.createdAt)}
                   </div>
                 </div>

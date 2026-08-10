@@ -1,0 +1,40 @@
+/* ─── Mobile portal overrides ──────────────────────────────────────
+   Dedicated stylesheet for member-portal mobile responsiveness, kept
+   separate from globals.css the same way Frontend keeps its mobile
+   overrides in their own file. Everything below max-width:1024px
+   handles the mobile layout, so desktop (1024px and up) is untouched.
+   Imported after Tailwind in globals.css so these rules win the
+   cascade without editing component classNames directly. ─── */
+
+.sidebar-burger {
+  width: 22px;
+  height: 22px;
+  background-color: #FDC214;
+  -webkit-mask-image: url('/portal/icons/menu.png');
+  mask-image: url('/portal/icons/menu.png');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.sidebar-burger[data-open="true"] {
+  transform: rotate(90deg);
+}
+
+@media (max-width: 1024px) {
+
+  /* ─── Pages that position themselves with a hardcoded left:240 to
+     clear the desktop sidebar, and top:0 which sits under the mobile
+     burger bar. Reused across every /home/* page that opts into the
+     fixed full-bleed shell instead of normal document flow. ───────── */
+  .page-fixed-shell {
+    left: 0 !important;
+    top: 56px !important;
+  }
+}

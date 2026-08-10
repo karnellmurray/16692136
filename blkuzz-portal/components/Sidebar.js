@@ -24,13 +24,17 @@ export default function Sidebar() {
   const { data: session } = useSession()
   const [unread, setUnread]           = useState(0)
   const [unreadInbox, setUnreadInbox] = useState(0)
+  const [hasNewCallouts, setHasNewCallouts] = useState(false)
   const [avatarUrl, setAvatarUrl]     = useState(null)
   const [avatarErr, setAvatarErr]     = useState(false)
   const [settingsOpen, setSettingsOpen]   = useState(false)
   const [systemOpen, setSystemOpen]       = useState(false)
   const [privacyOpen, setPrivacyOpen]     = useState(false)
   const [accountOpen, setAccountOpen]     = useState(false)
+  const [mobileOpen, setMobileOpen]       = useState(false)
   const settingsRef = useRef(null)
+
+  useEffect(() => { setMobileOpen(false) }, [pathname])
 
   useEffect(() => {
     const fetchNotifs = () => apiFetch('/api/notifications').then(r => r.json()).then(d => setUnread(d.unread ?? 0))
@@ -65,6 +69,22 @@ export default function Sidebar() {
 
   useEffect(() => {
     if (!session) return
+    const fetchCallouts = async () => {
+      const res = await apiFetch('/api/collaborate')
+      const posts = res.ok ? await res.json() : []
+      const lastSeen = localStorage.getItem('collaborate:lastSeen')
+      const newest = (Array.isArray(posts) ? posts : [])
+        .filter(p => p.author?._id !== session.user.id)
+        .some(p => !lastSeen || new Date(p.createdAt) > new Date(lastSeen))
+      setHasNewCallouts(newest)
+    }
+    fetchCallouts()
+    const interval = setInterval(fetchCallouts, 30000)
+    return () => clearInterval(interval)
+  }, [session])
+
+  useEffect(() => {
+    if (!session) return
     apiFetch('/api/profile').then(r => r.json()).then(d => {
       setAvatarUrl(d.avatar?.url || d.profileImage || null)
     })
@@ -84,7 +104,23 @@ export default function Sidebar() {
   }, [session])
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-60 bg-black border-r border-[#FDC214] flex flex-col z-50">
+    <>
+      {/* Mobile top bar */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-black border-b border-[#FDC214] z-40 flex items-center px-4">
+        <button
+          className="sidebar-burger"
+          data-open={mobileOpen}
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          onClick={() => setMobileOpen(o => !o)}
+        />
+      </div>
+
+      {/* Mobile backdrop */}
+      {mobileOpen && (
+        <div className="lg:hidden fixed inset-0 bg-black/70 z-40" onClick={() => setMobileOpen(false)} />
+      )}
+
+      <aside className={`fixed top-0 left-0 h-screen w-60 bg-black border-r border-[#FDC214] flex flex-col z-50 transition-transform duration-300 ease-out lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
 
       {/* Logo */}
       <div className="flex items-center justify-center" style={{ height: 120 }}>
@@ -111,6 +147,9 @@ export default function Sidebar() {
                 <span className="w-2 h-2 rounded-full inline-block" style={{ background: '#D2042D', boxShadow: '0 0 6px 2px rgba(210,4,45,0.5)' }} />
               )}
               {href === '/home/inbox' && unreadInbox > 0 && (
+                <span className="w-2 h-2 rounded-full inline-block" style={{ background: '#D2042D', boxShadow: '0 0 6px 2px rgba(210,4,45,0.5)' }} />
+              )}
+              {href === '/home/collaborate' && hasNewCallouts && (
                 <span className="w-2 h-2 rounded-full inline-block" style={{ background: '#D2042D', boxShadow: '0 0 6px 2px rgba(210,4,45,0.5)' }} />
               )}
             </Link>
@@ -246,5 +285,6 @@ export default function Sidebar() {
       </div>
 
     </aside>
+    </>
   )
 }

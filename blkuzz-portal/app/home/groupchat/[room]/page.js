@@ -6,6 +6,10 @@ import { io } from 'socket.io-client'
 import { apiFetch } from '@/lib/api'
 import { Send, AtSign, FolderOpen, X } from 'lucide-react'
 
+// Groupchat isn't ready for release yet — gate the whole area behind a
+// locked placeholder instead of the real chat UI. Flip to false to restore.
+const GROUPCHAT_LOCKED = true
+
 function formatTime(date) {
   return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
@@ -180,6 +184,34 @@ function MentionTypeahead({ query, users, onSelect, onDismiss }) {
 let socket
 
 export default function GroupChatRoomPage() {
+  if (!GROUPCHAT_LOCKED) return <GroupChatRoomPageInner />
+
+  return (
+    <>
+      {/* Real UI, blurred — locked=true skips all data fetching and the socket connection */}
+      <div style={{ position: 'fixed', inset: 0, filter: 'blur(10px)', pointerEvents: 'none' }}>
+        <GroupChatRoomPageInner locked />
+      </div>
+
+      {/* Scrim */}
+      <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, background: 'rgba(10,10,10,0.55)' }} />
+
+      {/* Lock overlay */}
+      <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+        <div style={{
+          width: 36, height: 36, background: '#FDC214',
+          WebkitMaskImage: 'url(/portal/icons/lock.png)', maskImage: 'url(/portal/icons/lock.png)',
+          WebkitMaskSize: 'contain', maskSize: 'contain',
+          WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat',
+          WebkitMaskPosition: 'center', maskPosition: 'center',
+        }} />
+        <p className="font-head" style={{ fontSize: 14, letterSpacing: '3px', color: '#FDC214', textTransform: 'uppercase' }}>Restricted Area</p>
+      </div>
+    </>
+  )
+}
+
+function GroupChatRoomPageInner({ locked = false }) {
   const router   = useRouter()
   const params   = useParams()
   const { data: session } = useSession()
@@ -220,6 +252,8 @@ export default function GroupChatRoomPage() {
   }
 
   useEffect(() => {
+    if (locked) return
+
     // Build rooms from all distinct tags in the database
     apiFetch('/api/tags').then(r => r.json()).then(tags => {
       if (Array.isArray(tags)) setRooms(buildRooms(tags))
@@ -243,18 +277,20 @@ export default function GroupChatRoomPage() {
       }
     })
     return () => { socket?.disconnect() }
-  }, [])
+  }, [locked])
 
   useEffect(() => {
+    if (locked) return
     loadMessages(activeRoomId)
     setUnread(prev => { const n = { ...prev }; delete n[activeRoomId]; return n })
-  }, [activeRoomId])
+  }, [activeRoomId, locked])
 
   // Re-runs when rooms load (rawTag changes from 'lobby' fallback to real value)
   useEffect(() => {
+    if (locked) return
     if (!room.rawTag || (room.rawTag === 'lobby' && activeRoomId !== 'lobby')) return
     loadRoomMembers(room.rawTag)
-  }, [room.rawTag, activeRoomId])
+  }, [room.rawTag, activeRoomId, locked])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -307,7 +343,7 @@ export default function GroupChatRoomPage() {
   const me = session?.user?.id
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden', fontFamily: 'Space Grotesk, sans-serif' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden', fontFamily: 'Space Grotesk, sans-serif' }}>
 
       {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid #1a1a1a', flexShrink: 0 }}>
