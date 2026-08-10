@@ -6,4 +6,4 @@ const API_URL = ['localhost', '127.0.0.1'].includes(window.location.hostname)
 
 const PORTAL_URL = ['localhost', '127.0.0.1'].includes(window.location.hostname)
   ? 'http://localhost:3001/portal'
-  : 'https://portal.blkuzz.com/portal'
+  : 'https://one6692136-portal-staging-area.onrender.com/portal'
