@@ -18,10 +18,11 @@ export async function POST(req) {
 
   if (!user) return NextResponse.json({ error: 'This reset link is invalid or has expired.' }, { status: 400 })
 
-  user.passwordHash         = await bcrypt.hash(password, 12)
-  user.resetPasswordToken   = null
-  user.resetPasswordExpires = null
-  await user.save()
+  await Signup.findByIdAndUpdate(user._id, {
+    passwordHash:         await bcrypt.hash(password, 12),
+    resetPasswordToken:   null,
+    resetPasswordExpires: null,
+  })
 
   return NextResponse.json({ message: 'Password updated successfully.' })
 }

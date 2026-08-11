@@ -17,9 +17,10 @@ export async function POST(req) {
     const token       = crypto.randomBytes(32).toString('hex')
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
 
-    user.resetPasswordToken   = hashedToken
-    user.resetPasswordExpires = new Date(Date.now() + 60 * 60 * 1000)
-    await user.save()
+    await Signup.findByIdAndUpdate(user._id, {
+      resetPasswordToken:   hashedToken,
+      resetPasswordExpires: new Date(Date.now() + 60 * 60 * 1000),
+    })
 
     const baseUrl  = (process.env.NEXTAUTH_URL || '').replace(/\/$/, '')
     const resetUrl = `${baseUrl}/reset-password?token=${token}`
