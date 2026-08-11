@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
         )}
 
         <p className="text-center text-white/30 text-xs mt-8">
-          <a href="/login" className="font-head text-gold" style={{ letterSpacing: '2px' }}>Back to Login</a>
+          <a href="/portal/login" className="font-head text-gold" style={{ letterSpacing: '2px' }}>Back to Login</a>
         </p>
       </div>
     </main>
