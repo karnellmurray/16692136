@@ -76,7 +76,8 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gold text-black font-head uppercase tracking-widest text-sm py-3 rounded-full hover:bg-yellow-300 transition-colors disabled:opacity-50 mt-2"
+            className="w-full bg-gold text-black font-head uppercase text-sm py-3 rounded-full hover:bg-yellow-300 transition-colors disabled:opacity-50 mt-2"
+            style={{ letterSpacing: '2px' }}
           >
             {loading ? 'Signing in…' : 'Login'}
           </button>
@@ -84,7 +85,7 @@ export default function LoginPage() {
 
         <p className="text-center text-white/30 text-xs mt-8">
           Not a member?{' '}
-          <a href="/" className="font-head text-gold tracking-wide">Apply for Access</a>
+          <a href="/" className="font-head text-gold" style={{ letterSpacing: '2px' }}>Apply for Access</a>
         </p>
 
       </div>
