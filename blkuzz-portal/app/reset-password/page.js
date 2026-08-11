@@ -37,7 +37,7 @@ function ResetPasswordForm() {
   }
 
   if (!token) {
-    return <p className="text-center text-red-400 text-sm">This reset link is missing a token. Please request a new one from the <a href="/forgot-password" className="text-gold underline">forgot password</a> page.</p>
+    return <p className="text-center text-sm" style={{ color: '#FF0000' }}>This reset link is missing a token. Please request a new one from the <a href="/forgot-password" className="text-gold underline">forgot password</a> page.</p>
   }
 
   return (
@@ -99,7 +99,7 @@ export default function ResetPasswordPage() {
         </Suspense>
 
         <p className="text-center text-white/30 text-xs mt-8">
-          <a href="/login" className="font-head text-gold tracking-wide">Back to Login</a>
+          <a href="/login" className="font-head text-gold" style={{ letterSpacing: '2px' }}>Back to Login</a>
         </p>
       </div>
     </main>

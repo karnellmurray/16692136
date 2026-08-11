@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
           <p className="text-center text-white/60 text-sm">{message}</p>
         ) : (
           <form onSubmit={submit} className="flex flex-col gap-4">
-            <p className="text-center text-white/40 text-xs mb-2">Enter the email on your account and we&apos;ll send you a link to reset your password.</p>
+            <p className="text-center text-white/40 text-xs mb-2 whitespace-nowrap">We&apos;ll email you a link to reset your password.</p>
             <input
               name="email"
               type="email"
@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
         )}
 
         <p className="text-center text-white/30 text-xs mt-8">
-          <a href="/login" className="font-head text-gold tracking-wide">Back to Login</a>
+          <a href="/login" className="font-head text-gold" style={{ letterSpacing: '2px' }}>Back to Login</a>
         </p>
       </div>
     </main>
