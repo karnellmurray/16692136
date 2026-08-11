@@ -716,7 +716,7 @@ function MilestonesTab({ project, posts, isAuthor, currentUserId, currentUsernam
       )}
       {posts.length === 0 ? (
         <div className="py-12 text-center">
-          <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>NO POSTS YET.</p>
+          <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO POSTS YET.</p>
         </div>
       ) : (
         posts.map(p => (
@@ -1006,7 +1006,7 @@ function MediaTab({ posts, isAuthor, projectSlug, onRefresh }) {
     <>
       {items.length === 0 ? (
         <div className="py-12 text-center">
-          <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>NO MEDIA YET.</p>
+          <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO MEDIA YET.</p>
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-[1px] p-[1px]">
@@ -1493,7 +1493,7 @@ export default function ProjectDetailPage() {
 
   if (!project) return (
     <div className="-m-8 flex items-center justify-center min-h-screen" style={{ background: '#0a0a0a' }}>
-      <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>LOADING...</span>
+      <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</span>
     </div>
   )
 

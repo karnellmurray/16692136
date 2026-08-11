@@ -33,9 +33,10 @@ const SignupSchema = new mongoose.Schema({
       return c
     }
   },
-  bio:          { type: String, required: true, trim: true, maxlength: 500 },
+  bio:          { type: String, trim: true, maxlength: 500 },
   tags:         [{ type: String, trim: true }],
   avatar:       { url: { type: String, trim: true } },
+  onboarded:    { type: Boolean, default: false },
   createdAt:    { type: Date, default: Date.now }
 })
 

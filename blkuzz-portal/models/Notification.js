@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const NotificationSchema = new mongoose.Schema({
   user:      { type: mongoose.Schema.Types.ObjectId, ref: 'Signup', required: true },
-  type:         { type: String, enum: ['follow', 'message', 'mention', 'collab_invite', 'collab_request', 'comment'], required: true },
+  type:         { type: String, enum: ['follow', 'message', 'mention', 'collab_invite', 'collab_request', 'comment', 'system'], required: true },
   from:         { type: mongoose.Schema.Types.ObjectId, ref: 'Signup' },
   project:      { type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
   collabRequest:{ type: mongoose.Schema.Types.ObjectId, ref: 'CollabRequest' },

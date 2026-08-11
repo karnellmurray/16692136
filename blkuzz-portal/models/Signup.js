@@ -28,6 +28,9 @@ const SignupSchema = new mongoose.Schema({
   followers:    [{ type: mongoose.Schema.Types.ObjectId, ref: 'Signup' }],
   following:    [{ type: mongoose.Schema.Types.ObjectId, ref: 'Signup' }],
   role:         { type: String, enum: ['member', 'admin'], default: 'member' },
+  onboarded:            { type: Boolean, default: false },
+  resetPasswordToken:   { type: String, default: null },
+  resetPasswordExpires: { type: Date, default: null },
   createdAt:    { type: Date, default: Date.now }
 })
 

@@ -215,7 +215,7 @@ function CreateModal({ onClose, onCreated }) {
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e1e1e] sticky top-0" style={{ background: '#0a0a0a' }}>
           <div className="flex-1 text-center">
-            <p className="font-mono text-[8px] tracking-[0.25em] uppercase mb-0.5" style={{ color: '#333' }}>New transmission</p>
+            <p className="font-mono text-[8px] tracking-[0.25em] uppercase mb-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>New transmission</p>
             <p className="font-head text-[24px]" style={{ color: '#FDC214', letterSpacing: '2px' }}>Create Project</p>
           </div>
           <button onClick={onClose} className="flex items-center justify-center">
@@ -269,7 +269,7 @@ function CreateModal({ onClose, onCreated }) {
             </label>
             <input value={chapInput} onChange={e => setChapInput(e.target.value)}
               placeholder="Idea, Update, Progress…" className={inputCls} />
-            <p className="font-mono text-[7px] mt-2" style={{ color: '#2a2a2a' }}>
+            <p className="font-mono text-[7px] mt-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
               Comma-separated. Leave blank for defaults.
             </p>
           </div>
@@ -326,9 +326,9 @@ function CreateModal({ onClose, onCreated }) {
                   Drop image or click to browse
                 </p>
                 <div className="flex flex-col items-center gap-0.5">
-                  <p className="font-mono text-[7px]" style={{ color: '#2a2a2a' }}>JPG · PNG · WEBP</p>
-                  <p className="font-mono text-[7px]" style={{ color: '#2a2a2a' }}>Design at <span style={{ color: '#444' }}>1200 × 400px</span> — displayed at:</p>
-                  <p className="font-mono text-[7px]" style={{ color: '#2a2a2a' }}>Card 90px · Featured 140px · Detail 200px tall</p>
+                  <p className="font-mono text-[7px]" style={{ color: 'rgba(255,255,255,0.4)' }}>JPG · PNG · WEBP</p>
+                  <p className="font-mono text-[7px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Design at <span style={{ color: 'rgba(255,255,255,0.4)' }}>1200 × 400px</span> — displayed at:</p>
+                  <p className="font-mono text-[7px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Card 90px · Featured 140px · Detail 200px tall</p>
                 </div>
               </div>
             )}
@@ -449,7 +449,7 @@ function GridCard({ project, uid, onDelete }) {
           </div>
         )}
         <div className="flex items-center gap-2.5 mb-2">
-          <span className="font-mono text-[7px] flex items-center gap-1" style={{ color: '#333' }}>
+          <span className="font-mono text-[7px] flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
             <Users size={9} /> {count}
           </span>
         </div>
@@ -471,7 +471,7 @@ function GridCard({ project, uid, onDelete }) {
                 {deleting ? '…' : 'Yes'}
               </button>
               <button onClick={() => setConfirmDelete(false)}
-                style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, color: '#555', background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, color: 'rgba(255,255,255,0.4)', background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 No
               </button>
             </div>
@@ -610,7 +610,7 @@ export default function ProjectsPage() {
       {/* Section header */}
       <div className="flex items-end justify-between px-4 py-3.5 border-b border-[#141414]">
         <div>
-          <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-1" style={{ color: '#333' }}>
+          <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
             Transmissions in progress
           </p>
           <h1 className="font-head text-[22px] leading-none" style={{ letterSpacing: '2px', color: '#FDC214' }}>
@@ -618,7 +618,7 @@ export default function ProjectsPage() {
           </h1>
         </div>
         <div className="text-right">
-          <p className="font-mono text-[8px] tracking-[0.1em]" style={{ color: '#333' }}>
+          <p className="font-mono text-[8px] tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.4)' }}>
             {projects.filter(p => p.status !== 'completed').length} active
           </p>
         </div>
@@ -687,16 +687,16 @@ export default function ProjectsPage() {
 
       {loading ? (
         <div className="flex-1 flex items-center justify-center">
-          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>LOADING...</span>
+          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</span>
         </div>
       ) : loadError ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-2 px-6 text-center">
           <span className="font-mono text-[9px] tracking-widest uppercase" style={{ color: '#ff4444' }}>Error loading projects</span>
-          <span className="font-mono text-[8px]" style={{ color: '#333' }}>{loadError}</span>
+          <span className="font-mono text-[8px]" style={{ color: 'rgba(255,255,255,0.4)' }}>{loadError}</span>
         </div>
       ) : projects.length === 0 ? (
         <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>NO PROJECTS YET</span>
+          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO PROJECTS YET</span>
         </div>
       ) : (
         <div className="flex-1 overflow-y-auto">
@@ -803,7 +803,7 @@ export default function ProjectsPage() {
           {/* Grid */}
           {grid.length > 0 && (
             <p className="px-4 pt-3 pb-1.5 font-mono text-[8px] tracking-[0.25em] uppercase border-t border-[#141414] mt-3"
-              style={{ color: '#2a2a2a' }}>
+              style={{ color: 'rgba(255,255,255,0.4)' }}>
               More projects
             </p>
           )}

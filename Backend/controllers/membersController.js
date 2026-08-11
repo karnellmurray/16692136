@@ -186,9 +186,9 @@ const PHONE_RE    = /^[\d\s\+\-\(\)]{7,20}$/
 
 exports.submitSignup = async (req, res) => {
   try {
-    const { name, username, email, password, tags, location, phone, bio } = req.body
+    const { name, username, email, password, tags, location, phone } = req.body
 
-    if (!name || !username || !email || !password || !location || !phone || !bio) {
+    if (!name || !username || !email || !password || !location || !phone) {
       return res.status(400).json({ error: 'All fields are required.' })
     }
     if (!EMAIL_RE.test(email)) {
@@ -202,6 +202,9 @@ exports.submitSignup = async (req, res) => {
     }
     if (!PHONE_RE.test(phone)) {
       return res.status(400).json({ error: 'Please enter a valid phone number.' })
+    }
+    if (!Array.isArray(tags) || !tags.length) {
+      return res.status(400).json({ error: 'Please pick at least one tag.' })
     }
 
     const uLower = username.toLowerCase().trim()
@@ -219,7 +222,7 @@ exports.submitSignup = async (req, res) => {
     if (takenPhone) return res.status(409).json({ error: 'This phone number is already registered.',    field: 'phone'    })
 
     const passwordHash = await bcrypt.hash(password, 12)
-    const signup = new Signup({ name, username: uLower, email: eLower, passwordHash, tags: Array.isArray(tags) ? tags.slice(0, 4) : [], location, phone: normPhone, bio })
+    const signup = new Signup({ name, username: uLower, email: eLower, passwordHash, tags: tags.slice(0, 4), location, phone: normPhone })
     await signup.save()
 
     const totalMembers = await Signup.countDocuments()

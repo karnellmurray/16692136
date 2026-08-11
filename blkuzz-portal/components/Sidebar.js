@@ -85,9 +85,13 @@ export default function Sidebar() {
 
   useEffect(() => {
     if (!session) return
-    apiFetch('/api/profile').then(r => r.json()).then(d => {
+    const fetchAvatar = () => apiFetch('/api/profile').then(r => r.json()).then(d => {
       setAvatarUrl(d.avatar?.url || d.profileImage || null)
+      setAvatarErr(false)
     })
+    fetchAvatar()
+    window.addEventListener('blkuzz:avatar-updated', fetchAvatar)
+    return () => window.removeEventListener('blkuzz:avatar-updated', fetchAvatar)
   }, [session])
 
   useEffect(() => {

@@ -60,7 +60,7 @@ export async function PATCH(req) {
 
   const set = { bio, profileImage, links }
   if (location        !== undefined) set.location        = location
-  if (tags            !== undefined) set.tags            = tags
+  if (tags            !== undefined) set.tags            = Array.isArray(tags) ? tags.slice(0, 4) : tags
   if (skills          !== undefined) set.skills          = skills
   if (openToCollab    !== undefined) set.openToCollab    = openToCollab
   if (showInDirectory !== undefined) set.showInDirectory = showInDirectory

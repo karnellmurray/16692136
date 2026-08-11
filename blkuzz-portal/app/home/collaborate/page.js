@@ -214,11 +214,11 @@ export default function BulletinPage() {
       <div className="px-6 py-4 flex-shrink-0" style={{ borderBottom: '1px solid #141414' }}>
         <div className="flex items-start justify-between">
           <div>
-            <p className="font-mono text-[8px] tracking-[0.25em] uppercase mb-1" style={{ color: '#333' }}>
+            <p className="font-mono text-[8px] tracking-[0.25em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
               Open frequency — collab requests &amp; call-outs
             </p>
             <h1 className="font-head text-white text-2xl mb-2" style={{ letterSpacing: '2px' }}>Collaborate</h1>
-            <div className="flex gap-4 font-mono text-[8px] tracking-wide" style={{ color: '#333' }}>
+            <div className="flex gap-4 font-mono text-[8px] tracking-wide" style={{ color: 'rgba(255,255,255,0.4)' }}>
               <span><span style={{ color: '#FDC214' }}>{stats.open}</span> open listings</span>
               <span><span style={{ color: '#D2042D' }}>{stats.urgent}</span> urgent</span>
               <span><span style={{ color: '#008000' }}>{stats.today}</span> active today</span>
@@ -248,7 +248,7 @@ export default function BulletinPage() {
       </div>
 
       {/* Column labels */}
-      <div className="flex px-6 py-2 font-mono text-[7px] tracking-[0.15em] uppercase flex-shrink-0" style={{ borderBottom: '1px solid #141414', color: '#2a2a2a' }}>
+      <div className="flex px-6 py-2 font-mono text-[7px] tracking-[0.15em] uppercase flex-shrink-0" style={{ borderBottom: '1px solid #141414', color: 'rgba(255,255,255,0.4)' }}>
         <div style={{ width: 64 }}>Channel</div>
         <div className="flex-1">Transmission</div>
         <div style={{ width: 44 }} className="hidden lg:block text-right">Logged</div>
@@ -257,9 +257,9 @@ export default function BulletinPage() {
       {/* Scrollable listings */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {loading ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>LOADING...</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</div>
         ) : filtered.length === 0 ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>NO CALLOUTS IN THIS CHANNEL YET.</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO CALLOUTS IN THIS CHANNEL YET.</div>
         ) : (
           <div className="flex flex-col">
             {filtered.map(post => {
@@ -375,7 +375,7 @@ export default function BulletinPage() {
                   </div>
 
                   {/* Time col */}
-                  <div className="hidden lg:block font-mono text-[7px] shrink-0" style={{ width: 44, color: '#2a2a2a', padding: '10px 12px 10px 0', textAlign: 'right' }}>
+                  <div className="hidden lg:block font-mono text-[7px] shrink-0" style={{ width: 44, color: 'rgba(255,255,255,0.4)', padding: '10px 12px 10px 0', textAlign: 'right' }}>
                     {shortTimeAgo(post.createdAt)}
                   </div>
                 </div>

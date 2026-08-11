@@ -186,7 +186,7 @@ function InboxPageContent() {
   )
 
   if (pageLoading) return (
-    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
       LOADING...
     </div>
   )
@@ -238,7 +238,7 @@ function InboxPageContent() {
               <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'none' }}>
                 {filtered.length === 0 && (
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', padding: 20 }}>
-                    <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#333', textAlign: 'center' }}>No transmissions.</p>
+                    <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No transmissions.</p>
                   </div>
                 )}
                 {filtered.map(c => {
@@ -255,14 +255,14 @@ function InboxPageContent() {
                           <span className="font-head" style={{ fontSize: 11, color: '#FDC214', letterSpacing: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                             {c.user?.name || c.user?.username || 'Unknown'}
                           </span>
-                          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#2a2a2a', flexShrink: 0 }}>
+                          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', flexShrink: 0 }}>
                             {c.lastMessage?.createdAt ? timeAgo(c.lastMessage.createdAt) : ''}
                           </span>
                         </div>
                         <div style={{ fontSize: 10, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 3 }}>
                           {c.lastMessage?.content || ''}
                         </div>
-                        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#555' }}>@{c.user?.username}</div>
+                        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)' }}>@{c.user?.username}</div>
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6, flexShrink: 0 }}>
                         {hasUnread && (
@@ -291,7 +291,7 @@ function InboxPageContent() {
             <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'none' }}>
               {requests.length === 0 && (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', padding: 20 }}>
-                  <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#333', textAlign: 'center' }}>No pending requests.</p>
+                  <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No pending requests.</p>
                 </div>
               )}
               {requests.map(req => (
@@ -309,7 +309,7 @@ function InboxPageContent() {
                           {req.bulletinPost ? 'View callout →' : req.project ? 'View project →' : 'View →'}
                         </a>
                       )}
-                      <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#333', marginTop: 4 }}>
+                      <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>
                         {timeAgo(req.createdAt)}
                       </div>
                     </div>
@@ -339,7 +339,7 @@ function InboxPageContent() {
                         })
                         loadRequests()
                       }}
-                      style={{ padding: '6px 20px', background: 'transparent', border: '1px solid #333', color: '#555', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.1em', cursor: 'pointer', borderRadius: 9999 }}
+                      style={{ padding: '6px 20px', background: 'transparent', border: '1px solid #333', color: 'rgba(255,255,255,0.4)', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.1em', cursor: 'pointer', borderRadius: 9999 }}
                     >
                       DECLINE
                     </button>
@@ -354,7 +354,7 @@ function InboxPageContent() {
         <div className={activeId ? 'flex' : 'hidden lg:flex'} style={{ flex: 1, flexDirection: 'column', minHeight: 0 }}>
           {!activeId ? (
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#333', letterSpacing: '0.15em' }}>SELECT A TRANSMISSION</span>
+              <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.15em' }}>SELECT A TRANSMISSION</span>
             </div>
           ) : (
             <>
@@ -365,7 +365,7 @@ function InboxPageContent() {
                 </button>
                 {!activeUser ? (
                   <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px 0' }}>
-                    <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: '#333', letterSpacing: '0.2em' }}>LOADING...</span>
+                    <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.2em' }}>LOADING...</span>
                   </div>
                 ) : (
                   <>
@@ -417,7 +417,7 @@ function InboxPageContent() {
                   return (
                     <div key={msg._id || i} style={{ display: 'flex', flexDirection: 'column', gap: 3, alignItems: isMine ? 'flex-end' : 'flex-start' }}>
                       {!prevIsSame && (
-                        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#2a2a2a', letterSpacing: '0.08em', marginBottom: 3, padding: '0 2px' }}>
+                        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em', marginBottom: 3, padding: '0 2px' }}>
                           {isMine ? 'you' : `@${msg.senderUsername || activeUser?.username || ''}`}
                         </div>
                       )}
@@ -445,7 +445,7 @@ function InboxPageContent() {
                         </div>
                       )}
                       {(i === messages.length - 1 || messages[i + 1]?.sender !== msg.sender) && (
-                        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, color: '#2a2a2a', padding: '0 2px', marginTop: 2 }}>
+                        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, color: 'rgba(255,255,255,0.4)', padding: '0 2px', marginTop: 2 }}>
                           {msg.createdAt ? timeAgo(msg.createdAt) : ''}
                         </div>
                       )}
@@ -511,14 +511,14 @@ function InboxPageContent() {
             <p className="font-head" style={{ fontSize: 13, color: '#fff', letterSpacing: '2px', marginBottom: 10 }}>
               {confirmModal === 'block' ? 'Block' : 'Block and Report'} <span style={{ color: '#FDC214' }}>@{activeUser?.username}?</span>
             </p>
-            <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#555', lineHeight: 1.7, marginBottom: 24, letterSpacing: '0.05em' }}>
+            <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, marginBottom: 24, letterSpacing: '0.05em' }}>
               {confirmModal === 'block'
                 ? 'They will be removed from your inbox and will not be able to contact you. They will not be told they have been blocked.'
                 : 'They will be removed from your inbox. Our team will review this account.'}
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => setConfirmModal(null)}
-                style={{ flex: 1, padding: '9px 0', background: 'transparent', border: '1px solid #333', color: '#555', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.1em', cursor: 'pointer', borderRadius: 9999 }}>
+                style={{ flex: 1, padding: '9px 0', background: 'transparent', border: '1px solid #333', color: 'rgba(255,255,255,0.4)', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.1em', cursor: 'pointer', borderRadius: 9999 }}>
                 CANCEL
               </button>
               <button onClick={() => executeBlock(confirmModal === 'block-report')}

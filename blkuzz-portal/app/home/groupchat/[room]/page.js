@@ -155,9 +155,9 @@ function ProjectCard({ project, onRemove }) {
       )}
       <div style={{ minWidth: 0 }}>
         <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: '#FDC214', letterSpacing: '0.1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{project.title}</div>
-        {project.discipline && <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#444', letterSpacing: '0.08em' }}>{project.discipline}</div>}
+        {project.discipline && <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em' }}>{project.discipline}</div>}
       </div>
-      <button onClick={onRemove} style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', color: '#555', marginLeft: 'auto', flexShrink: 0, lineHeight: 0 }}>
+      <button onClick={onRemove} style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', color: 'rgba(255,255,255,0.4)', marginLeft: 'auto', flexShrink: 0, lineHeight: 0 }}>
         <X size={10} />
       </button>
     </div>
@@ -174,7 +174,7 @@ function MentionTypeahead({ query, users, onSelect, onDismiss }) {
           style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', cursor: 'pointer', borderBottom: '1px solid #111' }}>
           <UserAvatar sender={u} size={20} />
           <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: '#FDC214', letterSpacing: '0.08em' }}>@{u.username}</span>
-          {u.discipline && <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#333', letterSpacing: '0.05em' }}>{u.discipline}</span>}
+          {u.discipline && <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em' }}>{u.discipline}</span>}
         </div>
       ))}
     </div>
@@ -362,7 +362,7 @@ function GroupChatRoomPageInner({ locked = false }) {
 
         {/* Floor selector */}
         <div style={{ width: 72, borderRight: '1px solid #141414', display: 'flex', flexDirection: 'column', background: '#080808', flexShrink: 0, overflowY: 'auto', scrollbarWidth: 'none' }}>
-          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, letterSpacing: '0.2em', color: '#555', textTransform: 'uppercase', textAlign: 'center', padding: '8px 4px 6px', borderBottom: '1px solid #141414', flexShrink: 0 }}>
+          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', textAlign: 'center', padding: '8px 4px 6px', borderBottom: '1px solid #141414', flexShrink: 0 }}>
             Rooms
           </div>
           {rooms.map(r => {
@@ -405,12 +405,12 @@ function GroupChatRoomPageInner({ locked = false }) {
               </span>
             </div>
             <div style={{ display: 'flex', gap: 14, position: 'relative' }}>
-              <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#555', letterSpacing: '0.08em' }}>
+              <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em' }}>
                 {roomMembers.length} {activeRoomId === 'lobby' ? (roomMembers.length === 1 ? 'member' : 'members') : (roomMembers.length === 1 ? room.rawTag.toLowerCase() : room.label.toLowerCase())}
               </span>
               <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: 3 }}>
                 <span style={{ width: 5, height: 5, borderRadius: '50%', background: connected ? '#008000' : '#333', display: 'inline-block', boxShadow: connected ? '0 0 6px 2px rgba(0,128,0,0.6)' : 'none' }} />
-                <span style={{ color: '#555' }}>{connected ? 'live' : 'offline'}</span>
+                <span style={{ color: 'rgba(255,255,255,0.4)' }}>{connected ? 'live' : 'offline'}</span>
               </span>
             </div>
           </div>
@@ -424,7 +424,7 @@ function GroupChatRoomPageInner({ locked = false }) {
                 </div>
               ))}
               {roomMembers.length > 12 && (
-                <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#333', letterSpacing: '0.08em', marginLeft: 4, whiteSpace: 'nowrap' }}>
+                <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em', marginLeft: 4, whiteSpace: 'nowrap' }}>
                   +{roomMembers.length - 12}
                 </span>
               )}
@@ -436,7 +436,7 @@ function GroupChatRoomPageInner({ locked = false }) {
             {messages.map((msg, i) => {
               if (msg.msgType === 'system') {
                 return (
-                  <div key={msg._id || i} style={{ textAlign: 'center', padding: '6px 0', fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#2a2a2a', letterSpacing: '0.1em' }}>
+                  <div key={msg._id || i} style={{ textAlign: 'center', padding: '6px 0', fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>
                     — {msg.content} —
                   </div>
                 )
@@ -456,10 +456,10 @@ function GroupChatRoomPageInner({ locked = false }) {
                         <span className="font-head" style={{ fontSize: 11, color, letterSpacing: '2px' }}>
                           {msg.sender?.name || msg.sender?.username || 'Unknown'}
                         </span>
-                        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#2a2a2a', letterSpacing: '0.05em' }}>
+                        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em' }}>
                           @{msg.sender?.username}
                         </span>
-                        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#2a2a2a', marginLeft: 'auto' }}>
+                        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', marginLeft: 'auto' }}>
                           {formatTime(msg.createdAt)}
                         </span>
                       </div>
@@ -485,11 +485,11 @@ function GroupChatRoomPageInner({ locked = false }) {
             {showProjects && (
               <div style={{ position: 'absolute', bottom: '100%', left: 14, right: 14, background: '#0f0f0f', border: '1px solid #1a1a1a', borderBottom: 'none', maxHeight: 200, overflowY: 'auto', zIndex: 100 }}>
                 <div style={{ padding: '6px 10px', borderBottom: '1px solid #141414', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#555', letterSpacing: '0.1em' }}>YOUR PROJECTS</span>
-                  <button onClick={() => setShowProjects(false)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#555', lineHeight: 0, padding: 0 }}><X size={10} /></button>
+                  <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>YOUR PROJECTS</span>
+                  <button onClick={() => setShowProjects(false)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', lineHeight: 0, padding: 0 }}><X size={10} /></button>
                 </div>
                 {myProjects.length === 0 && (
-                  <div style={{ padding: '10px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: '#333' }}>No projects found.</div>
+                  <div style={{ padding: '10px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: 'rgba(255,255,255,0.4)' }}>No projects found.</div>
                 )}
                 {myProjects.map(p => (
                   <div key={p._id} onClick={() => { setAttachedProject(p); setShowProjects(false) }}

@@ -34,7 +34,7 @@ const taStyle = () => ({
 
 function SectionLabel({ children }) {
   return (
-    <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.25em', color: '#2a2a2a', textTransform: 'uppercase', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
       {children}
       <div style={{ flex: 1, height: 1, background: '#141414' }} />
     </div>
@@ -42,7 +42,7 @@ function SectionLabel({ children }) {
 }
 
 function Hint({ children, style }) {
-  return <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#2a2a2a', letterSpacing: '0.06em', marginTop: 4, ...style }}>{children}</div>
+  return <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', marginTop: 4, ...style }}>{children}</div>
 }
 
 export default function EditProfilePage() {
@@ -108,7 +108,16 @@ export default function EditProfilePage() {
     fd.append('type', 'avatar')
     const res  = await apiFetch('/api/upload', { method: 'POST', body: fd })
     const data = await res.json()
-    if (data.url) { setProfile(p => ({ ...p, profileImage: data.url, avatar: null })); setSaved(false) }
+    if (data.url) {
+      setProfile(p => ({ ...p, profileImage: data.url, avatar: null }))
+      setSaved(false)
+      await apiFetch('/api/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profileImage: data.url }),
+      })
+      window.dispatchEvent(new Event('blkuzz:avatar-updated'))
+    }
     setUploading(false)
   }
 
@@ -156,7 +165,7 @@ export default function EditProfilePage() {
   })()
 
   if (!profile) return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
+    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
       LOADING...
     </div>
   )
@@ -174,7 +183,7 @@ export default function EditProfilePage() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid #1a1a1a', flexShrink: 0 }}>
         <span className="font-head" style={{ fontSize: 15, letterSpacing: '2px', color: '#FDC214' }}>BLKUZZ</span>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={() => router.back()} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', padding: '7px 16px', background: 'transparent', color: '#555', border: '1px solid #2a2a2a', fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', borderRadius: 9999 }}>
+          <button onClick={() => router.back()} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', padding: '7px 16px', background: 'transparent', color: 'rgba(255,255,255,0.4)', border: '1px solid #2a2a2a', fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', borderRadius: 9999 }}>
             Cancel
           </button>
           <button onClick={save} disabled={saving} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', padding: '7px 16px', background: '#FDC214', color: '#0a0a0a', border: 'none', fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', borderRadius: 9999, opacity: saving ? 0.6 : 1 }}>
@@ -188,7 +197,7 @@ export default function EditProfilePage() {
 
         {/* Page header */}
         <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid #141414' }}>
-          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.2em', color: '#2a2a2a', textTransform: 'uppercase', marginBottom: 3 }}>Member file — edit mode</div>
+          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 3 }}>Member file — edit mode</div>
           <div className="font-head" style={{ fontSize: 20, letterSpacing: '2px', color: '#fff' }}>Edit Profile</div>
         </div>
 
@@ -206,7 +215,7 @@ export default function EditProfilePage() {
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.5)', fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, letterSpacing: '0.12em', color: '#00ff8880', textAlign: 'center', padding: '2px 0', textTransform: 'uppercase', zIndex: 2 }}>ID Photo</div>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.2em', color: '#333', textTransform: 'uppercase', marginBottom: 6 }}>Member ID Photo</div>
+            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 6 }}>Member ID Photo</div>
 <input ref={photoInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
             <div style={{ display: 'flex', gap: 6 }}>
               <button onClick={() => photoInputRef.current?.click()} disabled={uploading}
@@ -214,7 +223,16 @@ export default function EditProfilePage() {
                 {uploading ? 'Uploading…' : 'Upload photo'}
               </button>
               {photo && (
-                <button onClick={() => { setProfile(p => ({ ...p, profileImage: '', avatar: null })); setSaved(false) }}
+                <button onClick={async () => {
+                  setProfile(p => ({ ...p, profileImage: '', avatar: null }))
+                  setSaved(false)
+                  await apiFetch('/api/profile', {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ profileImage: '' }),
+                  })
+                  window.dispatchEvent(new Event('blkuzz:avatar-updated'))
+                }}
                   style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', padding: '5px 10px', border: '1px solid #ff000040', color: '#ff0000', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>
                   Remove
                 </button>
@@ -228,7 +246,7 @@ export default function EditProfilePage() {
           <SectionLabel>Identity</SectionLabel>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
             <div>
-              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.18em', color: '#444', textTransform: 'uppercase', marginBottom: 5 }}>Username</div>
+              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5 }}>Username</div>
               <input
                 value={form.username}
                 disabled={!!usernameCooldown}
@@ -239,20 +257,20 @@ export default function EditProfilePage() {
               {usernameError
                 ? <Hint style={{ color: '#ff4444' }}>{usernameError}</Hint>
                 : usernameCooldown
-                  ? <Hint style={{ color: '#555' }}>Change available in {usernameCooldown} day{usernameCooldown === 1 ? '' : 's'}</Hint>
+                  ? <Hint style={{ color: 'rgba(255,255,255,0.4)' }}>Change available in {usernameCooldown} day{usernameCooldown === 1 ? '' : 's'}</Hint>
                   : <Hint>3–20 chars · letters, numbers, underscores · changed once per 14 days</Hint>
               }
             </div>
             <div>
-              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.18em', color: '#444', textTransform: 'uppercase', marginBottom: 5 }}>Location</div>
+              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5 }}>Location</div>
               <input value={form.location} onChange={e => { set('location', e.target.value); setLocationError('') }} placeholder="City, UK" style={{ ...iStyle(), ...(locationError ? { border: '1px solid #ff4444', borderBottom: '1px solid #ff4444' } : {}) }} />
               {locationError ? <Hint style={{ color: '#ff4444' }}>{locationError}</Hint> : <Hint>Format: City, UK</Hint>}
             </div>
           </div>
           <div>
-            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.18em', color: '#444', textTransform: 'uppercase', marginBottom: 5, display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5, display: 'flex', justifyContent: 'space-between' }}>
               <span>Bio</span>
-              <span style={{ fontSize: 7, color: '#2a2a2a' }}>{form.bio.length}/500</span>
+              <span style={{ fontSize: 7, color: 'rgba(255,255,255,0.4)' }}>{form.bio.length}/500</span>
             </div>
             <textarea value={form.bio} onChange={e => set('bio', e.target.value)} maxLength={500} rows={3}
               placeholder="What you do, what you're working on, what you're looking for..."
@@ -266,15 +284,17 @@ export default function EditProfilePage() {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
             {availableTags.map(tag => {
               const active = form.tags.includes(tag)
+              const atMax  = form.tags.length >= 4 && !active
               return (
-                <button key={tag} onClick={() => set('tags', active ? form.tags.filter(t => t !== tag) : [...form.tags, tag])}
-                  style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', padding: '5px 10px', border: `1px solid ${active ? '#FDC214' : '#1e1e1e'}`, color: active ? '#FDC214' : '#444', cursor: 'pointer', textTransform: 'uppercase', background: 'transparent', transition: 'all 0.1s', borderRadius: 9999 }}>
+                <button key={tag} disabled={atMax}
+                  onClick={() => set('tags', active ? form.tags.filter(t => t !== tag) : [...form.tags, tag])}
+                  style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', padding: '5px 10px', border: `1px solid ${active ? '#FDC214' : '#1e1e1e'}`, color: active ? '#FDC214' : 'rgba(255,255,255,0.4)', cursor: atMax ? 'not-allowed' : 'pointer', opacity: atMax ? 0.4 : 1, textTransform: 'uppercase', background: 'transparent', transition: 'all 0.1s', borderRadius: 9999 }}>
                   {tag}
                 </button>
               )
             })}
           </div>
-          <Hint>Select all that apply. These appear on your profile and help others find you.</Hint>
+          <Hint>Pick up to 4. These appear on your profile and help others find you. · {form.tags.length}/4</Hint>
         </div>
 
         {/* Skills */}
@@ -296,7 +316,7 @@ export default function EditProfilePage() {
               placeholder="Add a skill..."
               style={{ flex: 1, background: '#0d0d0d', border: '1px solid #1e1e1e', borderBottom: '1px solid #333', color: '#e8e8e8', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, padding: '7px 10px', outline: 'none', letterSpacing: '0.05em' }} />
             <button onClick={addSkill}
-              style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', padding: '7px 12px', border: '1px solid #1e1e1e', color: '#555', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+              style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', padding: '7px 12px', border: '1px solid #1e1e1e', color: 'rgba(255,255,255,0.4)', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
               + Add
             </button>
           </div>
@@ -314,7 +334,7 @@ export default function EditProfilePage() {
             <div key={key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0' }}>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 12, fontWeight: 600, color: '#ccc', letterSpacing: '-0.01em', marginBottom: 2 }}>{title}</div>
-                <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#2a2a2a', letterSpacing: '0.06em' }}>{sub}</div>
+                <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em' }}>{sub}</div>
               </div>
               <div onClick={() => set(key, !form[key])}
                 style={{ width: 36, height: 20, borderRadius: 10, background: form[key] ? '#FDC21430' : '#1a1a1a', border: `1px solid ${form[key] ? '#FDC21440' : '#2a2a2a'}`, position: 'relative', cursor: 'pointer', flexShrink: 0, marginLeft: 16, transition: 'background 0.2s' }}>

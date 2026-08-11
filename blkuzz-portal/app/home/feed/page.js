@@ -261,7 +261,7 @@ function Ticker({ items }) {
     const doubled = [...TICKER_BLOCK_WIDTHS, ...TICKER_BLOCK_WIDTHS]
     return (
       <div className="border-t border-b border-[#1a1a1a] overflow-hidden py-1.5" style={{ background: '#0a0a0a' }}>
-        <div className="flex gap-10 animate-ticker whitespace-nowrap" style={{ width: 'max-content' }}>
+        <div className="inline-flex gap-10 animate-ticker whitespace-nowrap" style={{ width: 'max-content', WebkitTransform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}>
           {doubled.map((len, i) => (
             <span key={i} className="font-mono text-[9px] flex items-center gap-2 animate-pulse"
               style={{ color: '#1e1e1e', animationDelay: `${(i % 6) * 0.28}s`, animationDuration: '2.4s' }}>
@@ -279,7 +279,7 @@ function Ticker({ items }) {
   const doubled = [...items, ...items]
   return (
     <div className="border-t border-b border-[#1a1a1a] overflow-hidden py-1.5" style={{ background: '#0a0a0a' }}>
-      <div className="flex gap-10 animate-ticker whitespace-nowrap" style={{ width: 'max-content' }}>
+      <div className="inline-flex gap-10 animate-ticker whitespace-nowrap" style={{ width: 'max-content', WebkitTransform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}>
         {doubled.map((item, i) => (
           <span key={i} className="font-mono text-[9px] tracking-[0.12em] flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
             <span style={{ color: item.color }}>{item.prefix}</span>
@@ -857,7 +857,7 @@ export default function FeedPage() {
 
             <div className="overflow-y-auto flex-1">
               {inboxLoading && (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 32, fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>LOADING...</div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 32, fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</div>
               )}
               {!inboxLoading && conversations.length === 0 && (
                 <p className="font-mono text-[8px] text-center py-8" style={{ color: 'rgba(255,255,255,0.3)' }}>No messages</p>

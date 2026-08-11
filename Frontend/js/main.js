@@ -244,13 +244,13 @@ document.getElementById('applyForm').addEventListener('submit', async e => {
   const password = document.getElementById('fieldPassword').value
   const location = document.getElementById('fieldLocation').value.trim()
   const phone    = document.getElementById('fieldPhone').value.trim()
-  const bio      = document.getElementById('fieldBio').value.trim()
 
-  if (!name || !username || !email || !password || !location || !phone || !bio) { showToast('Missing fields', 'Please fill in all required fields.'); return }
+  if (!name || !username || !email || !password || !location || !phone) { showToast('Missing fields', 'Please fill in all required fields.'); return }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))          { showToast('Invalid email', 'Please enter a valid email address.'); return }
   if (!/^[a-z0-9_]{3,20}$/.test(username.toLowerCase()))  { showToast('Invalid username', 'Username must be 3–20 characters: letters, numbers or underscores only.'); return }
   if (password.length < 8)                                  { showToast('Weak password', 'Password must be at least 8 characters.'); return }
   if (!PHONE_RE.test(phone))                                { showToast('Invalid phone', 'Please enter a valid phone number.'); return }
+  if (!selectedTags.length)                                 { showToast('Select tags', 'Please pick at least one tag.'); return }
   const locCheck = validateLocation(location)
   if (!locCheck.valid)                                      { showToast('Invalid location', locCheck.error); return }
   if (!phoneVerified)                                       { showToast('Verify your number', 'Please verify your phone number before submitting.'); return }
@@ -259,7 +259,7 @@ document.getElementById('applyForm').addEventListener('submit', async e => {
     const res  = await fetch(`${API}/signups`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ name, username, email, password, tags: selectedTags, location, phone, bio })
+      body:    JSON.stringify({ name, username, email, password, tags: selectedTags, location, phone })
     })
     const data = await res.json()
     if (res.status === 409) {

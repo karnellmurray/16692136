@@ -50,7 +50,7 @@ function agentNum(id) {
 
 function SectionLabel({ children }) {
   return (
-    <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.25em', color: '#2a2a2a', textTransform: 'uppercase', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
       {children}
       <div style={{ flex: 1, height: 1, background: '#141414' }} />
     </div>
@@ -63,10 +63,10 @@ function IdPhoto({ avatarUrl, name, username }) {
   const inits = initials(name, username)
 
   return (
-    <div style={{ width: 80, height: 96, flexShrink: 0, position: 'relative', overflow: 'hidden', background: '#0d0d0d' }}>
+    <div style={{ width: 108, height: 130, flexShrink: 0, position: 'relative', overflow: 'hidden', background: '#0d0d0d' }}>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `linear-gradient(${GREEN}06 1px, transparent 1px), linear-gradient(90deg, ${GREEN}06 1px, transparent 1px)`, backgroundSize: '10px 10px', pointerEvents: 'none' }} />
       <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {(!avatarUrl || imgError) && <span style={{ fontFamily: MONO, fontWeight: 700, fontSize: 26, color: `${GREEN}40`, position: 'relative', zIndex: 1 }}>{inits}</span>}
+        {(!avatarUrl || imgError) && <span style={{ fontFamily: MONO, fontWeight: 700, fontSize: 34, color: `${GREEN}40`, position: 'relative', zIndex: 1 }}>{inits}</span>}
         {avatarUrl && !imgError && <img src={avatarUrl} alt="" onError={() => setImgError(true)} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />}
       </div>
       <div className="pf-scanline" style={{ position: 'absolute', left: 0, right: 0, height: 2, background: `${GREEN}25`, zIndex: 2 }} />
@@ -74,7 +74,7 @@ function IdPhoto({ avatarUrl, name, username }) {
       <div style={{ position: 'absolute', top: 3, right: 3, width: 8, height: 8, borderTop: `1px solid ${GREEN}40`, borderRight: `1px solid ${GREEN}40`, zIndex: 3 }} />
       <div style={{ position: 'absolute', bottom: 3, left: 3, width: 8, height: 8, borderBottom: `1px solid ${GREEN}40`, borderLeft: `1px solid ${GREEN}40`, zIndex: 3 }} />
       <div style={{ position: 'absolute', bottom: 3, right: 3, width: 8, height: 8, borderBottom: `1px solid ${GREEN}40`, borderRight: `1px solid ${GREEN}40`, zIndex: 3 }} />
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: '#00000080', fontFamily: MONO, fontSize: 6, letterSpacing: '0.15em', color: `${GREEN}80`, textAlign: 'center', padding: '2px 0', textTransform: 'uppercase', zIndex: 3 }}>ID Photo</div>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: '#00000080', fontFamily: MONO, fontSize: 7, letterSpacing: '0.15em', color: `${GREEN}80`, textAlign: 'center', padding: '2px 0', textTransform: 'uppercase', zIndex: 3 }}>ID Photo</div>
     </div>
   )
 }
@@ -110,23 +110,23 @@ function ProjectRow({ project }) {
   const totalChapters     = project.chapters?.length ?? 0
 
   return (
-    <Link href={`/home/projects/${project.slug}`} style={{ display: 'flex', gap: 10, padding: '10px 0', borderBottom: '1px solid #0f0f0f', alignItems: 'center', textDecoration: 'none' }}>
-      <div style={{ width: 3, height: 40, background: color, flexShrink: 0 }} />
+    <Link href={`/home/projects/${project.slug}`} style={{ display: 'flex', gap: 10, padding: '12px 0', borderBottom: '1px solid #0f0f0f', alignItems: 'center', textDecoration: 'none' }}>
+      <div style={{ width: 3, height: 44, background: color, flexShrink: 0 }} />
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontFamily: MONO, fontSize: 6, color, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 2 }}>
+        <div style={{ fontFamily: MONO, fontSize: 7, color, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 3 }}>
           {project.disciplines?.length > 0 ? project.disciplines.slice(0, 3).join(' · ') : 'Project'}
         </div>
-        <div className="font-head" style={{ fontSize: 12, color: GOLD, letterSpacing: '2px', marginBottom: 3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <div className="font-head" style={{ fontSize: 14, color: GOLD, letterSpacing: '2px', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {project.title}
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <span style={{ fontFamily: MONO, fontSize: 7, color: '#fff' }}>{project.followers?.length ?? project.followerCount ?? 0} followers</span>
-          {project.updatedAt && <span style={{ fontFamily: MONO, fontSize: 7, color: '#fff' }}>{timeAgo(project.updatedAt)}</span>}
-          <span style={{ fontFamily: MONO, fontSize: 7, color: project.status === 'active' ? GREEN : '#2a2a2a', textTransform: 'uppercase' }}>{project.status}</span>
+          <span style={{ fontFamily: MONO, fontSize: 8, color: '#fff' }}>{project.followers?.length ?? project.followerCount ?? 0} followers</span>
+          {project.updatedAt && <span style={{ fontFamily: MONO, fontSize: 8, color: '#fff' }}>{timeAgo(project.updatedAt)}</span>}
+          <span style={{ fontFamily: MONO, fontSize: 8, color: project.status === 'active' ? GREEN : 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>{project.status}</span>
         </div>
       </div>
-      <div style={{ width: 50, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-        <span style={{ fontFamily: MONO, fontSize: 8, color }}>{project.progress ?? 0}%</span>
+      <div style={{ width: 54, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
+        <span style={{ fontFamily: MONO, fontSize: 9, color }}>{project.progress ?? 0}%</span>
         <div style={{ width: '100%', height: 2, background: '#1a1a1a', borderRadius: 1 }}>
           <div style={{ height: '100%', width: `${project.progress ?? 0}%`, background: color, borderRadius: 1 }} />
         </div>
@@ -261,19 +261,19 @@ export default function ProfilePage() {
   }
 
   if (loading) return (
-    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
       LOADING...
     </div>
   )
 
   if (notFound) return (
-    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
       MEMBER FILE NOT FOUND
     </div>
   )
 
   if (data?.isBlocked) return (
-    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#2a2a2a', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
       THIS PROFILE IS NOT AVAILABLE
     </div>
   )
@@ -338,46 +338,46 @@ export default function ProfilePage() {
             <div style={{ display: 'flex', gap: 14, marginBottom: 14, position: 'relative' }}>
               <IdPhoto avatarUrl={user.avatarUrl} name={user.name} username={user.username} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.2em', color: '#fff', textTransform: 'uppercase', marginBottom: 4 }}>
+                <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.2em', color: '#fff', textTransform: 'uppercase', marginBottom: 5 }}>
                   {blkuzzId}{user.location ? ` · ${user.location}` : ''}
                 </div>
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 2 }}>
-                  <div className="font-head" style={{ fontSize: 22, letterSpacing: '2px', color: GOLD, lineHeight: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 3 }}>
+                  <div className="font-head" style={{ fontSize: 27, letterSpacing: '2px', color: GOLD, lineHeight: 1 }}>
                     {user.name || user.username}
                   </div>
                   {!isOwn && (
                     collabStatus === 'accepted'
                       ? <Link href={`/home/inbox?with=${user._id}`}
-                          style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.12em', padding: '7px 14px', border: `1px solid ${GREEN}40`, color: GREEN, background: 'transparent', textTransform: 'uppercase', textDecoration: 'none', flexShrink: 0 }}>
+                          style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.12em', padding: '8px 16px', border: `1px solid ${GREEN}40`, color: GREEN, background: 'transparent', textTransform: 'uppercase', textDecoration: 'none', flexShrink: 0 }}>
                           Message
                         </Link>
                       : <button
                           onClick={sendCollab}
                           disabled={collabStatus === 'pending' || collabBusy}
-                          style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.12em', padding: '9px 18px', border: collabStatus === 'pending' ? '1px solid #555' : `1px solid ${GOLD}40`, color: collabStatus === 'pending' ? '#555' : GOLD, background: 'transparent', cursor: collabStatus === 'pending' ? 'default' : 'pointer', textTransform: 'uppercase', outline: 'none', flexShrink: 0 }}>
+                          style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.12em', padding: '10px 20px', border: collabStatus === 'pending' ? '1px solid #555' : `1px solid ${GOLD}40`, color: collabStatus === 'pending' ? '#555' : GOLD, background: 'transparent', cursor: collabStatus === 'pending' ? 'default' : 'pointer', textTransform: 'uppercase', outline: 'none', flexShrink: 0 }}>
                           {collabStatus === 'pending' ? 'Requested' : 'Collab'}
                         </button>
                   )}
                 </div>
-                <div style={{ fontFamily: MONO, fontSize: 9, color: '#fff', marginBottom: 8 }}>@{user.username}</div>
+                <div style={{ fontFamily: MONO, fontSize: 11, color: '#fff', marginBottom: 10 }}>@{user.username}</div>
                 {user.discipline && (
-                  <div style={{ display: 'inline-block', fontFamily: MONO, fontSize: 7, letterSpacing: '0.12em', padding: '2px 8px', border: `1px solid ${GREEN}30`, color: GREEN, textTransform: 'uppercase', marginBottom: 8 }}>
+                  <div style={{ display: 'inline-block', fontFamily: MONO, fontSize: 9, letterSpacing: '0.12em', padding: '3px 9px', border: `1px solid ${GREEN}30`, color: GREEN, textTransform: 'uppercase', marginBottom: 10 }}>
                     {user.discipline}
                   </div>
                 )}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3px 12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5px 12px' }}>
                   <div style={{ display: 'flex', gap: 6, alignItems: 'baseline' }}>
-                    <span style={{ fontFamily: MONO, fontSize: 6, letterSpacing: '0.12em', color: '#2a2a2a', textTransform: 'uppercase' }}>Status</span>
-                    <span style={{ fontFamily: MONO, fontSize: 8, color: GREEN }}>✓ Active</span>
+                    <span style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Status</span>
+                    <span style={{ fontFamily: MONO, fontSize: 10, color: GREEN }}>✓ Active</span>
                   </div>
                   <div style={{ display: 'flex', gap: 6, alignItems: 'baseline' }}>
-                    <span style={{ fontFamily: MONO, fontSize: 6, letterSpacing: '0.12em', color: '#2a2a2a', textTransform: 'uppercase' }}>Since</span>
-                    <span style={{ fontFamily: MONO, fontSize: 8, color: GREEN }}>{memberSince(user.createdAt)}</span>
+                    <span style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Since</span>
+                    <span style={{ fontFamily: MONO, fontSize: 10, color: GREEN }}>{memberSince(user.createdAt)}</span>
                   </div>
                   {user.location && (
                     <div style={{ display: 'flex', gap: 6, alignItems: 'baseline', gridColumn: '1 / -1' }}>
-                      <span style={{ fontFamily: MONO, fontSize: 6, letterSpacing: '0.12em', color: '#2a2a2a', textTransform: 'uppercase' }}>Base</span>
-                      <span style={{ fontFamily: MONO, fontSize: 8, color: '#555', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.location}</span>
+                      <span style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Base</span>
+                      <span style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.4)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.location}</span>
                     </div>
                   )}
                 </div>
@@ -386,18 +386,18 @@ export default function ProfilePage() {
 
             {/* Tags */}
             {user.tags?.length > 0 && (
-              <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 12, position: 'relative' }}>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14, position: 'relative' }}>
                 {user.tags.map((tag, i) => (
-                  <span key={i} className="font-head" style={{ fontSize: 7, letterSpacing: '2px', padding: '3px 10px', border: `1px solid ${GOLD}`, color: GOLD, textTransform: 'uppercase', borderRadius: 9999 }}>{tag}</span>
+                  <span key={i} className="font-head" style={{ fontSize: 9, letterSpacing: '2px', padding: '4px 12px', border: `1px solid ${GOLD}`, color: GOLD, textTransform: 'uppercase', borderRadius: 9999 }}>{tag}</span>
                 ))}
               </div>
             )}
 
             {/* Actions — own profile only */}
             {isOwn && (
-              <div style={{ display: 'flex', gap: 8, marginBottom: 14, position: 'relative' }}>
-                <Link href="/home/profile/edit" style={{ flex: 1, fontFamily: MONO, fontSize: 8, letterSpacing: '0.15em', padding: 9, border: `1px solid ${GOLD}40`, color: GOLD, background: 'transparent', textTransform: 'uppercase', textAlign: 'center', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-                  <Edit size={10} /> Edit Profile
+              <div style={{ display: 'flex', gap: 8, marginBottom: 16, position: 'relative' }}>
+                <Link href="/home/profile/edit" style={{ flex: 1, fontFamily: MONO, fontSize: 10, letterSpacing: '0.15em', padding: 11, border: `1px solid ${GOLD}40`, color: GOLD, background: 'transparent', textTransform: 'uppercase', textAlign: 'center', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                  <Edit size={12} /> Edit Profile
                 </Link>
               </div>
             )}
@@ -411,9 +411,9 @@ export default function ProfilePage() {
               { num: stats.callouts  ?? 0, label: 'Callouts',  color: '#ccc' },
               { num: stats.collabs   ?? 0, label: 'Collabs',   color: GOLD },
             ].map((s, i, arr) => (
-              <div key={i} style={{ padding: '12px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, borderRight: i < arr.length - 1 ? '1px solid #141414' : 'none' }}>
-                <div style={{ fontSize: 22, fontWeight: 900, letterSpacing: '-0.03em', color: s.color, lineHeight: 1 }}>{s.num}</div>
-                <div style={{ fontFamily: MONO, fontSize: 6, letterSpacing: '0.15em', color: '#2a2a2a', textTransform: 'uppercase' }}>{s.label}</div>
+              <div key={i} style={{ padding: '14px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, borderRight: i < arr.length - 1 ? '1px solid #141414' : 'none' }}>
+                <div style={{ fontSize: 26, fontWeight: 900, letterSpacing: '-0.03em', color: s.color, lineHeight: 1 }}>{s.num}</div>
+                <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -422,7 +422,7 @@ export default function ProfilePage() {
           <div style={{ display: 'flex', borderBottom: '1px solid #141414', overflowX: 'auto', scrollbarWidth: 'none', position: 'sticky', top: 0, background: '#0a0a0a', zIndex: 10 }}>
             {TABS.map(t => (
               <button key={t} onClick={() => setTab(t)}
-                style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.15em', padding: '10px 14px', color: tab === t ? GOLD : '#333', cursor: 'pointer', textTransform: 'uppercase', whiteSpace: 'nowrap', background: 'transparent', border: 'none', outline: 'none', borderBottom: tab === t ? `2px solid ${GOLD}` : '2px solid transparent' }}>
+                style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.15em', padding: '12px 16px', color: tab === t ? GOLD : '#444', cursor: 'pointer', textTransform: 'uppercase', whiteSpace: 'nowrap', background: 'transparent', border: 'none', outline: 'none', borderBottom: tab === t ? `2px solid ${GOLD}` : '2px solid transparent' }}>
                 {t}
               </button>
             ))}
@@ -440,14 +440,14 @@ export default function ProfilePage() {
                   <div>
                     <SectionLabel>Profile</SectionLabel>
                     {user.bio
-                      ? <div style={{ fontSize: 11, color: '#fff', lineHeight: 1.65, marginBottom: 12 }}>{user.bio}</div>
-                      : <div style={{ fontFamily: MONO, fontSize: 8, color: '#2a2a2a' }}>No bio on file.</div>
+                      ? <div style={{ fontSize: 13, color: '#fff', lineHeight: 1.65, marginBottom: 12 }}>{user.bio}</div>
+                      : <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)' }}>No bio on file.</div>
                     }
                     {user.links?.portfolio && (
                       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
                         <a href={user.links.portfolio} target="_blank" rel="noopener noreferrer"
-                          style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.08em', padding: '3px 8px', border: '1px solid #1e1e1e', color: '#444', textTransform: 'uppercase', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
-                          <ExternalLink size={8} /> Website
+                          style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.08em', padding: '4px 9px', border: '1px solid #1e1e1e', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <ExternalLink size={9} /> Website
                         </a>
                       </div>
                     )}
@@ -457,12 +457,12 @@ export default function ProfilePage() {
                   <div>
                     <SectionLabel>Skills</SectionLabel>
                     {user.skills?.length > 0
-                      ? <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                      ? <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                           {user.skills.map((s, i) => (
-                            <span key={i} style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.08em', padding: '5px 12px', border: '1px solid #FDC21440', color: '#FDC214', textTransform: 'uppercase', borderRadius: 9999 }}>{s}</span>
+                            <span key={i} style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.08em', padding: '6px 13px', border: '1px solid #FDC21440', color: '#FDC214', textTransform: 'uppercase', borderRadius: 9999 }}>{s}</span>
                           ))}
                         </div>
-                      : <div style={{ fontFamily: MONO, fontSize: 8, color: '#2a2a2a', textAlign: 'center' }}>No skills on file.</div>
+                      : <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No skills on file.</div>
                     }
                   </div>
 
@@ -475,7 +475,7 @@ export default function ProfilePage() {
                     <div>
                       <SectionLabel>Active projects</SectionLabel>
                       {projects.filter(p => p.status === 'active').length === 0
-                        ? <div style={{ fontFamily: MONO, fontSize: 8, color: '#2a2a2a', textAlign: 'center' }}>None on file.</div>
+                        ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>None on file.</div>
                         : projects.filter(p => p.status === 'active').slice(0, 3).map(p => <ProjectRow key={p._id} project={p} />)
                       }
                     </div>
@@ -484,18 +484,18 @@ export default function ProfilePage() {
                     <div>
                       <SectionLabel>Collaborations</SectionLabel>
                       {collabs.length === 0
-                        ? <div style={{ fontFamily: MONO, fontSize: 8, color: '#2a2a2a', textAlign: 'center' }}>None on file.</div>
+                        ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>None on file.</div>
                         : collabs.slice(0, 3).map(c => {
                             const color = projColor(c.title)
                             return (
                               <Link key={c._id} href={`/home/projects/${c.slug}`}
-                                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: '1px solid #0f0f0f', textDecoration: 'none' }}>
-                                <CollabAvatar creator={c.creator} size={28} color={color} />
+                                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', borderBottom: '1px solid #0f0f0f', textDecoration: 'none' }}>
+                                <CollabAvatar creator={c.creator} size={34} color={color} />
                                 <div style={{ flex: 1, minWidth: 0 }}>
-                                  <div style={{ fontSize: 11, color: GOLD, letterSpacing: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} className="font-head">{c.title}</div>
-                                  <div style={{ fontFamily: MONO, fontSize: 7, color: '#fff' }}>{c.role || 'Collaborator'} <span style={{ color: '#00aaff' }}>@{c.creator?.username}</span></div>
+                                  <div style={{ fontSize: 13, color: GOLD, letterSpacing: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} className="font-head">{c.title}</div>
+                                  <div style={{ fontFamily: MONO, fontSize: 8, color: '#fff' }}>{c.role || 'Collaborator'} <span style={{ color: '#00aaff' }}>@{c.creator?.username}</span></div>
                                 </div>
-                                <div style={{ fontFamily: MONO, fontSize: 7, color: c.status === 'active' ? GREEN : '#2a2a2a', textTransform: 'uppercase', flexShrink: 0 }}>{c.status}</div>
+                                <div style={{ fontFamily: MONO, fontSize: 8, color: c.status === 'active' ? GREEN : 'rgba(255,255,255,0.4)', textTransform: 'uppercase', flexShrink: 0 }}>{c.status}</div>
                               </Link>
                             )
                           })
@@ -512,7 +512,7 @@ export default function ProfilePage() {
               <div>
                 <SectionLabel>All projects ({projects.length})</SectionLabel>
                 {projects.length === 0
-                  ? <div style={{ fontFamily: MONO, fontSize: 8, color: '#2a2a2a', textAlign: 'center' }}>No projects on file.</div>
+                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No projects on file.</div>
                   : projects.map(p => <ProjectRow key={p._id} project={p} />)
                 }
               </div>
@@ -523,21 +523,21 @@ export default function ProfilePage() {
               <div>
                 <SectionLabel>Collaboration history ({collabs.length})</SectionLabel>
                 {collabs.length === 0
-                  ? <div style={{ fontFamily: MONO, fontSize: 8, color: '#2a2a2a', textAlign: 'center' }}>No collaborations on file.</div>
+                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No collaborations on file.</div>
                   : collabs.map(c => {
                       const color = projColor(c.title)
                       return (
                         <Link key={c._id} href={`/home/projects/${c.slug}`}
-                          style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '1px solid #0f0f0f', textDecoration: 'none' }}>
-                          <CollabAvatar creator={c.creator} size={32} color={color} />
+                          style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 0', borderBottom: '1px solid #0f0f0f', textDecoration: 'none' }}>
+                          <CollabAvatar creator={c.creator} size={38} color={color} />
                           <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ fontSize: 12, color: GOLD, letterSpacing: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} className="font-head">{c.title}</div>
-                            <div style={{ fontFamily: MONO, fontSize: 7, color: '#fff', marginTop: 2 }}>{c.role || 'Collaborator'} <span style={{ color: '#00aaff' }}>@{c.creator?.username}</span></div>
-                            {c.disciplines?.length > 0 && <div style={{ fontFamily: MONO, fontSize: 6, color: GOLD, textTransform: 'uppercase', marginTop: 2 }}>{c.disciplines.join(' · ')}</div>}
+                            <div style={{ fontSize: 14, color: GOLD, letterSpacing: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} className="font-head">{c.title}</div>
+                            <div style={{ fontFamily: MONO, fontSize: 8, color: '#fff', marginTop: 3 }}>{c.role || 'Collaborator'} <span style={{ color: '#00aaff' }}>@{c.creator?.username}</span></div>
+                            {c.disciplines?.length > 0 && <div style={{ fontFamily: MONO, fontSize: 7, color: GOLD, textTransform: 'uppercase', marginTop: 3 }}>{c.disciplines.join(' · ')}</div>}
                           </div>
                           <div style={{ flexShrink: 0, textAlign: 'right' }}>
-                            <div style={{ fontFamily: MONO, fontSize: 7, color: c.status === 'active' ? GREEN : color, textTransform: 'uppercase' }}>{c.status}</div>
-                            {c.updatedAt && <div style={{ fontFamily: MONO, fontSize: 6, color: '#2a2a2a', marginTop: 2 }}>{timeAgo(c.updatedAt)}</div>}
+                            <div style={{ fontFamily: MONO, fontSize: 8, color: c.status === 'active' ? GREEN : color, textTransform: 'uppercase' }}>{c.status}</div>
+                            {c.updatedAt && <div style={{ fontFamily: MONO, fontSize: 7, color: 'rgba(255,255,255,0.4)', marginTop: 3 }}>{timeAgo(c.updatedAt)}</div>}
                           </div>
                         </Link>
                       )
@@ -551,7 +551,7 @@ export default function ProfilePage() {
               <div>
                 <SectionLabel>Media</SectionLabel>
                 {media.length === 0
-                  ? <div style={{ fontFamily: MONO, fontSize: 8, color: '#2a2a2a', textAlign: 'center' }}>No media on file.</div>
+                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No media on file.</div>
                   : (
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
                       {media.flatMap(post =>
@@ -576,12 +576,12 @@ export default function ProfilePage() {
               <div>
                 <SectionLabel>Recent activity</SectionLabel>
                 {activity.length === 0
-                  ? <div style={{ fontFamily: MONO, fontSize: 8, color: '#2a2a2a', textAlign: 'center' }}>No activity on file.</div>
+                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No activity on file.</div>
                   : activity.map((post, i) => (
-                    <div key={post._id ?? i} style={{ display: 'flex', gap: 10, padding: '9px 0', borderBottom: '1px solid #0f0f0f', alignItems: 'flex-start' }}>
-                      <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#2a2a2a', flexShrink: 0, marginTop: 6 }} />
+                    <div key={post._id ?? i} style={{ display: 'flex', gap: 10, padding: '11px 0', borderBottom: '1px solid #0f0f0f', alignItems: 'flex-start' }}>
+                      <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#2a2a2a', flexShrink: 0, marginTop: 8 }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 11, color: '#555', lineHeight: 1.4 }}>
+                        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.4 }}>
                           Posted {post.type === 'milestone' ? 'a milestone' : post.type === 'media' ? 'media' : 'an update'} to{' '}
                           {post.project
                             ? <Link href={`/home/projects/${post.project.slug}`} className="font-head" style={{ color: GOLD, textDecoration: 'none', letterSpacing: '2px' }}>{post.project.title}</Link>
@@ -589,12 +589,12 @@ export default function ProfilePage() {
                           }
                         </div>
                         {post.content && (
-                          <div style={{ fontFamily: MONO, fontSize: 8, color: '#fff', marginTop: 4, lineHeight: 1.4, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                          <div style={{ fontFamily: MONO, fontSize: 9, color: '#fff', marginTop: 5, lineHeight: 1.4, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                             {post.content}
                           </div>
                         )}
                       </div>
-                      <div style={{ fontFamily: MONO, fontSize: 7, color: '#2a2a2a', flexShrink: 0, marginTop: 1 }}>
+                      <div style={{ fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', flexShrink: 0, marginTop: 1 }}>
                         {timeAgo(post.createdAt)}
                       </div>
                     </div>
@@ -613,7 +613,7 @@ export default function ProfilePage() {
             <div className="font-head" style={{ fontSize: 13, color: '#fff', letterSpacing: '2px', marginBottom: 8 }}>
               {dotsConfirm === 'block' ? 'Block' : 'Block & Report'} <span style={{ color: GOLD }}>@{user?.username}?</span>
             </div>
-            <p style={{ fontFamily: MONO, fontSize: 9, color: '#555', lineHeight: 1.7, marginBottom: 24, letterSpacing: '0.05em' }}>
+            <p style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, marginBottom: 24, letterSpacing: '0.05em' }}>
               {dotsConfirm === 'block'
                 ? 'They will no longer be able to message you or see your profile.'
                 : 'This member will be blocked and reported to the Blkuzz team for review.'
@@ -621,7 +621,7 @@ export default function ProfilePage() {
             </p>
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={() => setDotsConfirm(null)}
-                style={{ flex: 1, fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '9px 0', background: 'none', border: '1px solid #2a2a2a', color: '#555', cursor: 'pointer' }}>
+                style={{ flex: 1, fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '9px 0', background: 'none', border: '1px solid #2a2a2a', color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }}>
                 Cancel
               </button>
               <button onClick={() => executeBlock(dotsConfirm === 'block-report')}
@@ -647,7 +647,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Profile being shared */}
-            <div style={{ padding: '8px 14px', borderBottom: '1px solid #111', fontFamily: MONO, fontSize: 8, color: '#444', letterSpacing: '0.1em' }}>
+            <div style={{ padding: '8px 14px', borderBottom: '1px solid #111', fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>
               Sharing <span style={{ color: '#888' }}>@{user?.username}</span>&apos;s member file
             </div>
 
@@ -666,7 +666,7 @@ export default function ProfilePage() {
             {/* Members list */}
             <div style={{ overflowY: 'auto', flex: 1, scrollbarWidth: 'none' }}>
               {shareMembers.length === 0 && (
-                <div style={{ padding: '20px 14px', fontFamily: MONO, fontSize: 8, color: '#2a2a2a', textAlign: 'center', letterSpacing: '0.15em' }}>LOADING...</div>
+                <div style={{ padding: '20px 14px', fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', textAlign: 'center', letterSpacing: '0.15em' }}>LOADING...</div>
               )}
               {shareMembers
                 .filter(m => {
@@ -685,12 +685,12 @@ export default function ProfilePage() {
                       <div style={{ width: 28, height: 28, borderRadius: '50%', flexShrink: 0, overflow: 'hidden', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {m.avatar
                           ? <img src={m.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.currentTarget.style.display = 'none' }} />
-                          : <span style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, color: '#444' }}>{(m.username || '?')[0].toUpperCase()}</span>
+                          : <span style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.4)' }}>{(m.username || '?')[0].toUpperCase()}</span>
                         }
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontFamily: MONO, fontSize: 9, color: GOLD, letterSpacing: '0.05em', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>@{m.username}</div>
-                        {m.name && <div style={{ fontFamily: MONO, fontSize: 7, color: '#444', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.name}</div>}
+                        {m.name && <div style={{ fontFamily: MONO, fontSize: 7, color: 'rgba(255,255,255,0.4)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.name}</div>}
                       </div>
                       <button
                         onClick={() => handleShareSend(String(m.id))}
