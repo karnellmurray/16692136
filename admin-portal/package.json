@@ -15,7 +15,8 @@
     "next": "14.2.35",
     "next-auth": "^4.24.14",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "twilio": "^6.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.5.2",

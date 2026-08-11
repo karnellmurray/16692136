@@ -8,6 +8,18 @@ const SignupSchema = new mongoose.Schema({
   discipline:   { type: String },
   location:     { type: String },
   bio:          { type: String },
+  phone: {
+    type: String, trim: true,
+    set: v => {
+      if (!v) return v
+      const c = v.replace(/[\s\-\(\)]/g, '')
+      if (c.startsWith('07'))                        return '+44' + c.slice(1)
+      if (c.startsWith('44') && !c.startsWith('+')) return '+' + c
+      return c
+    }
+  },
+  blkuzzId:     { type: String },
+  smsNotifications: { type: Boolean, default: true },
   tags:         [{ type: String }],
   avatar:       { url: String, key: String },
   profileImage: { type: String },
