@@ -30,7 +30,7 @@ exports.getMembers = async (req, res) => {
 
     const [members, total] = await Promise.all([
       Signup.find(filter)
-            .select('-email')
+            .select('-email -passwordHash -phone')
             .skip(skip)
             .limit(limit)
             .lean(),
@@ -60,7 +60,7 @@ exports.getSpotlightMember = async (req, res) => {
   try {
     const [member] = await Signup.aggregate([
       { $sample: { size: 1 } },
-      { $project: { email: 0 } }
+      { $project: { email: 0, passwordHash: 0, phone: 0 } }
     ])
 
     if (!member) return res.json({ member: null })
@@ -80,7 +80,7 @@ exports.getFeaturedMembers = async (req, res) => {
   try {
     const members = await Signup.aggregate([
       { $sample: { size: 5 } },
-      { $project: { email: 0 } }
+      { $project: { email: 0, passwordHash: 0, phone: 0 } }
     ])
 
     await Promise.all(members.map(async m => {
@@ -97,7 +97,7 @@ exports.getFeaturedMembers = async (req, res) => {
 exports.getMemberByUsername = async (req, res) => {
   try {
     const member = await Signup.findOne({ username: req.params.username.toLowerCase() })
-                             .select('-passwordHash -email')
+                             .select('-passwordHash -email -phone')
                              .lean()
 
     if (!member) {
