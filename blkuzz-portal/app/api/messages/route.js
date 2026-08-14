@@ -54,13 +54,16 @@ export async function GET() {
     { $sort: { 'lastMessage.createdAt': -1 } }
   ])
 
-  const normalised = conversations.map(c => ({
-    ...c,
-    user: c.user ? {
-      ...c.user,
-      avatarUrl: toUrl(c.user.avatar?.url || (typeof c.user.avatar === 'string' ? c.user.avatar : null) || c.user.profileImage || null),
-    } : c.user,
-  }))
+  const normalised = conversations.map(c => {
+    const { passwordHash, resetPasswordToken, resetPasswordExpires, email, phone, ...safeUser } = c.user ?? {}
+    return {
+      ...c,
+      user: c.user ? {
+        ...safeUser,
+        avatarUrl: toUrl(c.user.avatar?.url || (typeof c.user.avatar === 'string' ? c.user.avatar : null) || c.user.profileImage || null),
+      } : c.user,
+    }
+  })
 
   return NextResponse.json(normalised)
 }

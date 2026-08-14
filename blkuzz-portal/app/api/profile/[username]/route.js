@@ -26,7 +26,7 @@ export async function GET(req, { params }) {
   await connectDB()
 
   const escaped = username.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const user = await Signup.findOne({ username: { $regex: new RegExp(`^${escaped}$`, 'i') } }, '-passwordHash').lean()
+  const user = await Signup.findOne({ username: { $regex: new RegExp(`^${escaped}$`, 'i') } }, '-passwordHash -resetPasswordToken -resetPasswordExpires -email -phone').lean()
   if (!user) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
   const userId = user._id

@@ -14,7 +14,7 @@ export async function GET() {
 
   await connectDB()
   const user = await Signup.findById(session.user.id)
-    .select('-passwordHash')
+    .select('-passwordHash -resetPasswordToken -resetPasswordExpires')
     .lean()
 
   return NextResponse.json({

@@ -22,8 +22,9 @@ export async function GET(req) {
   await connectDB()
 
   // Lobby = all members; otherwise filter by tag
-  const query = tag && tag !== 'lobby'
-    ? { tags: { $regex: new RegExp(`^${tag}$`, 'i') } }
+  const escapedTag = tag?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const query = escapedTag && escapedTag !== 'lobby'
+    ? { tags: { $regex: new RegExp(`^${escapedTag}$`, 'i') } }
     : {}
 
   const users = await Signup.find(query)

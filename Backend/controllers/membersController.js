@@ -3,6 +3,8 @@ const Signup        = require('../models/Signup')
 const { presignAvatar } = require('../config/aws')
 const { normalisePhone } = require('../utils/phone')
 
+const escapeRegex = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
 exports.getMembers = async (req, res) => {
   try {
     const page   = Math.max(1, parseInt(req.query.page)  || 1)
@@ -12,15 +14,16 @@ exports.getMembers = async (req, res) => {
     const filter = {}
 
     if (req.query.category) {
+      const category    = String(req.query.category)
       const db          = require('mongoose').connection.db
-      const categoryTags = await db.collection('tags').find({ category: req.query.category }, { projection: { name: 1, _id: 0 } }).toArray()
-      filter.tags = { $in: [req.query.category, ...categoryTags.map(t => t.name)] }
+      const categoryTags = await db.collection('tags').find({ category }, { projection: { name: 1, _id: 0 } }).toArray()
+      filter.tags = { $in: [category, ...categoryTags.map(t => t.name)] }
     } else if (req.query.tag) {
-      filter.tags = req.query.tag
+      filter.tags = String(req.query.tag)
     }
 
     if (req.query.search) {
-      const regex = new RegExp(req.query.search.trim(), 'i')
+      const regex = new RegExp(escapeRegex(String(req.query.search).trim()), 'i')
       filter.$or = [
         { name: regex },
         { bio:  regex },
