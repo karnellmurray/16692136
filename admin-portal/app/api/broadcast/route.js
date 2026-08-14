@@ -33,8 +33,18 @@ export async function DELETE(req) {
   if (!id) return NextResponse.json({ error: 'Broadcast id is required.' }, { status: 400 })
 
   await connectDB()
-  const deleted = await BroadcastLog.findByIdAndDelete(id)
-  if (!deleted) return NextResponse.json({ error: 'Broadcast not found.' }, { status: 404 })
+
+  // Logs within the rate-limit window count toward it — deleting them early
+  // would let the 3/hour cap be bypassed by send-then-delete-then-send.
+  const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_MS)
+  const deleted = await BroadcastLog.findOneAndDelete({ _id: id, sentAt: { $lte: windowStart } })
+  if (!deleted) {
+    const stillActive = await BroadcastLog.exists({ _id: id })
+    return NextResponse.json(
+      { error: stillActive ? 'This broadcast is still within the rate-limit window and can’t be deleted yet.' : 'Broadcast not found.' },
+      { status: stillActive ? 409 : 404 }
+    )
+  }
 
   return NextResponse.json({ ok: true })
 }
