@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/authOptions'
 import connectDB from '@/lib/mongodb'
 import BulletinPost from '@/models/BulletinPost'
 import '@/models/Project'
+import '@/models/Block'
+import { getBlockedIds } from '@/lib/blockCheck'
 
 const cdn   = (process.env.AWS_S3_CLOUDFRONT_URL ?? '').replace(/\/$/, '')
 const s3    = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`
@@ -20,6 +22,12 @@ export async function GET(req) {
       : { completed: { $ne: true } }
 
     await connectDB()
+
+    if (!mine) {
+      const blockedIds = await getBlockedIds(session.user.id)
+      if (blockedIds.length) query.author = { $nin: blockedIds }
+    }
+
     const posts = await BulletinPost.find(query)
       .populate('author', 'username avatar profileImage')
       .populate('projectRef', 'title slug status coverImage')

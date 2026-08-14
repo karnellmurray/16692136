@@ -22,14 +22,9 @@ function extractKey(urlOrKey) {
 async function presignAvatar(urlOrKey, expiresIn = 3600) {
   try {
     const key = extractKey(urlOrKey)
-    console.log('[avatar] raw value:', urlOrKey)
-    console.log('[avatar] extracted key:', key)
-    console.log('[avatar] bucket:', BUCKET)
     if (!key || !BUCKET) return urlOrKey
     const command = new GetObjectCommand({ Bucket: BUCKET, Key: key })
-    const signed = await getSignedUrl(s3, command, { expiresIn })
-    console.log('[avatar] presigned URL:', signed)
-    return signed
+    return await getSignedUrl(s3, command, { expiresIn })
   } catch (err) {
     console.error('[avatar] presign error:', err.message)
     return urlOrKey

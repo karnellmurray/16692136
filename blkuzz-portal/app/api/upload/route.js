@@ -78,7 +78,8 @@ export async function POST(req) {
 
   const formData = await req.formData()
   const file     = formData.get('file')
-  const type     = formData.get('type') ?? 'post' // 'avatar' | 'cover' | 'post'
+  const rawType  = formData.get('type')
+  const type     = ['avatar', 'cover', 'post'].includes(rawType) ? rawType : 'post'
   if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 })
 
   const raw  = Buffer.from(await file.arrayBuffer())
@@ -93,8 +94,11 @@ export async function POST(req) {
       contentType = 'video/mp4'
       ext         = 'mp4'
     } catch {
+      // Processing failed -- don't trust the client-claimed MIME type for
+      // the raw fallback (could be used to store e.g. text/html and have
+      // it served back with that content-type from the CDN).
       buffer      = raw
-      contentType = file.type
+      contentType = 'application/octet-stream'
       ext         = inputExt
     }
   } else {
@@ -104,7 +108,7 @@ export async function POST(req) {
       ext         = 'webp'
     } catch {
       buffer      = raw
-      contentType = file.type || 'application/octet-stream'
+      contentType = 'application/octet-stream'
       ext         = file.name.split('.').pop().toLowerCase() || 'jpg'
     }
   }

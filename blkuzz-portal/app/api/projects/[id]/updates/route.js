@@ -15,7 +15,7 @@ export async function POST(req, { params }) {
   await connectDB()
   const project = await Project.findById(params.id)
   if (!project) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  if (project.author.toString() !== session.user.id) {
+  if (project.creator.toString() !== session.user.id) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 

@@ -3,6 +3,10 @@ import bcrypt from 'bcryptjs'
 import connectDB from '@/lib/mongodb'
 import Signup from '@/models/Signup'
 import Notification from '@/models/Notification'
+import { isRateLimited, recordAttempt } from '@/lib/rateLimit'
+
+const LOGIN_MAX_FAILURES = 5
+const LOGIN_WINDOW_MS    = 15 * 60 * 1000
 
 export const authOptions = {
   providers: [
@@ -14,14 +18,23 @@ export const authOptions = {
       },
       async authorize(credentials) {
         await connectDB()
-        const identifier = credentials.username.trim().toLowerCase()
+        const identifier   = credentials.username.trim().toLowerCase()
+        const rateLimitKey = `login:${identifier}`
+
+        if (await isRateLimited(rateLimitKey, { max: LOGIN_MAX_FAILURES, windowMs: LOGIN_WINDOW_MS })) {
+          throw new Error('Too many failed login attempts. Please wait 15 minutes and try again.')
+        }
 
         const user = await Signup.findOne({
           $or: [{ username: identifier }, { email: identifier }]
         })
 
-        if (!user) return null
+        if (!user) {
+          await recordAttempt(rateLimitKey, false)
+          return null
+        }
         const valid = await bcrypt.compare(credentials.password, user.passwordHash)
+        await recordAttempt(rateLimitKey, valid)
         if (!valid) return null
 
         await Signup.findByIdAndUpdate(user._id, { lastActiveAt: new Date(), isOnline: true })

@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/authOptions'
 import connectDB from '@/lib/mongodb'
 import GroupMessage from '@/models/GroupMessage'
 import '@/models/Project'
+import '@/models/Block'
+import { getBlockedIds } from '@/lib/blockCheck'
 
 const cdn    = (process.env.AWS_S3_CLOUDFRONT_URL ?? '').replace(/\/$/, '')
 const s3Base = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`
@@ -30,10 +32,13 @@ export async function GET(req) {
 
   await connectDB()
 
+  const blockedIds = await getBlockedIds(session.user.id)
+
   // Include legacy messages (no room field) in lobby
   const query = room === 'lobby'
     ? { $or: [{ room: 'lobby' }, { room: { $exists: false } }, { room: null }] }
     : { room }
+  if (blockedIds.length) query.sender = { $nin: blockedIds }
 
   const messages = await GroupMessage.find(query)
     .populate('sender', 'username name avatar profileImage discipline')

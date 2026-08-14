@@ -23,7 +23,7 @@ app.use(
         defaultSrc: ["'self'"],
         styleSrc:   ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
         fontSrc:    ["'self'", 'https://fonts.gstatic.com'],
-        scriptSrc:  ["'self'", "'unsafe-inline'"],
+        scriptSrc:  ["'self'"],
         imgSrc:     ["'self'", 'data:', 'https:'],
         mediaSrc:   ["'self'", 'https:'],
         connectSrc: ["'self'"],
@@ -62,6 +62,19 @@ const apiLimiter = rateLimit({
   message: { error: 'Too many requests, please try again later.' }
 })
 
+// Tighter, dedicated limit on OTP sending specifically -- this is the one
+// endpoint that costs real money (Twilio SMS) per call, so the generic
+// 100/15min budget alone would let one IP trigger sends to ~100 different
+// phone numbers before the general limiter even engages.
+const otpLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max:      5,
+  standardHeaders: true,
+  legacyHeaders:   false,
+  message: { error: 'Too many verification code requests. Please wait before trying again.' }
+})
+
+app.use('/web/api/verify/send', otpLimiter)
 app.use('/web/api', apiLimiter)
 app.use('/web/api', webRoutes)
 
