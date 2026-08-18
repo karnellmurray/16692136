@@ -5,6 +5,9 @@ const Signup               = require('../models/Signup')
 
 const s3     = new S3Client({ region: process.env.AWS_REGION || 'eu-north-1' })
 const BUCKET = process.env.AWS_S3_BUCKET_NAME
+const CDN    = (process.env.AWS_S3_CLOUDFRONT_URL || '').replace(/\/$/, '')
+const S3_BASE = `https://${BUCKET}.s3.${process.env.AWS_REGION || 'eu-north-1'}.amazonaws.com`
+const keyToUrl = key => CDN ? `${CDN}/${key}` : `${S3_BASE}/${key}`
 
 async function listAllKeys() {
   const keys = []
@@ -35,8 +38,9 @@ async function run() {
     const username = (member.name || '').toLowerCase()
     const match = allKeys.find(k => k.toLowerCase().includes(username))
     if (match) {
-      await Signup.updateOne({ _id: member._id }, { $set: { 'avatar.url': match } })
-      console.log(`✓ Matched "${member.name}" → ${match}`)
+      const url = keyToUrl(match)
+      await Signup.updateOne({ _id: member._id }, { $set: { 'avatar.url': url } })
+      console.log(`✓ Matched "${member.name}" → ${url}`)
     } else {
       console.log(`✗ No match for "${member.name}"`)
     }
