@@ -664,8 +664,8 @@ export default function ProjectsPage() {
                 <button key={d} onClick={() => changeFilter(filter === d ? 'My Projects' : d)}
                   className="font-mono text-[8px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
                   style={{
-                    borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
-                    color:       filter === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
+                    borderColor: filter === d ? '#FDC214' : '#777',
+                    color:       filter === d ? '#0a0a0a' : '#777',
                     background:  filter === d ? '#FDC214' : 'transparent',
                     letterSpacing: '1px',
                   }}>
