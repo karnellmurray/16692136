@@ -712,9 +712,9 @@ export default function ProjectsPage() {
                 <FeaturedArt project={featured} />
                 <span className="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-[0.2em] uppercase px-2 py-1 rounded-full"
                   style={{
-                    background:  'transparent',
-                    color:       featured.status === 'completed' ? '#FF0000' : '#008000',
-                    border:      featured.status === 'completed' ? '1px solid rgba(255,0,0,0.4)' : '1px solid rgba(0,255,136,0.2)',
+                    background:  featured.status === 'completed' ? 'transparent' : '#008000',
+                    color:       featured.status === 'completed' ? '#FF0000' : '#0a0a0a',
+                    border:      featured.status === 'completed' ? '1px solid rgba(255,0,0,0.4)' : 'none',
                   }}>
                   {featured.status}
                 </span>
