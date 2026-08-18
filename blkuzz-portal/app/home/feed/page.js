@@ -215,7 +215,7 @@ function ScreenCard({ card, position, onVideoEnded, onVideoPlay, onClick }) {
           ) : (
             <>
               {card.typeLabel !== '→ BLKUZZ' && (
-                <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: card.typeLabel === '→ PROJECT' ? 10 : 8, color: 'rgba(255,255,255,0.45)', display: 'block', marginBottom: 3 }}>
+                <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: card.typeLabel === '→ PROJECT' ? 10 : 8, color: card.typeLabel === '→ CALLOUTS' ? '#777' : 'rgba(255,255,255,0.45)', display: 'block', marginBottom: 3 }}>
                   {card.handle}
                 </span>
               )}
@@ -223,7 +223,7 @@ function ScreenCard({ card, position, onVideoEnded, onVideoPlay, onClick }) {
                 {card.title}
               </div>
               {card.description && (
-                <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', lineHeight: 1.4, marginBottom: 6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: card.typeLabel === '→ CALLOUTS' ? '#777' : 'rgba(255,255,255,0.4)', lineHeight: 1.4, marginBottom: 6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                   {card.description}
                 </div>
               )}
@@ -234,7 +234,7 @@ function ScreenCard({ card, position, onVideoEnded, onVideoPlay, onClick }) {
               )}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 {card.typeLabel !== '→ BLKUZZ' && (
-                  <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: card.typeLabel === '→ PROJECT' ? 9 : 7, color: card.typeLabel === '→ PROJECT' ? '#777' : 'rgba(255,255,255,0.3)' }}>{card.time}</span>
+                  <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: card.typeLabel === '→ PROJECT' ? 9 : 7, color: (card.typeLabel === '→ PROJECT' || card.typeLabel === '→ CALLOUTS') ? '#777' : 'rgba(255,255,255,0.3)' }}>{card.time}</span>
                 )}
                 {card.typeLabel === '→ CALLOUTS' && card.stat
                   ? <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#e8ff00', border: '1px solid #e8ff00', borderRadius: 999, padding: '1px 6px', marginLeft: 'auto' }}>{card.stat}</span>
