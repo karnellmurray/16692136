@@ -671,7 +671,7 @@ export default function FeedPage() {
         <div className="flex items-center gap-4">
           <span className="w-1.5 h-1.5 rounded-full bg-[#008000] animate-pulse2 inline-block" />
           <span className="font-mono text-[10px] tracking-[0.15em] text-[#008000]">LIVE</span>
-          <span className="font-mono text-[10px] text-[#444] tracking-[0.1em]">{time}</span>
+          <span className="font-mono text-[10px] text-[#777] tracking-[0.1em]">{time}</span>
         </div>
         <div className="flex items-center gap-5">
           <div className="relative" onClick={openNotifs} style={{ cursor: 'pointer' }}>
@@ -706,8 +706,8 @@ export default function FeedPage() {
 
       {/* Grid header */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-[#1a1a1a]">
-        <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-[#333]">Active transmissions</span>
-        <span className="font-mono text-[9px] text-[#333]">6 live</span>
+        <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-[#777]">Active transmissions</span>
+        <span className="font-mono text-[9px] text-[#777]">6 live</span>
       </div>
 
       {(() => {
