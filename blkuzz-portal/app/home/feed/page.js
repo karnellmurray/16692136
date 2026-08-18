@@ -130,7 +130,7 @@ const CARD_POSITIONS = [
 ]
 
 // ─── Screen card ─────────────────────────────────────────────────────────────
-function ScreenCard({ card, position, onVideoEnded, onVideoPlay }) {
+function ScreenCard({ card, position, onVideoEnded, onVideoPlay, onClick }) {
   const [hovered, setHovered] = useState(false)
   const [soundOn, setSoundOn] = useState(false)
   const isBlkuzz = card.typeLabel === '→ BLKUZZ'
@@ -138,6 +138,7 @@ function ScreenCard({ card, position, onVideoEnded, onVideoPlay }) {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={onClick}
       style={{
         ...position,
         position: 'relative',
@@ -713,13 +714,14 @@ export default function FeedPage() {
         const adTile = collabAds.length > 0 && (() => {
           const ad = collabAds[collabAdIdx]
           return (
-            <div style={{
+            <div onClick={ad.slug ? () => router.push(`/home/projects/${ad.slug}`) : undefined} style={{
               gridColumn: '3 / 4', gridRow: '3 / 4',
               position: 'relative', overflow: 'hidden',
               background: '#0c0c00',
               border: '1px solid rgba(232,255,0,0.3)',
               display: 'flex', flexDirection: 'column', justifyContent: 'center',
               padding: 12,
+              cursor: ad.slug ? 'pointer' : 'default',
               zIndex: 2,
             }}>
               {/* Scanlines */}
@@ -767,11 +769,20 @@ export default function FeedPage() {
             padding: 2,
             boxSizing: 'border-box',
           }}>
-            {screens.map((card, i) => (
-              <ScreenCard key={card.id} card={card} position={CARD_POSITIONS[i]}
-                onVideoEnded={i === 2 ? nextHqVideo : undefined}
-                onVideoPlay={i === 2 && card.videoKey ? () => incrementHqView(card.videoKey) : undefined} />
-            ))}
+            {screens.map((card, i) => {
+              const screenHref =
+                i === 0 && activeProject?.slug   ? `/home/projects/${activeProject.slug}`
+                : i === 1 && activeBulletin?._id ? `/home/collaborate?post=${activeBulletin._id}`
+                : i === 3 && activeCollab?.slug  ? `/home/projects/${activeCollab.slug}`
+                : i === 4 && activeUpdate?.projectSlug ? `/home/projects/${activeUpdate.projectSlug}`
+                : null
+              return (
+                <ScreenCard key={card.id} card={card} position={CARD_POSITIONS[i]}
+                  onVideoEnded={i === 2 ? nextHqVideo : undefined}
+                  onVideoPlay={i === 2 && card.videoKey ? () => incrementHqView(card.videoKey) : undefined}
+                  onClick={screenHref ? () => router.push(screenHref) : undefined} />
+              )
+            })}
             {adTile}
           </div>
         )

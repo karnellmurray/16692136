@@ -30,6 +30,7 @@ export async function GET() {
     content:            p.content,
     handle:             `@${p.author?.username ?? 'unknown'}`,
     projectTitle:       p.project?.title ?? '',
+    projectSlug:        p.project?.slug ?? '',
     coverImage:         p.project?.coverImage ? toCDN(p.project.coverImage) : null,
     coverImagePosition: p.project?.coverImagePosition ?? '50% 50%',
     media:              p.media ?? [],
