@@ -710,14 +710,6 @@ export default function ProjectsPage() {
               onClick={() => router.push(`/home/projects/${featured.slug}`)}>
               <div className="relative overflow-hidden" style={{ height: 140 }}>
                 <FeaturedArt project={featured} />
-                <span className="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-[0.2em] uppercase px-2 py-1 rounded-full"
-                  style={{
-                    background:  featured.status === 'completed' ? 'transparent' : '#008000',
-                    color:       featured.status === 'completed' ? '#FF0000' : '#0a0a0a',
-                    border:      'none',
-                  }}>
-                  {featured.status}
-                </span>
                 {(featured.creator?._id?.toString() === uid || featured.creator?.toString() === uid) && (
                   <div className="absolute top-2.5 right-2.5" onClick={e => e.stopPropagation()}>
                     {featConfirmDelete ? (
@@ -742,6 +734,14 @@ export default function ProjectsPage() {
                 )}
               </div>
               <div className="p-3">
+                <span className="font-mono text-[9px] tracking-[0.2em] uppercase block mb-1 w-fit px-2 py-1 rounded-full"
+                  style={{
+                    background:  featured.status === 'completed' ? 'transparent' : '#008000',
+                    color:       featured.status === 'completed' ? '#FF0000' : '#0a0a0a',
+                    border:      'none',
+                  }}>
+                  {featured.status}
+                </span>
                 <div className="flex items-center gap-2 mb-2">
                   {(featured.creator?.avatar?.url || featured.creator?.profileImage) && (
                     <img src={featured.creator.avatar?.url ?? featured.creator.profileImage}
