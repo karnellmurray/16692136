@@ -415,7 +415,7 @@ function GridCard({ project, uid, onDelete }) {
           : <CardArt discipline={project.disciplines?.[0]} height={90} />}
       </div>
       <div className="p-2.5">
-        <span className="font-mono text-[8px] tracking-[0.15em] uppercase block mb-1 px-1.5 py-0.5 rounded-full w-fit border"
+        <span className="font-mono text-[9px] tracking-[0.15em] uppercase block mb-1 px-1.5 py-0.5 rounded-full w-fit border"
           style={{
             color:       project.status === 'completed' ? '#FF0000' : '#008000',
             borderColor: project.status === 'completed' ? 'rgba(255,0,0,0.4)' : 'rgba(0,128,0,0.4)',
@@ -423,34 +423,34 @@ function GridCard({ project, uid, onDelete }) {
           }}>
           {project.status}
         </span>
-        <p className="font-head text-[13px] leading-tight mb-0.5"
+        <p className="font-head text-[16px] leading-tight mb-0.5"
           style={{ color: '#FDC214', letterSpacing: '2px' }}>
           {project.title}
         </p>
         {project.tagline && (
-          <p className="font-space text-[10px] mb-1 leading-tight" style={{ color: '#e8e8e8' }}>
+          <p className="font-space text-[12px] mb-1 leading-tight" style={{ color: '#e8e8e8' }}>
             {project.tagline}
           </p>
         )}
         <div className="flex items-center gap-1.5 mb-0.5">
           {(project.creator?.avatar?.url || project.creator?.profileImage) && (
             <img src={project.creator.avatar?.url ?? project.creator.profileImage}
-              alt={project.creator.username} className="w-5 h-5 rounded-full object-cover"
+              alt={project.creator.username} className="w-6 h-6 rounded-full object-cover"
               onError={e => { e.currentTarget.style.display = 'none' }} />
           )}
-          <span className="font-mono text-[8px]" style={{ color: '#FDC214' }}>@{project.creator?.username}</span>
+          <span className="font-mono text-[9px]" style={{ color: '#FDC214' }}>@{project.creator?.username}</span>
         </div>
         {project.collaboratorsNeeded && project.collaboratorDisciplines?.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-1.5">
             {project.collaboratorDisciplines.map((d, i) => (
-              <span key={i} className="font-head text-[7px] uppercase px-1.5 py-0.5 border rounded-full"
+              <span key={i} className="font-head text-[8px] uppercase px-1.5 py-0.5 border rounded-full"
                 style={{ borderColor: '#FDC214', color: '#0a0a0a', background: '#FDC214', letterSpacing: '1px' }}>{pluralise(d)}</span>
             ))}
           </div>
         )}
         <div className="flex items-center gap-2.5 mb-2">
-          <span className="font-mono text-[8px] flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            <Users size={10} /> {count}
+          <span className="font-mono text-[9px] flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <Users size={11} /> {count}
           </span>
         </div>
       </div>
@@ -811,7 +811,7 @@ export default function ProjectsPage() {
 
           {/* Grid */}
           {grid.length > 0 && (
-            <p className="px-4 pt-3 pb-1.5 font-mono text-[9px] tracking-[0.25em] uppercase border-t border-[#141414] mt-3"
+            <p className="px-4 pt-3 pb-1.5 font-mono text-[10px] tracking-[0.25em] uppercase border-t border-[#141414] mt-3"
               style={{ color: 'rgba(255,255,255,0.4)' }}>
               More projects
             </p>
