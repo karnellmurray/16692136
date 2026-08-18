@@ -736,7 +736,7 @@ export default function FeedPage() {
               <p className="font-head leading-tight mb-1" style={{ color: '#fff', fontSize: 13, letterSpacing: '1px' }}>
                 {ad.title}
               </p>
-              <p className="font-mono text-[8px] mb-2" style={{ color: '#777' }}>is looking for</p>
+              <p className="font-mono mb-2" style={{ color: '#777', fontSize: 10 }}>is looking for</p>
 
               <div className="flex flex-wrap gap-1">
                 {ad.collaboratorDisciplines.map((d, i) => (
