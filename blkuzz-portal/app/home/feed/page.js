@@ -241,7 +241,7 @@ function ScreenCard({ card, position, onVideoEnded, onVideoPlay, onClick }) {
                 )}
                 {card.typeLabel === '→ CALLOUTS' && card.stat
                   ? <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#e8ff00', border: '1px solid #e8ff00', borderRadius: 999, padding: '2px 8px', marginLeft: 'auto' }}>{card.stat}</span>
-                  : <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: card.typeLabel === '→ PROJECT' || card.typeLabel === '→ MILESTONE' ? 9 : 7, color: card.typeLabel === '→ PROJECT' || card.typeLabel === '→ MILESTONE' ? '#777' : 'rgba(255,255,255,0.2)', marginLeft: 'auto' }}>{card.stat}</span>
+                  : <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: card.typeLabel === '→ PROJECT' || card.typeLabel === '→ MILESTONE' ? 9 : 7, color: card.typeLabel === '→ PROJECT' || card.typeLabel === '→ MILESTONE' || card.typeLabel === '→ BLKUZZ' ? '#777' : 'rgba(255,255,255,0.2)', marginLeft: 'auto' }}>{card.stat}</span>
                 }
               </div>
             </>
