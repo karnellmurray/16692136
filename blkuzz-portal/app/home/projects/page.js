@@ -760,7 +760,7 @@ export default function ProjectsPage() {
                   {featured.title}
                 </h2>
                 {featured.tagline && (
-                  <p className="font-body font-normal text-[13px] leading-relaxed mb-2 uppercase" style={{ color: '#e8e8e8' }}>
+                  <p className="font-space text-[13px] leading-relaxed mb-2 uppercase" style={{ color: '#e8e8e8' }}>
                     {featured.tagline}
                   </p>
                 )}
