@@ -649,49 +649,32 @@ export default function ProjectsPage() {
         ))}
       </div>
 
-      {/* Discipline tag filter — collapsible toggle-button panel on mobile, pill row at lg+ */}
+      {/* Discipline tag filter — collapsible "+" dropdown */}
       {disciplines.length > 0 && (
-        <>
-          <div className="lg:hidden border-b border-[#141414]">
-            <button onClick={() => setFiltersOpen(o => !o)}
-              className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.15em]"
-              style={{ background: 'transparent', border: 'none', color: !STATIC_FILTERS.includes(filter) ? '#FDC214' : 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
-              <span>Filters{!STATIC_FILTERS.includes(filter) ? ` · ${filter}` : ''}</span>
-              <span style={{ color: '#FDC214', fontSize: 15 }}>{filtersOpen ? '−' : '+'}</span>
-            </button>
-            {filtersOpen && (
-              <div className="flex flex-wrap gap-1.5 px-4 pb-2.5">
-                {disciplines.map(d => (
-                  <button key={d} onClick={() => changeFilter(filter === d ? 'My Projects' : d)}
-                    className="font-mono text-[8px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
-                    style={{
-                      borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
-                      color:       filter === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
-                      background:  filter === d ? '#FDC214' : 'transparent',
-                      letterSpacing: '1px',
-                    }}>
-                    {d}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="hidden lg:flex flex-wrap gap-1.5 px-4 py-2.5 border-b border-[#141414]">
-            {disciplines.map(d => (
-              <button key={d} onClick={() => changeFilter(filter === d ? 'My Projects' : d)}
-                className="font-mono text-[8px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
-                style={{
-                  borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
-                  color:       filter === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
-                  background:  filter === d ? '#FDC214' : 'transparent',
-                  letterSpacing: '1px',
-                }}>
-                {d}
-              </button>
-            ))}
-          </div>
-        </>
+        <div className="border-b border-[#141414]">
+          <button onClick={() => setFiltersOpen(o => !o)}
+            className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.15em]"
+            style={{ background: 'transparent', border: 'none', color: !STATIC_FILTERS.includes(filter) ? '#FDC214' : 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
+            <span>Filters{!STATIC_FILTERS.includes(filter) ? ` · ${filter}` : ''}</span>
+            <span style={{ color: '#FDC214', fontSize: 15 }}>{filtersOpen ? '−' : '+'}</span>
+          </button>
+          {filtersOpen && (
+            <div className="flex flex-wrap gap-1.5 px-4 pb-2.5">
+              {disciplines.map(d => (
+                <button key={d} onClick={() => changeFilter(filter === d ? 'My Projects' : d)}
+                  className="font-mono text-[8px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
+                  style={{
+                    borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
+                    color:       filter === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
+                    background:  filter === d ? '#FDC214' : 'transparent',
+                    letterSpacing: '1px',
+                  }}>
+                  {d}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       )}
 
       {loading ? (
