@@ -234,11 +234,11 @@ function ScreenCard({ card, position, onVideoEnded, onVideoPlay, onClick }) {
               )}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 {card.typeLabel !== '→ BLKUZZ' && (
-                  <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.3)' }}>{card.time}</span>
+                  <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: card.typeLabel === '→ PROJECT' ? '#777' : 'rgba(255,255,255,0.3)' }}>{card.time}</span>
                 )}
                 {card.typeLabel === '→ CALLOUTS' && card.stat
                   ? <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#e8ff00', border: '1px solid #e8ff00', borderRadius: 999, padding: '1px 6px', marginLeft: 'auto' }}>{card.stat}</span>
-                  : <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.2)', marginLeft: 'auto' }}>{card.stat}</span>
+                  : <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: card.typeLabel === '→ PROJECT' ? '#777' : 'rgba(255,255,255,0.2)', marginLeft: 'auto' }}>{card.stat}</span>
                 }
               </div>
             </>
