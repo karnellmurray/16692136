@@ -714,7 +714,7 @@ export default function ProjectsPage() {
                   style={{
                     background:  featured.status === 'completed' ? 'transparent' : '#008000',
                     color:       featured.status === 'completed' ? '#FF0000' : '#0a0a0a',
-                    border:      featured.status === 'completed' ? '1px solid rgba(255,0,0,0.4)' : 'none',
+                    border:      'none',
                   }}>
                   {featured.status}
                 </span>
