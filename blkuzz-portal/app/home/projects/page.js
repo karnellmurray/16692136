@@ -656,7 +656,7 @@ export default function ProjectsPage() {
             className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.15em]"
             style={{ background: 'transparent', border: 'none', color: !STATIC_FILTERS.includes(filter) ? '#FDC214' : 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
             <span>Filters{!STATIC_FILTERS.includes(filter) ? ` · ${filter}` : ''}</span>
-            <span style={{ color: '#FDC214', fontSize: 15 }}>{filtersOpen ? '−' : '+'}</span>
+            <span style={{ color: '#FDC214', fontSize: 19 }}>{filtersOpen ? '−' : '+'}</span>
           </button>
           {filtersOpen && (
             <div className="flex flex-wrap gap-1.5 px-4 pb-2.5">
