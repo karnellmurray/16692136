@@ -24,7 +24,9 @@ function shortTimeAgo(date) {
   if (s < 3600) return `${Math.floor(s / 60)}m`
   if (s < 86400) return `${Math.floor(s / 3600)}h`
   if (s < 604800) return `${Math.floor(s / 86400)}d`
-  return `${Math.floor(s / 604800)}w`
+  if (s < 2629800) return `${Math.floor(s / 604800)}w`
+  if (s < 31557600) return `${Math.floor(s / 2629800)}mo`
+  return `${Math.floor(s / 31557600)}y`
 }
 
 function barHeights(seed) {

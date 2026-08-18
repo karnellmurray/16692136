@@ -11,7 +11,10 @@ function timeAgo(date) {
   if (s < 60) return 'just now'
   if (s < 3600) return `${Math.floor(s / 60)}m`
   if (s < 86400) return `${Math.floor(s / 3600)}h`
-  return `${Math.floor(s / 86400)}d`
+  if (s < 604800) return `${Math.floor(s / 86400)}d`
+  if (s < 2629800) return `${Math.floor(s / 604800)}w`
+  if (s < 31557600) return `${Math.floor(s / 2629800)}mo`
+  return `${Math.floor(s / 31557600)}y`
 }
 
 function initials(username) {
