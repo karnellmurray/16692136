@@ -449,7 +449,7 @@ function GridCard({ project, uid, onDelete }) {
           </div>
         )}
         <div className="flex items-center gap-2.5 mb-2">
-          <span className="font-mono text-[9px] flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <span className="font-mono text-[9px] flex items-center gap-1" style={{ color: '#777' }}>
             <Users size={11} /> {count}
           </span>
         </div>
