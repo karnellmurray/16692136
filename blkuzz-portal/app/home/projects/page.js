@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { Search, Plus, User, Users, Heart, X } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
@@ -492,9 +492,10 @@ function GridCard({ project, uid, onDelete }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function ProjectsPage() {
   const { data: session }       = useSession()
+  const searchParams            = useSearchParams()
   const [projects, setProjects] = useState([])
   const [loading, setLoading]   = useState(true)
-  const [filter, setFilter]         = useState('My Projects')
+  const [filter, setFilter]         = useState(() => searchParams.get('tab') || 'My Projects')
   const [disciplines, setDisciplines] = useState([])
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [modal, setModal]           = useState(false)
@@ -578,6 +579,14 @@ export default function ProjectsPage() {
 
   const router = useRouter()
 
+  // Keep the active tab in the URL so browser/in-app back navigation
+  // restores it instead of always landing back on the default tab.
+  const changeFilter = f => {
+    setFilter(f)
+    const qs = f === 'My Projects' ? '' : `?tab=${encodeURIComponent(f)}`
+    router.replace(`/home/projects${qs}`, { scroll: false })
+  }
+
   return (
     <div className="-m-8 flex flex-col min-h-screen font-space" style={{ background: '#0a0a0a', color: '#e8e8e8' }}>
 
@@ -628,7 +637,7 @@ export default function ProjectsPage() {
       <div className="flex gap-1.5 px-4 py-2.5 overflow-x-auto border-b border-[#141414]"
         style={{ scrollbarWidth: 'none' }}>
         {STATIC_FILTERS.map(f => (
-          <button key={f} onClick={() => setFilter(f)}
+          <button key={f} onClick={() => changeFilter(f)}
             className="font-mono text-[8px] tracking-[0.15em] uppercase px-3 py-1.5 border rounded-full whitespace-nowrap transition-colors"
             style={{
               borderColor: '#FDC214',
@@ -653,7 +662,7 @@ export default function ProjectsPage() {
             {filtersOpen && (
               <div className="flex flex-wrap gap-1.5 px-4 pb-2.5">
                 {disciplines.map(d => (
-                  <button key={d} onClick={() => setFilter(filter === d ? 'My Projects' : d)}
+                  <button key={d} onClick={() => changeFilter(filter === d ? 'My Projects' : d)}
                     className="font-mono text-[7px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
                     style={{
                       borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
@@ -670,7 +679,7 @@ export default function ProjectsPage() {
 
           <div className="hidden lg:flex flex-wrap gap-1.5 px-4 py-2.5 border-b border-[#141414]">
             {disciplines.map(d => (
-              <button key={d} onClick={() => setFilter(filter === d ? 'My Projects' : d)}
+              <button key={d} onClick={() => changeFilter(filter === d ? 'My Projects' : d)}
                 className="font-mono text-[7px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
                 style={{
                   borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
