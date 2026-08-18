@@ -415,7 +415,7 @@ function GridCard({ project, uid, onDelete }) {
           : <CardArt discipline={project.disciplines?.[0]} height={90} />}
       </div>
       <div className="p-2.5">
-        <span className="font-mono text-[7px] tracking-[0.15em] uppercase block mb-1 px-1.5 py-0.5 rounded-full w-fit border"
+        <span className="font-mono text-[8px] tracking-[0.15em] uppercase block mb-1 px-1.5 py-0.5 rounded-full w-fit border"
           style={{
             color:       project.status === 'completed' ? '#FF0000' : '#008000',
             borderColor: project.status === 'completed' ? 'rgba(255,0,0,0.4)' : 'rgba(0,128,0,0.4)',
@@ -423,34 +423,34 @@ function GridCard({ project, uid, onDelete }) {
           }}>
           {project.status}
         </span>
-        <p className="font-head text-[11px] leading-tight mb-0.5"
+        <p className="font-head text-[13px] leading-tight mb-0.5"
           style={{ color: '#FDC214', letterSpacing: '2px' }}>
           {project.title}
         </p>
         {project.tagline && (
-          <p className="font-space text-[9px] mb-1 leading-tight" style={{ color: '#e8e8e8' }}>
+          <p className="font-space text-[10px] mb-1 leading-tight" style={{ color: '#e8e8e8' }}>
             {project.tagline}
           </p>
         )}
         <div className="flex items-center gap-1.5 mb-0.5">
           {(project.creator?.avatar?.url || project.creator?.profileImage) && (
             <img src={project.creator.avatar?.url ?? project.creator.profileImage}
-              alt={project.creator.username} className="w-4 h-4 rounded-full object-cover"
+              alt={project.creator.username} className="w-5 h-5 rounded-full object-cover"
               onError={e => { e.currentTarget.style.display = 'none' }} />
           )}
-          <span className="font-mono text-[7px]" style={{ color: '#FDC214' }}>@{project.creator?.username}</span>
+          <span className="font-mono text-[8px]" style={{ color: '#FDC214' }}>@{project.creator?.username}</span>
         </div>
         {project.collaboratorsNeeded && project.collaboratorDisciplines?.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-1.5">
             {project.collaboratorDisciplines.map((d, i) => (
-              <span key={i} className="font-head text-[6px] uppercase px-1.5 py-0.5 border rounded-full"
+              <span key={i} className="font-head text-[7px] uppercase px-1.5 py-0.5 border rounded-full"
                 style={{ borderColor: '#FDC214', color: '#0a0a0a', background: '#FDC214', letterSpacing: '1px' }}>{pluralise(d)}</span>
             ))}
           </div>
         )}
         <div className="flex items-center gap-2.5 mb-2">
-          <span className="font-mono text-[7px] flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            <Users size={9} /> {count}
+          <span className="font-mono text-[8px] flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <Users size={10} /> {count}
           </span>
         </div>
       </div>
@@ -592,13 +592,13 @@ export default function ProjectsPage() {
 
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#1a1a1a]">
-        <span className="font-head text-[15px]" style={{ color: '#FDC214', letterSpacing: '2px' }}>BLKUZZ</span>
+        <span className="font-head text-[17px]" style={{ color: '#FDC214', letterSpacing: '2px' }}>BLKUZZ</span>
         <div className="flex items-center gap-4">
-          <Search size={17} className="cursor-pointer" style={{ color: '#FDC214' }} onClick={() => { setSearchOpen(v => !v); setSearchQuery('') }} />
+          <Search size={19} className="cursor-pointer" style={{ color: '#FDC214' }} onClick={() => { setSearchOpen(v => !v); setSearchQuery('') }} />
           <button onClick={() => setModal(true)}>
-            <Plus size={17} style={{ color: '#FDC214' }} />
+            <Plus size={19} style={{ color: '#FDC214' }} />
           </button>
-          <User size={17} className="cursor-pointer" style={{ color: '#FDC214' }} onClick={() => router.push('/home/profile/edit')} />
+          <User size={19} className="cursor-pointer" style={{ color: '#FDC214' }} onClick={() => router.push('/home/profile/edit')} />
         </div>
       </div>
 
@@ -610,7 +610,7 @@ export default function ProjectsPage() {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search by project name or member…"
-            className="w-full bg-transparent font-mono text-[10px] tracking-wider outline-none search-input-dark"
+            className="w-full bg-transparent font-mono text-[12px] tracking-wider outline-none search-input-dark"
             style={{ color: '#e8e8e8', caretColor: '#e8e8e8' }}
           />
         </div>
@@ -619,15 +619,15 @@ export default function ProjectsPage() {
       {/* Section header */}
       <div className="flex items-end justify-between px-4 py-3.5 border-b border-[#141414]">
         <div>
-          <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
             Transmissions in progress
           </p>
-          <h1 className="font-head text-[22px] leading-none" style={{ letterSpacing: '2px', color: '#FDC214' }}>
+          <h1 className="font-head text-[25px] leading-none" style={{ letterSpacing: '2px', color: '#FDC214' }}>
             Projects
           </h1>
         </div>
         <div className="text-right">
-          <p className="font-mono text-[8px] tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <p className="font-mono text-[9px] tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.4)' }}>
             {projects.filter(p => p.status !== 'completed').length} active
           </p>
         </div>
@@ -638,7 +638,7 @@ export default function ProjectsPage() {
         style={{ scrollbarWidth: 'none' }}>
         {STATIC_FILTERS.map(f => (
           <button key={f} onClick={() => changeFilter(f)}
-            className="font-mono text-[8px] tracking-[0.15em] uppercase px-3 py-1.5 border rounded-full whitespace-nowrap transition-colors"
+            className="font-mono text-[9px] tracking-[0.15em] uppercase px-3 py-1.5 border rounded-full whitespace-nowrap transition-colors"
             style={{
               borderColor: '#FDC214',
               color:       filter === f ? '#0a0a0a' : '#FDC214',
@@ -654,16 +654,16 @@ export default function ProjectsPage() {
         <>
           <div className="lg:hidden border-b border-[#141414]">
             <button onClick={() => setFiltersOpen(o => !o)}
-              className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.15em]"
+              className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.15em]"
               style={{ background: 'transparent', border: 'none', color: !STATIC_FILTERS.includes(filter) ? '#FDC214' : 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
               <span>Filters{!STATIC_FILTERS.includes(filter) ? ` · ${filter}` : ''}</span>
-              <span style={{ color: '#FDC214', fontSize: 14 }}>{filtersOpen ? '−' : '+'}</span>
+              <span style={{ color: '#FDC214', fontSize: 15 }}>{filtersOpen ? '−' : '+'}</span>
             </button>
             {filtersOpen && (
               <div className="flex flex-wrap gap-1.5 px-4 pb-2.5">
                 {disciplines.map(d => (
                   <button key={d} onClick={() => changeFilter(filter === d ? 'My Projects' : d)}
-                    className="font-mono text-[7px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
+                    className="font-mono text-[8px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
                     style={{
                       borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
                       color:       filter === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
@@ -680,7 +680,7 @@ export default function ProjectsPage() {
           <div className="hidden lg:flex flex-wrap gap-1.5 px-4 py-2.5 border-b border-[#141414]">
             {disciplines.map(d => (
               <button key={d} onClick={() => changeFilter(filter === d ? 'My Projects' : d)}
-                className="font-mono text-[7px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
+                className="font-mono text-[8px] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
                 style={{
                   borderColor: filter === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
                   color:       filter === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
@@ -696,16 +696,16 @@ export default function ProjectsPage() {
 
       {loading ? (
         <div className="flex-1 flex items-center justify-center">
-          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</span>
+          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</span>
         </div>
       ) : loadError ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-2 px-6 text-center">
-          <span className="font-mono text-[9px] tracking-widest uppercase" style={{ color: '#ff4444' }}>Error loading projects</span>
-          <span className="font-mono text-[8px]" style={{ color: 'rgba(255,255,255,0.4)' }}>{loadError}</span>
+          <span className="font-mono text-[10px] tracking-widest uppercase" style={{ color: '#ff4444' }}>Error loading projects</span>
+          <span className="font-mono text-[9px]" style={{ color: 'rgba(255,255,255,0.4)' }}>{loadError}</span>
         </div>
       ) : projects.length === 0 ? (
         <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO PROJECTS YET</span>
+          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO PROJECTS YET</span>
         </div>
       ) : (
         <div className="flex-1 overflow-y-auto">
@@ -716,7 +716,7 @@ export default function ProjectsPage() {
               onClick={() => router.push(`/home/projects/${featured.slug}`)}>
               <div className="relative overflow-hidden" style={{ height: 140 }}>
                 <FeaturedArt project={featured} />
-                <span className="absolute top-2.5 left-2.5 font-mono text-[8px] tracking-[0.2em] uppercase px-2 py-1 rounded-full"
+                <span className="absolute top-2.5 left-2.5 font-mono text-[9px] tracking-[0.2em] uppercase px-2 py-1 rounded-full"
                   style={{
                     background:  'transparent',
                     color:       featured.status === 'completed' ? '#FF0000' : '#008000',
@@ -751,14 +751,14 @@ export default function ProjectsPage() {
                 <div className="flex items-center gap-2 mb-2">
                   {(featured.creator?.avatar?.url || featured.creator?.profileImage) && (
                     <img src={featured.creator.avatar?.url ?? featured.creator.profileImage}
-                      alt={featured.creator.username} className="w-5 h-5 rounded-full object-cover"
+                      alt={featured.creator.username} className="w-6 h-6 rounded-full object-cover"
                       onError={e => { e.currentTarget.style.display = 'none' }} />
                   )}
-                  <span className="font-body font-normal text-[9px]" style={{ color: '#FDC214' }}>
+                  <span className="font-body font-normal text-[10px]" style={{ color: '#FDC214' }}>
                     @{featured.creator?.username}
                   </span>
                   {featured.location && (
-                    <span className="font-body font-normal text-[9px] uppercase ml-auto" style={{ color: '#FDC214' }}>
+                    <span className="font-body font-normal text-[10px] uppercase ml-auto" style={{ color: '#FDC214' }}>
                       {featured.location}
                     </span>
                   )}
@@ -767,17 +767,17 @@ export default function ProjectsPage() {
                 {featured.collaboratorsNeeded && featured.collaboratorDisciplines?.length > 0 && (
                   <div className="flex flex-wrap gap-1 mb-2">
                     {featured.collaboratorDisciplines.map((d, i) => (
-                      <span key={i} className="font-head text-[7px] uppercase px-1.5 py-0.5 border rounded-full"
+                      <span key={i} className="font-head text-[8px] uppercase px-1.5 py-0.5 border rounded-full"
                         style={{ borderColor: '#FDC214', color: '#0a0a0a', background: '#FDC214', letterSpacing: '1px' }}>{pluralise(d)}</span>
                     ))}
                   </div>
                 )}
 
-                <h2 className="font-head text-[16px] leading-tight mb-1" style={{ letterSpacing: '2px', color: '#FDC214' }}>
+                <h2 className="font-head text-[19px] leading-tight mb-1" style={{ letterSpacing: '2px', color: '#FDC214' }}>
                   {featured.title}
                 </h2>
                 {featured.tagline && (
-                  <p className="font-body font-normal text-[11px] leading-relaxed mb-2 uppercase" style={{ color: '#e8e8e8' }}>
+                  <p className="font-body font-normal text-[13px] leading-relaxed mb-2 uppercase" style={{ color: '#e8e8e8' }}>
                     {featured.tagline}
                   </p>
                 )}
@@ -786,16 +786,16 @@ export default function ProjectsPage() {
 
 
                 <div className="flex items-center gap-3 pt-2.5 border-t border-[#141414]">
-                  <span className="font-mono text-[7px] flex items-center gap-1" style={{ color: '#e8e8e8' }}>
-                    <Users size={11} /> {featCount}
+                  <span className="font-mono text-[8px] flex items-center gap-1" style={{ color: '#e8e8e8' }}>
+                    <Users size={13} /> {featCount}
                   </span>
                   <button onClick={() => router.push(`/home/projects/${featured.slug}`)}
-                    className="font-mono text-[8px] tracking-[0.1em]" style={{ color: '#e8e8e8' }}>
+                    className="font-mono text-[9px] tracking-[0.1em]" style={{ color: '#e8e8e8' }}>
                     CLICK TO VIEW
                   </button>
                   {featured.creator?._id?.toString() !== uid && featured.creator?.toString() !== uid && (
                     <button onClick={e => { e.stopPropagation(); toggleFeatFollow() }}
-                      className="ml-auto font-mono text-[8px] tracking-[0.15em] uppercase px-3.5 py-1.5 border transition-colors"
+                      className="ml-auto font-mono text-[9px] tracking-[0.15em] uppercase px-3.5 py-1.5 border transition-colors"
                       style={{
                         borderColor: featFollowing ? '#008000' : '#FDC214',
                         color:       featFollowing ? '#008000' : '#FDC214',
@@ -811,7 +811,7 @@ export default function ProjectsPage() {
 
           {/* Grid */}
           {grid.length > 0 && (
-            <p className="px-4 pt-3 pb-1.5 font-mono text-[8px] tracking-[0.25em] uppercase border-t border-[#141414] mt-3"
+            <p className="px-4 pt-3 pb-1.5 font-mono text-[9px] tracking-[0.25em] uppercase border-t border-[#141414] mt-3"
               style={{ color: 'rgba(255,255,255,0.4)' }}>
               More projects
             </p>
