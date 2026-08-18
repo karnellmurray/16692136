@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Bell, Mail, User, Volume2, VolumeX } from 'lucide-react'
@@ -255,13 +255,44 @@ function ScreenCard({ card, position, onVideoEnded, onVideoPlay }) {
 
 // ─── Ticker ──────────────────────────────────────────────────────────────────
 const TICKER_BLOCK_WIDTHS = [14, 22, 10, 18, 8, 20, 12, 24, 11, 16, 19, 9]
+const TICKER_PIXELS_PER_SECOND = 40
+
+// The track is rendered twice back-to-back and animates translateX(-50%) to
+// loop seamlessly, so the actual distance travelled per cycle is half the
+// track's full (doubled) width. Tailwind's animate-ticker class ships a
+// fixed 100s duration, which made the ride get faster as more content made
+// the track wider (same distance-per-time budget covering more pixels).
+// Measuring the real width and computing duration from it keeps px/s constant
+// no matter how much content is on the platform.
+function useTickerDuration(deps) {
+  const trackRef = useRef(null)
+  const [duration, setDuration] = useState(100)
+
+  useEffect(() => {
+    const el = trackRef.current
+    if (!el) return
+    const measure = () => {
+      const distance = el.scrollWidth / 2
+      if (distance > 0) setDuration(distance / TICKER_PIXELS_PER_SECOND)
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps)
+
+  return [trackRef, duration]
+}
 
 function Ticker({ items }) {
+  const [loadingTrackRef, loadingDuration] = useTickerDuration([items === null])
+  const [liveTrackRef, liveDuration]       = useTickerDuration([items])
+
   if (items === null) {
     const doubled = [...TICKER_BLOCK_WIDTHS, ...TICKER_BLOCK_WIDTHS]
     return (
       <div className="border-t border-b border-[#1a1a1a] overflow-hidden py-1.5" style={{ background: '#0a0a0a' }}>
-        <div className="inline-flex gap-10 animate-ticker whitespace-nowrap" style={{ width: 'max-content', WebkitTransform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}>
+        <div ref={loadingTrackRef} className="inline-flex gap-10 animate-ticker whitespace-nowrap" style={{ width: 'max-content', animationDuration: `${loadingDuration}s`, WebkitTransform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}>
           {doubled.map((len, i) => (
             <span key={i} className="font-mono text-[9px] flex items-center gap-2 animate-pulse"
               style={{ color: '#1e1e1e', animationDelay: `${(i % 6) * 0.28}s`, animationDuration: '2.4s' }}>
@@ -279,7 +310,7 @@ function Ticker({ items }) {
   const doubled = [...items, ...items]
   return (
     <div className="border-t border-b border-[#1a1a1a] overflow-hidden py-1.5" style={{ background: '#0a0a0a' }}>
-      <div className="inline-flex gap-10 animate-ticker whitespace-nowrap" style={{ width: 'max-content', WebkitTransform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}>
+      <div ref={liveTrackRef} className="inline-flex gap-10 animate-ticker whitespace-nowrap" style={{ width: 'max-content', animationDuration: `${liveDuration}s`, WebkitTransform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}>
         {doubled.map((item, i) => (
           <span key={i} className="font-mono text-[9px] tracking-[0.12em] flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
             <span style={{ color: item.color }}>{item.prefix}</span>
