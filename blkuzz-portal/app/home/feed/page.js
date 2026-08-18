@@ -740,8 +740,8 @@ export default function FeedPage() {
 
               <div className="flex flex-wrap gap-1">
                 {ad.collaboratorDisciplines.map((d, i) => (
-                  <span key={i} className="font-mono text-[7px] tracking-[0.1em] uppercase px-1.5 py-0.5"
-                    style={{ border: '1px solid rgba(232,255,0,0.6)', color: '#e8ff00', borderRadius: 9999 }}>
+                  <span key={i} className="font-mono tracking-[0.1em] uppercase px-2.5 py-1"
+                    style={{ border: '1px solid rgba(232,255,0,0.6)', color: '#e8ff00', borderRadius: 9999, fontSize: 9 }}>
                     {pluralise(d)}
                   </span>
                 ))}
