@@ -1595,7 +1595,7 @@ export default function ProjectDetailPage() {
         </div>
         {!isAuthor && (
           <button onClick={toggleFollow}
-            className="font-mono text-[9px] tracking-[0.15em] uppercase px-3.5 py-1.5 border shrink-0 transition-colors"
+            className="font-mono text-[11px] tracking-[0.15em] uppercase px-[18px] py-2 border shrink-0 transition-colors"
             style={{
               borderColor: following ? '#008000' : 'rgba(0,128,0,0.35)',
               color:       following ? '#0a0a0a' : '#008000',
@@ -1608,7 +1608,7 @@ export default function ProjectDetailPage() {
           <button
             disabled={collabSent || collabDeclined}
             onClick={() => setCollabModal(true)}
-            className="font-mono text-[9px] tracking-[0.15em] uppercase px-3.5 py-1.5 border shrink-0 transition-colors"
+            className="font-mono text-[11px] tracking-[0.15em] uppercase px-[18px] py-2 border shrink-0 transition-colors"
             style={{
               borderColor: collabDeclined ? 'rgba(210,4,45,0.3)' : `${collabSent ? 'rgba(253,194,20,0.4)' : '#FDC214'}`,
               color:       collabDeclined ? '#D2042D80' : collabSent ? '#FDC214' : '#0a0a0a',
