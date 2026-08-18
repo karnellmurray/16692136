@@ -417,7 +417,7 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
 
         {/* Header */}
         <div className="flex items-center gap-2 mb-3">
-          <span className="font-mono text-[8px] tracking-[0.15em] uppercase px-2 py-0.5 border rounded-full"
+          <span className="font-mono text-[10px] tracking-[0.15em] uppercase px-2.5 py-1 border rounded-full"
             style={{ color: cfg.color, borderColor: cfg.border, background: cfg.bg }}>
             {cfg.label}
           </span>
@@ -1689,7 +1689,7 @@ export default function ProjectDetailPage() {
       <div className="flex border-b border-[#141414]">
         {TABS.map(t => (
           <button key={t} onClick={() => setTab(t)}
-            className={`flex-1 py-2.5 font-mono ${t === 'Milestones' ? 'text-[12px]' : 'text-[9px]'} tracking-[0.15em] uppercase border-b-2 transition-colors`}
+            className="flex-1 py-2.5 font-mono text-[9px] tracking-[0.15em] uppercase border-b-2 transition-colors"
             style={{
               color:       tab === t ? '#FDC214' : 'rgba(255,255,255,0.4)',
               borderColor: tab === t ? '#FDC214' : 'transparent',
