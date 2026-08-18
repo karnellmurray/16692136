@@ -111,7 +111,7 @@ function ChapterProgress({ chapters, isAuthor, onToggle }) {
       <span className="font-body font-normal text-[9px] tracking-[0.2em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
         Project Updates
       </span>
-      <p className="font-mono text-[10px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+      <p className="font-mono text-[10px] leading-relaxed" style={{ color: '#777' }}>
         Post about your project milestones. Share your thoughts and ideas, let members know what you&apos;re up to.
       </p>
     </div>
@@ -422,9 +422,9 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
             {cfg.label}
           </span>
           {post.chapterRef && (
-            <span className="font-mono text-[11px]" style={{ color: 'rgba(255,255,255,0.4)' }}>— {post.chapterRef}</span>
+            <span className="font-mono text-[11px]" style={{ color: '#777' }}>— {post.chapterRef}</span>
           )}
-          <span className="font-mono text-[8px] ml-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>{ago(post.createdAt)}</span>
+          <span className="font-mono text-[8px] ml-auto" style={{ color: '#777' }}>{ago(post.createdAt)}</span>
           {isPostAuthor && !editing && (
             <>
               <button onClick={() => setEditing(true)}
@@ -475,7 +475,7 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
               <div className="flex gap-2">
                 <button type="button" onClick={() => setEditing(false)}
                   className="font-mono text-[8px] tracking-[0.15em] uppercase px-3 py-1.5"
-                  style={{ color: 'rgba(255,255,255,0.3)' }}>Cancel</button>
+                  style={{ color: '#777' }}>Cancel</button>
                 <button type="button" onClick={saveEdit} disabled={saving}
                   className="font-mono text-[8px] tracking-[0.15em] uppercase px-4 py-1.5 rounded-full disabled:opacity-40"
                   style={{ background: '#FDC214', color: '#0a0a0a' }}>
@@ -654,7 +654,7 @@ function AddPostForm({ projectSlug, chapters, onAdded }) {
   if (!open) return (
     <button onClick={() => setOpen(true)}
       className="w-full py-3 font-mono text-[9px] tracking-[0.2em] uppercase border border-dashed border-[#222] flex items-center justify-center gap-2"
-      style={{ color: 'rgba(255,255,255,0.4)' }}>
+      style={{ color: '#777' }}>
       <Plus size={12} /> Post an update
     </button>
   )
@@ -666,7 +666,7 @@ function AddPostForm({ projectSlug, chapters, onAdded }) {
           style={{ color: '#FDC214', borderColor: 'rgba(253,194,20,0.4)', background: 'transparent' }}>
           {derivedType}
         </span>
-        <button type="button" onClick={() => setOpen(false)}><X size={14} style={{ color: 'rgba(255,255,255,0.4)' }} /></button>
+        <button type="button" onClick={() => setOpen(false)}><X size={14} style={{ color: '#777' }} /></button>
       </div>
       <form onSubmit={submit} className="flex flex-col gap-2.5">
         <ChapterDropdown chapters={chapters} value={chapterRef} onChange={setChapRef} onChapterAdded={persistChapter} />
@@ -718,7 +718,7 @@ function MilestonesTab({ project, posts, isAuthor, currentUserId, currentUsernam
       )}
       {posts.length === 0 ? (
         <div className="py-12 text-center">
-          <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO POSTS YET.</p>
+          <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>NO POSTS YET.</p>
         </div>
       ) : (
         posts.map(p => (
@@ -811,7 +811,7 @@ function AboutTab({ project, isAuthor, onRefresh }) {
         { key: 'location',    label: 'Location',    type: 'input' },
       ].map(({ key, label, type }) => (
         <div key={key}>
-          <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>{label}</p>
+          <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-1" style={{ color: '#777' }}>{label}</p>
           {type === 'textarea'
             ? <textarea value={form[key]} onChange={e => handle(key, e.target.value)} rows={4}
                 className="w-full font-space text-[14px] px-3 py-2 focus:outline-none resize-none placeholder-white/40"
@@ -824,7 +824,7 @@ function AboutTab({ project, isAuthor, onRefresh }) {
       ))}
       {/* Status */}
       <div>
-        <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Status</p>
+        <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-2" style={{ color: '#777' }}>Status</p>
         <div className="flex gap-1.5">
           {['active', 'completed'].map(opt => {
             const isActive = form.status === opt
@@ -847,7 +847,7 @@ function AboutTab({ project, isAuthor, onRefresh }) {
       {/* Collaborators needed */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <p className="font-mono text-[8px] tracking-[0.2em] uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>Collaborators Needed</p>
+          <p className="font-mono text-[8px] tracking-[0.2em] uppercase" style={{ color: '#777' }}>Collaborators Needed</p>
           <div className="flex gap-1.5">
             {['Yes', 'No'].map(opt => {
               const active = opt === 'Yes' ? form.collaboratorsNeeded : !form.collaboratorsNeeded
@@ -930,7 +930,7 @@ function AboutTab({ project, isAuthor, onRefresh }) {
       <div className="flex items-center justify-end gap-2 pt-1">
         <button onClick={() => setEditing(false)}
           className="font-mono text-[8px] tracking-[0.15em] uppercase px-3 py-1.5"
-          style={{ color: 'rgba(255,255,255,0.3)' }}>Cancel</button>
+          style={{ color: '#777' }}>Cancel</button>
         <button onClick={save} disabled={saving}
           className="font-mono text-[8px] tracking-[0.15em] uppercase px-5 py-1.5 rounded-full disabled:opacity-40"
           style={{ background: '#FDC214', color: '#0a0a0a' }}>
@@ -954,7 +954,7 @@ function AboutTab({ project, isAuthor, onRefresh }) {
             style={{ color: 'rgba(255,255,255,0.8)' }}>edit</button>
         )}
       </div>
-      <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Description</p>
+      <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-2" style={{ color: '#777' }}>Description</p>
       <p className="font-body text-[15px] leading-relaxed mb-5" style={{ color: '#ffffff' }}>
         {project.description || 'No description yet.'}
       </p>
@@ -964,14 +964,14 @@ function AboutTab({ project, isAuthor, onRefresh }) {
           ['Location', project.location || '—',                 'white'],
         ].map(([label, val, color]) => (
           <div key={label}>
-            <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>{label}</p>
+            <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-1" style={{ color: '#777' }}>{label}</p>
             <p className="font-body text-[14px] font-bold" style={{ color: color === 'yellow' ? '#FDC214' : color === 'green' ? '#008000' : color === 'red' ? '#FF0000' : '#ffffff' }}>{val}</p>
           </div>
         ))}
       </div>
       {project.status !== 'completed' && project.collaboratorsNeeded && project.collaboratorDisciplines?.length > 0 && (
         <div className="border-t border-[#141414] pt-4">
-          <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Looking for collaborators</p>
+          <p className="font-mono text-[8px] tracking-[0.2em] uppercase mb-2" style={{ color: '#777' }}>Looking for collaborators</p>
           <div className="flex flex-wrap gap-1.5">
             {project.collaboratorDisciplines.map(d => (
               <span key={d} className="font-head text-[8px] uppercase px-2.5 py-1 border rounded-full"
@@ -1008,7 +1008,7 @@ function MediaTab({ posts, isAuthor, projectSlug, onRefresh }) {
     <>
       {items.length === 0 ? (
         <div className="py-12 text-center">
-          <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO MEDIA YET.</p>
+          <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>NO MEDIA YET.</p>
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-[1px] p-[1px]">
@@ -1130,7 +1130,7 @@ function TeamTab({ project, router, isAuthor }) {
 
   return (
     <div className="px-3.5 py-4">
-      <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-3" style={{ color: 'rgba(255,255,255,0.4)' }}>Member</p>
+      <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-3" style={{ color: '#777' }}>Member</p>
       <div className="flex items-center gap-3 mb-5">
         {project.creator?.avatar?.url || project.creator?.profileImage
           ? <img src={project.creator.avatar?.url ?? project.creator.profileImage}
@@ -1143,7 +1143,7 @@ function TeamTab({ project, router, isAuthor }) {
         }
         <div>
           <p className="font-body text-[15px] font-normal text-white">@{project.creator?.username}</p>
-          <p className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <p className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>
             {project.discipline}{project.location ? ` ${project.location}` : ''}
           </p>
         </div>
@@ -1152,13 +1152,13 @@ function TeamTab({ project, router, isAuthor }) {
       {(project.collaborators?.length > 0 || pendingInvites.length > 0) && (
         <>
           <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-3 border-t border-[#141414] pt-4"
-            style={{ color: 'rgba(255,255,255,0.4)' }}>Collaborators</p>
+            style={{ color: '#777' }}>Collaborators</p>
           {project.collaborators?.map((c, i) => {
             const avatarUrl = c.user?.avatar?.url || c.user?.profileImage || null
             return (
               <div key={i} className="flex items-center gap-2 mb-2.5">
                 <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center font-mono text-[10px] font-bold"
-                  style={{ background: '#1a1a1a', color: 'rgba(255,255,255,0.4)', border: '1px solid #2a2a2a' }}>
+                  style={{ background: '#1a1a1a', color: '#777', border: '1px solid #2a2a2a' }}>
                   {avatarUrl
                     ? <img src={avatarUrl} alt="" className="w-full h-full object-cover"
                         onError={e => { e.currentTarget.style.display = 'none' }} />
@@ -1167,7 +1167,7 @@ function TeamTab({ project, router, isAuthor }) {
                 </div>
                 <div>
                   <p className="font-space text-[13px] font-bold text-white">@{c.user?.username}</p>
-                  {c.role && <p className="font-mono text-[8px]" style={{ color: 'rgba(255,255,255,0.4)' }}>{c.role}</p>}
+                  {c.role && <p className="font-mono text-[8px]" style={{ color: '#777' }}>{c.role}</p>}
                 </div>
               </div>
             )
@@ -1186,7 +1186,7 @@ function TeamTab({ project, router, isAuthor }) {
               </div>
               <div className="flex-1">
                 <p className="font-space text-[13px] font-bold text-white">@{inv.user?.username}</p>
-                {inv.role && <p className="font-mono text-[8px]" style={{ color: 'rgba(255,255,255,0.4)' }}>{inv.role}</p>}
+                {inv.role && <p className="font-mono text-[8px]" style={{ color: '#777' }}>{inv.role}</p>}
               </div>
               <span className="font-mono text-[7px] tracking-widest uppercase px-1.5 py-0.5"
                 style={{ color: '#FDC214', border: '1px solid #FDC214', background: 'transparent', borderRadius: 50 }}>
@@ -1200,12 +1200,12 @@ function TeamTab({ project, router, isAuthor }) {
       {project.openCollabSlots?.filter(s => !s.filled).length > 0 && (
         <>
           <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-3 border-t border-[#141414] pt-4"
-            style={{ color: 'rgba(255,255,255,0.4)' }}>Open collab slots</p>
+            style={{ color: '#777' }}>Open collab slots</p>
           {project.openCollabSlots.filter(s => !s.filled).map((slot, i) => (
             <div key={i} className="border border-[#1a1a1a] p-2.5 mb-2" style={{ background: '#0d0d0d' }}>
               <p className="font-space text-[13px] font-bold mb-0.5" style={{ color: '#e8e8e8' }}>{slot.role}</p>
               {slot.description && (
-                <p className="font-space text-[12px]" style={{ color: 'rgba(255,255,255,0.4)' }}>{slot.description}</p>
+                <p className="font-space text-[12px]" style={{ color: '#777' }}>{slot.description}</p>
               )}
             </div>
           ))}
@@ -1215,7 +1215,7 @@ function TeamTab({ project, router, isAuthor }) {
       {isAuthor && (
         <button onClick={openDirectory}
           className="mt-4 w-full font-mono text-[9px] tracking-[0.15em] uppercase py-3 border border-dashed border-[#222] flex items-center justify-center gap-2"
-          style={{ color: 'rgba(255,255,255,0.4)' }}>
+          style={{ color: '#777' }}>
           <Plus size={12} /> Add members to your project
         </button>
       )}
@@ -1243,7 +1243,7 @@ function TeamTab({ project, router, isAuthor }) {
 
             <div className="overflow-y-auto flex-1 mb-3">
               {filteredDir.length === 0 && (
-                <p className="font-mono text-[9px] text-center py-6" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                <p className="font-mono text-[9px] text-center py-6" style={{ color: '#777' }}>
                   {dirUsers.length === 0 ? 'Loading...' : 'No members found'}
                 </p>
               )}
@@ -1265,7 +1265,7 @@ function TeamTab({ project, router, isAuthor }) {
                         ? <img src={u.avatar} alt="" className="w-full h-full object-cover"
                             onError={e => { e.currentTarget.style.display = 'none' }} />
                         : <div className="w-full h-full flex items-center justify-center font-mono text-[10px]"
-                            style={{ color: 'rgba(255,255,255,0.4)' }}>
+                            style={{ color: '#777' }}>
                             {u.username?.[0]?.toUpperCase()}
                           </div>
                       }
@@ -1495,7 +1495,7 @@ export default function ProjectDetailPage() {
 
   if (!project) return (
     <div className="-m-8 flex items-center justify-center min-h-screen" style={{ background: '#0a0a0a' }}>
-      <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</span>
+      <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>LOADING...</span>
     </div>
   )
 
@@ -1550,7 +1550,7 @@ export default function ProjectDetailPage() {
             <button onClick={cancelCover}
               className="w-8 h-8 flex items-center justify-center border border-[#444]"
               style={{ background: 'rgba(10,10,10,0.75)' }}>
-              <X size={14} style={{ color: 'rgba(255,255,255,0.4)' }} />
+              <X size={14} style={{ color: '#777' }} />
             </button>
             <button onClick={saveCover} disabled={coverSaving}
               className="font-mono text-[8px] tracking-[0.15em] uppercase px-3 h-8 border transition-colors disabled:opacity-50"
@@ -1561,7 +1561,7 @@ export default function ProjectDetailPage() {
         )}
         {coverEditing && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <span className="font-mono text-[9px] tracking-[0.2em] uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <span className="font-mono text-[9px] tracking-[0.2em] uppercase" style={{ color: '#777' }}>
               Drag to reposition
             </span>
           </div>
@@ -1589,7 +1589,7 @@ export default function ProjectDetailPage() {
           <p className="font-body text-[15px] font-normal text-white leading-tight">
             @{project.creator?.username}
           </p>
-          <p className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <p className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>
             {project.discipline}{project.location ? ` ${project.location}` : ''}
           </p>
         </div>
@@ -1630,7 +1630,7 @@ export default function ProjectDetailPage() {
                 <img src="/portal/icons/cross-y.png" alt="close" style={{ width: 18, height: 18, opacity: 0.6 }} />
               </button>
             </div>
-            <p className="font-mono text-[10px] tracking-[0.1em] uppercase mb-3" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <p className="font-mono text-[10px] tracking-[0.1em] uppercase mb-3" style={{ color: '#777' }}>
               To @{project.creator?.username} — {project.title}
             </p>
             <textarea
@@ -1645,7 +1645,7 @@ export default function ProjectDetailPage() {
             <div className="flex gap-2 mt-4">
               <button onClick={() => setCollabModal(false)}
                 className="flex-1 font-mono text-[10px] tracking-[0.15em] uppercase px-4 py-2.5 border transition-colors"
-                style={{ borderColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.5)', borderRadius: 9999 }}>
+                style={{ borderColor: 'rgba(255,255,255,0.15)', color: '#777', borderRadius: 9999 }}>
                 Cancel
               </button>
               <button onClick={sendCollab} disabled={collabSending}
@@ -1664,19 +1664,19 @@ export default function ProjectDetailPage() {
           <span className="font-space font-black text-[18px] leading-none" style={{ letterSpacing: '-0.02em', color: '#fff' }}>
             {followerCount}
           </span>
-          <span className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>Followers</span>
+          <span className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>Followers</span>
         </div>
         <div className="flex-1 flex flex-col items-center py-2.5 gap-0.5 border-r border-[#141414]">
           <span className="font-space font-black text-[18px] leading-none" style={{ letterSpacing: '-0.02em', color: '#fff' }}>
             {posts.length}
           </span>
-          <span className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>Posts</span>
+          <span className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>Posts</span>
         </div>
         <div className="flex-1 flex flex-col items-center py-2.5 gap-0.5">
           <span className="font-space font-black text-[18px] leading-none" style={{ letterSpacing: '-0.02em', color: '#fff' }}>
             {running}
           </span>
-          <span className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>Running</span>
+          <span className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>Running</span>
         </div>
       </div>
 
