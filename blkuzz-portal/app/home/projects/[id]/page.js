@@ -417,12 +417,12 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
 
         {/* Header */}
         <div className="flex items-center gap-2 mb-3">
-          <span className="font-mono text-[10px] tracking-[0.15em] uppercase px-2.5 py-1 border rounded-full"
+          <span className="font-mono text-[8px] tracking-[0.15em] uppercase px-2 py-0.5 border rounded-full"
             style={{ color: cfg.color, borderColor: cfg.border, background: cfg.bg }}>
             {cfg.label}
           </span>
           {post.chapterRef && (
-            <span className="font-mono text-[8px]" style={{ color: 'rgba(255,255,255,0.4)' }}>— {post.chapterRef}</span>
+            <span className="font-mono text-[11px]" style={{ color: 'rgba(255,255,255,0.4)' }}>— {post.chapterRef}</span>
           )}
           <span className="font-mono text-[8px] ml-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>{ago(post.createdAt)}</span>
           {isPostAuthor && !editing && (
