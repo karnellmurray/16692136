@@ -471,7 +471,7 @@ function GridCard({ project, uid, onDelete }) {
                 {deleting ? '…' : 'Yes'}
               </button>
               <button onClick={() => setConfirmDelete(false)}
-                style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, color: 'rgba(255,255,255,0.4)', background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, color: '#777', background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 No
               </button>
             </div>
@@ -619,7 +619,7 @@ export default function ProjectsPage() {
       {/* Section header */}
       <div className="flex items-end justify-between px-4 py-3.5 border-b border-[#141414]">
         <div>
-          <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-1" style={{ color: '#777' }}>
             Transmissions in progress
           </p>
           <h1 className="font-head text-[25px] leading-none" style={{ letterSpacing: '2px', color: '#FDC214' }}>
@@ -627,7 +627,7 @@ export default function ProjectsPage() {
           </h1>
         </div>
         <div className="text-right">
-          <p className="font-mono text-[9px] tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <p className="font-mono text-[9px] tracking-[0.1em]" style={{ color: '#777' }}>
             {projects.filter(p => p.status !== 'completed').length} active
           </p>
         </div>
@@ -654,7 +654,7 @@ export default function ProjectsPage() {
         <div className="border-b border-[#141414]">
           <button onClick={() => setFiltersOpen(o => !o)}
             className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.15em]"
-            style={{ background: 'transparent', border: 'none', color: !STATIC_FILTERS.includes(filter) ? '#FDC214' : 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
+            style={{ background: 'transparent', border: 'none', color: !STATIC_FILTERS.includes(filter) ? '#FDC214' : '#777', cursor: 'pointer' }}>
             <span>Filters{!STATIC_FILTERS.includes(filter) ? ` · ${filter}` : ''}</span>
             <span style={{ color: '#FDC214', fontSize: 19 }}>{filtersOpen ? '−' : '+'}</span>
           </button>
@@ -679,16 +679,16 @@ export default function ProjectsPage() {
 
       {loading ? (
         <div className="flex-1 flex items-center justify-center">
-          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</span>
+          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>LOADING...</span>
         </div>
       ) : loadError ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-2 px-6 text-center">
           <span className="font-mono text-[10px] tracking-widest uppercase" style={{ color: '#ff4444' }}>Error loading projects</span>
-          <span className="font-mono text-[9px]" style={{ color: 'rgba(255,255,255,0.4)' }}>{loadError}</span>
+          <span className="font-mono text-[9px]" style={{ color: '#777' }}>{loadError}</span>
         </div>
       ) : projects.length === 0 ? (
         <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO PROJECTS YET</span>
+          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>NO PROJECTS YET</span>
         </div>
       ) : (
         <div className="flex-1 overflow-y-auto">
@@ -720,7 +720,7 @@ export default function ProjectsPage() {
                         }} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#D2042D', background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                           {featDeleting ? '…' : 'Yes'}
                         </button>
-                        <button onClick={() => setFeatConfirmDelete(false)} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#aaa', background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.1em', textTransform: 'uppercase' }}>No</button>
+                        <button onClick={() => setFeatConfirmDelete(false)} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: '#777', background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.1em', textTransform: 'uppercase' }}>No</button>
                       </div>
                     ) : (
                       <button onClick={() => setFeatConfirmDelete(true)} style={{ background: 'transparent', border: 'none', padding: '4px 5px', cursor: 'pointer', lineHeight: 0 }}>
@@ -795,7 +795,7 @@ export default function ProjectsPage() {
           {/* Grid */}
           {grid.length > 0 && (
             <p className="px-4 pt-3 pb-1.5 font-mono text-[10px] tracking-[0.25em] uppercase border-t border-[#141414] mt-3"
-              style={{ color: 'rgba(255,255,255,0.4)' }}>
+              style={{ color: '#777' }}>
               More projects
             </p>
           )}
