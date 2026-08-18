@@ -1673,10 +1673,10 @@ export default function ProjectDetailPage() {
           <span className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>Posts</span>
         </div>
         <div className="flex-1 flex flex-col items-center py-2.5 gap-0.5">
-          <span className="font-space font-black text-[18px] leading-none" style={{ letterSpacing: '-0.02em', color: '#fff' }}>
+          <span className="font-space font-black text-[22px] leading-none" style={{ letterSpacing: '-0.02em', color: '#fff' }}>
             {running}
           </span>
-          <span className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>Running</span>
+          <span className="font-mono text-[9px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>Running</span>
         </div>
       </div>
 
