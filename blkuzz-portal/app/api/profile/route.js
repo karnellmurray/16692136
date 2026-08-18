@@ -6,7 +6,11 @@ import Signup from '@/models/Signup'
 
 const cdn   = (process.env.AWS_S3_CLOUDFRONT_URL ?? '').replace(/\/$/, '')
 const s3    = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`
-const toCDN = url => (cdn && url?.startsWith(s3)) ? url.replace(s3, cdn) : url
+const toCDN = url => {
+  if (!url) return url
+  if (url.startsWith('http')) return (cdn && url.startsWith(s3)) ? url.replace(s3, cdn) : url
+  return cdn ? `${cdn}/${url}` : `${s3}/${url}`
+}
 
 export async function GET() {
   const session = await getServerSession(authOptions)
