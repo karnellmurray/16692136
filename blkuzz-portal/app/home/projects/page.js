@@ -452,6 +452,17 @@ function GridCard({ project, uid, onDelete }) {
           <span className="font-mono text-[9px] flex items-center gap-1" style={{ color: '#777' }}>
             <Users size={11} /> {count}
           </span>
+          {!isOwner && (
+            <button onClick={toggleFollow}
+              className="ml-auto font-mono text-[8px] tracking-[0.1em] uppercase px-2.5 py-1 border transition-colors"
+              style={{
+                borderColor: following ? '#008000' : '#FDC214',
+                color:       following ? '#008000' : '#FDC214',
+                background:  'transparent',
+              }}>
+              {following ? '✓ Following' : '+ Follow'}
+            </button>
+          )}
         </div>
       </div>
       {isOwner && (
