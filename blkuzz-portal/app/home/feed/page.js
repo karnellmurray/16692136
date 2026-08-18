@@ -733,7 +733,7 @@ export default function FeedPage() {
                 <span className="font-mono text-[7px] tracking-[0.2em] uppercase" style={{ color: '#e8ff00' }}>→ LOOKING FOR</span>
               </div>
 
-              <p className="font-head leading-tight mb-1" style={{ color: '#fff', fontSize: 13, letterSpacing: '1px' }}>
+              <p className="font-head leading-tight mb-1" style={{ color: '#fff', fontSize: 17, letterSpacing: '1px' }}>
                 {ad.title}
               </p>
               <p className="font-mono mb-2" style={{ color: '#777', fontSize: 10 }}>is looking for</p>
