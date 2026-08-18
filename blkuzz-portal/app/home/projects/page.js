@@ -736,9 +736,9 @@ export default function ProjectsPage() {
               <div className="p-3">
                 <span className="font-mono text-[9px] tracking-[0.2em] uppercase block mb-1 w-fit px-2 py-1 rounded-full"
                   style={{
-                    background:  featured.status === 'completed' ? 'transparent' : '#008000',
-                    color:       featured.status === 'completed' ? '#FF0000' : '#0a0a0a',
-                    border:      'none',
+                    background:  'transparent',
+                    color:       featured.status === 'completed' ? '#FF0000' : '#008000',
+                    border:      featured.status === 'completed' ? '1px solid rgba(255,0,0,0.4)' : '1px solid #008000',
                   }}>
                   {featured.status}
                 </span>
