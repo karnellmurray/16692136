@@ -717,7 +717,7 @@ export default function FeedPage() {
         const adTile = collabAds.length > 0 && (() => {
           const ad = collabAds[collabAdIdx]
           return (
-            <div onClick={ad.slug ? () => router.push(`/home/projects/${ad.slug}`) : undefined} style={{
+            <div className="feed-ad-tile" onClick={ad.slug ? () => router.push(`/home/projects/${ad.slug}`) : undefined} style={{
               gridColumn: '3 / 4', gridRow: '3 / 4',
               position: 'relative', overflow: 'hidden',
               background: '#0c0c00',
