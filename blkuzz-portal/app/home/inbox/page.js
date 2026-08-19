@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { io } from 'socket.io-client'
 import { apiFetch } from '@/lib/api'
 import { uploadMedia } from '@/lib/useUploadClient'
-import { Send, Lock, Paperclip, FolderOpen, MoreVertical, User, ArrowLeft } from 'lucide-react'
+import { Send, Lock, Paperclip, MoreVertical, User, ArrowLeft } from 'lucide-react'
 
 function timeAgo(date) {
   const s = Math.floor((Date.now() - new Date(date)) / 1000)
@@ -478,7 +478,6 @@ function InboxPageContent() {
                 <form onSubmit={send} style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     <Paperclip size={17} onClick={() => fileInputRef.current?.click()} style={{ color: uploading ? '#00C853' : '#FDC214', cursor: uploading ? 'default' : 'pointer' }} />
-                    <FolderOpen size={17} style={{ color: '#FDC214', cursor: 'pointer' }} />
                   </div>
                   <input
                     value={text}
