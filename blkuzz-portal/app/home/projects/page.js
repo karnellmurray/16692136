@@ -237,7 +237,7 @@ function CreateModal({ onClose, onCreated }) {
               Tagline
             </label>
             <input name="tagline" value={form.tagline} onChange={handle}
-              placeholder="One line — shows on the project card" className={inputCls} />
+              placeholder="Describe your project in a sentence" className={inputCls} />
           </div>
 
           {/* Description */}
