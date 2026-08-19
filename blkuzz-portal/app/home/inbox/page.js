@@ -465,7 +465,7 @@ function InboxPageContent() {
                     {mediaUrls.map((url, i) => (
                       <div key={i} style={{ position: 'relative' }}>
                         {isVideo(url)
-                          ? <video src={url} style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4, display: 'block' }} />
+                          ? <video src={url} muted preload="metadata" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4, display: 'block' }} />
                           : <img src={url} alt="" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4, display: 'block' }} />
                         }
                         <button type="button" onClick={() => setMediaUrls(prev => prev.filter((_, j) => j !== i))}

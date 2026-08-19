@@ -514,7 +514,7 @@ export default function BulletinPage() {
                   {mediaUrls.map((url, i) => (
                     <div key={i} className="relative">
                       {isVideo(url)
-                        ? <video src={url} className="w-16 h-16 object-cover" />
+                        ? <video src={url} muted preload="metadata" className="w-16 h-16 object-cover" />
                         : <img src={url} alt="" className="w-16 h-16 object-cover" />
                       }
                       <button type="button" onClick={() => setMediaUrls(prev => prev.filter((_, j) => j !== i))}
