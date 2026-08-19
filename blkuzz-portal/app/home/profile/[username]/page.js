@@ -76,7 +76,7 @@ function IdPhoto({ avatarUrl, name, username }) {
       <div style={{ position: 'absolute', top: 3, right: 3, width: 8, height: 8, borderTop: `1px solid ${GREEN}40`, borderRight: `1px solid ${GREEN}40`, zIndex: 3 }} />
       <div style={{ position: 'absolute', bottom: 3, left: 3, width: 8, height: 8, borderBottom: `1px solid ${GREEN}40`, borderLeft: `1px solid ${GREEN}40`, zIndex: 3 }} />
       <div style={{ position: 'absolute', bottom: 3, right: 3, width: 8, height: 8, borderBottom: `1px solid ${GREEN}40`, borderRight: `1px solid ${GREEN}40`, zIndex: 3 }} />
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: '#00000080', fontFamily: MONO, fontSize: 7, letterSpacing: '0.15em', color: `${GREEN}80`, textAlign: 'center', padding: '2px 0', textTransform: 'uppercase', zIndex: 3 }}>ID Photo</div>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: '#00000080', fontFamily: MONO, fontSize: 7, letterSpacing: '0.15em', color: GREEN, textAlign: 'center', padding: '2px 0', textTransform: 'uppercase', zIndex: 3 }}>ID Photo</div>
     </div>
   )
 }
@@ -350,20 +350,20 @@ export default function ProfilePage() {
                   {!isOwn && (
                     collabStatus === 'accepted'
                       ? <Link href={`/home/inbox?with=${user._id}`}
-                          style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.12em', padding: '8px 16px', border: `1px solid ${GREEN}40`, color: GREEN, background: 'transparent', textTransform: 'uppercase', textDecoration: 'none', flexShrink: 0 }}>
+                          style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.12em', padding: '8px 16px', border: `1px solid ${GREEN}`, color: GREEN, background: 'transparent', textTransform: 'uppercase', textDecoration: 'none', flexShrink: 0 }}>
                           Message
                         </Link>
                       : <button
                           onClick={sendCollab}
                           disabled={collabStatus === 'pending' || collabBusy}
-                          style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.12em', padding: '10px 20px', border: collabStatus === 'pending' ? '1px solid #555' : `1px solid ${GOLD}40`, color: collabStatus === 'pending' ? '#555' : GOLD, background: 'transparent', cursor: collabStatus === 'pending' ? 'default' : 'pointer', textTransform: 'uppercase', outline: 'none', flexShrink: 0 }}>
+                          style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.12em', padding: '10px 20px', border: collabStatus === 'pending' ? '1px solid #777' : `1px solid ${GOLD}`, color: collabStatus === 'pending' ? '#777' : GOLD, background: 'transparent', cursor: collabStatus === 'pending' ? 'default' : 'pointer', textTransform: 'uppercase', outline: 'none', flexShrink: 0 }}>
                           {collabStatus === 'pending' ? 'Requested' : 'Collab'}
                         </button>
                   )}
                 </div>
                 <div style={{ fontFamily: MONO, fontSize: 11, color: '#fff', marginBottom: 10 }}>@{user.username}</div>
                 {user.discipline && (
-                  <div style={{ display: 'inline-block', fontFamily: MONO, fontSize: 9, letterSpacing: '0.12em', padding: '3px 9px', border: `1px solid ${GREEN}30`, color: GREEN, textTransform: 'uppercase', marginBottom: 10 }}>
+                  <div style={{ display: 'inline-block', fontFamily: MONO, fontSize: 9, letterSpacing: '0.12em', padding: '3px 9px', border: `1px solid ${GREEN}`, color: GREEN, textTransform: 'uppercase', marginBottom: 10 }}>
                     {user.discipline}
                   </div>
                 )}
@@ -398,7 +398,7 @@ export default function ProfilePage() {
             {/* Actions — own profile only */}
             {isOwn && (
               <div style={{ display: 'flex', gap: 8, marginBottom: 16, position: 'relative' }}>
-                <Link href="/home/profile/edit" style={{ flex: 1, fontFamily: MONO, fontSize: 10, letterSpacing: '0.15em', padding: 11, border: `1px solid ${GOLD}40`, color: GOLD, background: 'transparent', textTransform: 'uppercase', textAlign: 'center', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <Link href="/home/profile/edit" style={{ flex: 1, fontFamily: MONO, fontSize: 10, letterSpacing: '0.15em', padding: 11, border: `1px solid ${GOLD}`, color: GOLD, background: 'transparent', textTransform: 'uppercase', textAlign: 'center', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                   <Edit size={12} /> Edit Profile
                 </Link>
               </div>
@@ -461,7 +461,7 @@ export default function ProfilePage() {
                     {user.skills?.length > 0
                       ? <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                           {user.skills.map((s, i) => (
-                            <span key={i} style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.08em', padding: '6px 13px', border: '1px solid #FDC21440', color: '#FDC214', textTransform: 'uppercase', borderRadius: 9999 }}>{s}</span>
+                            <span key={i} style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.08em', padding: '6px 13px', border: '1px solid #FDC214', color: '#FDC214', textTransform: 'uppercase', borderRadius: 9999 }}>{s}</span>
                           ))}
                         </div>
                       : <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', textAlign: 'center' }}>No skills on file.</div>
