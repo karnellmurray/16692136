@@ -274,47 +274,6 @@ function CreateModal({ onClose, onCreated }) {
               placeholder="e.g. London, My bedroom…" className={inputCls} />
           </div>
 
-          {/* Looking for collaborators */}
-          <div className="px-5 pt-4 pb-3">
-            <div className="flex items-center justify-between mb-2">
-              <label className="font-mono text-[10px] tracking-[0.25em] uppercase" style={{ color: '#e8e8e8' }}>
-                Looking For Collaborators
-              </label>
-              <div className="flex gap-1.5">
-                {['Yes', 'No'].map(opt => {
-                  const active = opt === 'Yes' ? collabNeeded : !collabNeeded
-                  return (
-                    <button key={opt} type="button" onClick={() => setCollabNeeded(opt === 'Yes')}
-                      className="font-mono text-[8px] tracking-[0.1em] uppercase px-3 py-1 border rounded-full transition-colors"
-                      style={{
-                        borderColor: active ? '#FDC214' : '#333',
-                        color:       active ? '#FDC214' : '#777',
-                        background:  'transparent',
-                      }}>
-                      {opt}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-            <div className={`flex flex-wrap gap-1.5 transition-opacity ${collabNeeded ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
-              {tagOptions.map(d => {
-                const selected = collabDisciplines.includes(d)
-                return (
-                  <button key={d} type="button" onClick={() => toggleCollabDiscipline(d)}
-                    className="font-mono text-[8px] tracking-[0.1em] uppercase px-2.5 py-1 border rounded-full transition-colors"
-                    style={{
-                      borderColor: selected ? '#FDC214' : '#333',
-                      color:       selected ? '#FDC214' : '#777',
-                      background:  'transparent',
-                    }}>
-                    {pluralise(d)}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
           {/* Cover image upload */}
           <div className="px-5 pt-4 pb-4">
             <label className="font-mono text-[10px] tracking-[0.25em] uppercase block mb-3" style={{ color: '#e8e8e8' }}>
@@ -373,6 +332,47 @@ function CreateModal({ onClose, onCreated }) {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Looking for collaborators */}
+          <div className="px-5 pt-4 pb-3">
+            <div className="flex items-center justify-between mb-2">
+              <label className="font-mono text-[10px] tracking-[0.25em] uppercase" style={{ color: '#e8e8e8' }}>
+                Looking For Collaborators
+              </label>
+              <div className="flex gap-1.5">
+                {['Yes', 'No'].map(opt => {
+                  const active = opt === 'Yes' ? collabNeeded : !collabNeeded
+                  return (
+                    <button key={opt} type="button" onClick={() => setCollabNeeded(opt === 'Yes')}
+                      className="font-mono text-[8px] tracking-[0.1em] uppercase px-3 py-1 border rounded-full transition-colors"
+                      style={{
+                        borderColor: active ? '#FDC214' : '#333',
+                        color:       active ? '#FDC214' : '#777',
+                        background:  'transparent',
+                      }}>
+                      {opt}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+            <div className={`flex flex-wrap gap-1.5 transition-opacity ${collabNeeded ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
+              {tagOptions.map(d => {
+                const selected = collabDisciplines.includes(d)
+                return (
+                  <button key={d} type="button" onClick={() => toggleCollabDiscipline(d)}
+                    className="font-mono text-[8px] tracking-[0.1em] uppercase px-2.5 py-1 border rounded-full transition-colors"
+                    style={{
+                      borderColor: selected ? '#FDC214' : '#333',
+                      color:       selected ? '#FDC214' : '#777',
+                      background:  'transparent',
+                    }}>
+                    {pluralise(d)}
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
           {/* Status */}
