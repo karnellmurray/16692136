@@ -306,7 +306,7 @@ function CreateModal({ onClose, onCreated }) {
                 onDrop={e => { e.preventDefault(); setDragging(false); pickFile(e.dataTransfer.files?.[0]) }}
                 className="w-full border border-dashed flex flex-col items-center justify-center gap-2 py-8 cursor-pointer transition-colors"
                 style={{ borderColor: dragging ? '#FDC214' : '#2a2a2a' }}>
-                <p className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: dragging ? '#FDC214' : '#444' }}>
+                <p className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: dragging ? '#FDC214' : '#777' }}>
                   Drop image or click to browse
                 </p>
                 <div className="flex flex-col items-center gap-0.5">
