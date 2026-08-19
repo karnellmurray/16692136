@@ -1155,13 +1155,13 @@ function TeamTab({ project, router, isAuthor }) {
 
       {(project.collaborators?.length > 0 || pendingInvites.length > 0) && (
         <>
-          <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-3 border-t border-[#141414] pt-4"
+          <p className="font-mono text-[11px] tracking-[0.2em] uppercase mb-3 border-t border-[#141414] pt-4"
             style={{ color: '#777' }}>Collaborators</p>
           {project.collaborators?.map((c, i) => {
             const avatarUrl = c.user?.avatar?.url || c.user?.profileImage || null
             return (
-              <div key={i} className="flex items-center gap-2 mb-2.5">
-                <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center font-mono text-[10px] font-bold"
+              <div key={i} className="flex items-center gap-2.5 mb-3">
+                <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center font-mono text-[13px] font-bold"
                   style={{ background: '#1a1a1a', color: '#777', border: '1px solid #2a2a2a' }}>
                   {avatarUrl
                     ? <img src={avatarUrl} alt="" className="w-full h-full object-cover"
@@ -1170,8 +1170,8 @@ function TeamTab({ project, router, isAuthor }) {
                   }
                 </div>
                 <div>
-                  <p className="font-space text-[13px] font-bold text-white">@{c.user?.username}</p>
-                  {c.role && <p className="font-mono text-[8px]" style={{ color: '#777' }}>{c.role}</p>}
+                  <p className="font-space text-[15px] font-bold text-white">@{c.user?.username}</p>
+                  {c.role && <p className="font-mono text-[10px]" style={{ color: '#777' }}>{c.role}</p>}
                 </div>
               </div>
             )
@@ -1179,8 +1179,8 @@ function TeamTab({ project, router, isAuthor }) {
           {isAuthor && pendingInvites.map((inv, i) => {
             const invAvatarUrl = inv.user?.avatar?.url || inv.user?.profileImage || null
             return (
-            <div key={`pending-${i}`} className="flex items-center gap-2 mb-2.5">
-              <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center font-mono text-[10px] font-bold"
+            <div key={`pending-${i}`} className="flex items-center gap-2.5 mb-3">
+              <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center font-mono text-[13px] font-bold"
                 style={{ background: '#1a1a00', color: '#FDC214', border: '1px solid rgba(253,194,20,0.25)' }}>
                 {invAvatarUrl
                   ? <img src={invAvatarUrl} alt="" className="w-full h-full object-cover"
@@ -1189,10 +1189,10 @@ function TeamTab({ project, router, isAuthor }) {
                 }
               </div>
               <div className="flex-1">
-                <p className="font-space text-[13px] font-bold text-white">@{inv.user?.username}</p>
-                {inv.role && <p className="font-mono text-[8px]" style={{ color: '#777' }}>{inv.role}</p>}
+                <p className="font-space text-[15px] font-bold text-white">@{inv.user?.username}</p>
+                {inv.role && <p className="font-mono text-[10px]" style={{ color: '#777' }}>{inv.role}</p>}
               </div>
-              <span className="font-mono text-[7px] tracking-widest uppercase px-1.5 py-0.5"
+              <span className="font-mono text-[9px] tracking-widest uppercase px-1.5 py-0.5"
                 style={{ color: '#FDC214', border: '1px solid #FDC214', background: 'transparent', borderRadius: 50 }}>
                 Invited
               </span>
