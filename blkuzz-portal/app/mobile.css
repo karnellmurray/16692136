@@ -47,7 +47,8 @@
     display: none !important;
   }
   .member-portal-row {
-    justify-content: center !important;
+    justify-content: flex-end !important;
+    margin-bottom: 14px !important;
   }
   .member-portal-row button img {
     width: 22px !important;
