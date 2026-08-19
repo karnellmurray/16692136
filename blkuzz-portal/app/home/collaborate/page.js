@@ -155,6 +155,24 @@ export default function BulletinPage() {
     setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
   }
 
+  const MAX_DESCRIPTION_WORDS = 500
+  const countWords = s => (s.trim() ? s.trim().split(/\s+/).length : 0)
+  const handleContentChange = e => {
+    const value = e.target.value
+    const words = countWords(value)
+    if (words > MAX_DESCRIPTION_WORDS && words > countWords(form.content)) return
+    setForm(f => ({ ...f, content: value }))
+  }
+
+  const MAX_TAGS = 5
+  const toggleTag = tag => {
+    setForm(f => {
+      if (f.tags.includes(tag)) return { ...f, tags: f.tags.filter(t => t !== tag) }
+      if (f.tags.length >= MAX_TAGS) return f
+      return { ...f, tags: [...f.tags, tag] }
+    })
+  }
+
   const submit = async e => {
     e.preventDefault()
     setSubmitting(true)
@@ -462,28 +480,33 @@ export default function BulletinPage() {
                   }}
                 />
               </div>
-              <textarea name="content" value={form.content} onChange={handle} required rows={3} placeholder="Describe what you need…"
+              <textarea name="content" value={form.content} onChange={handleContentChange} required rows={3} placeholder="Describe what you need…"
                 className="w-full bg-transparent rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none resize-none placeholder-white/40"
                 style={{ border: '1px solid #FDC214' }} />
+              <p className="font-mono text-[8px] tracking-[0.1em] uppercase -mt-1" style={{ color: '#777' }}>{countWords(form.content)}/{MAX_DESCRIPTION_WORDS} words</p>
               <p className="font-mono text-[9px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>Looking for</p>
               <div className="flex flex-wrap gap-1.5">
                 {availableTags.map(tag => {
                   const active = form.tags.includes(tag)
+                  const atMax  = form.tags.length >= MAX_TAGS && !active
                   return (
-                    <button key={tag} type="button"
-                      onClick={() => setForm(f => ({ ...f, tags: active ? f.tags.filter(t => t !== tag) : [...f.tags, tag] }))}
+                    <button key={tag} type="button" disabled={atMax}
+                      onClick={() => toggleTag(tag)}
                       className="font-mono text-[8px] tracking-[0.08em] uppercase px-2.5 py-1 transition-colors"
                       style={{
                         border: '1px solid', borderRadius: 9999,
                         borderColor: active ? '#FDC214' : '#777',
                         color: active ? '#FDC214' : '#777',
                         background: 'transparent',
+                        cursor: atMax ? 'not-allowed' : 'pointer',
+                        opacity: atMax ? 0.4 : 1,
                       }}>
                       {tag}
                     </button>
                   )
                 })}
               </div>
+              <p className="font-mono text-[7px] tracking-[0.1em]" style={{ color: '#777' }}>{form.tags.length}/{MAX_TAGS} selected</p>
               {/* Media upload */}
               <input ref={fileInputRef} type="file" accept="image/*,video/*" multiple className="hidden" onChange={handleFiles} />
               {mediaUrls.length > 0 && (
