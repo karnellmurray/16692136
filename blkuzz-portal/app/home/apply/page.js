@@ -154,7 +154,7 @@ function ProjectSelect({ value, onChange, projects }) {
       {open && <div style={{ position: 'fixed', inset: 0, zIndex: 48 }} onMouseDown={() => setOpen(false)} />}
       <div style={{ position: 'relative', zIndex: 49 }}>
         <div onClick={() => setOpen(o => !o)}
-          style={{ width: '100%', background: '#000', border: '1px solid #1e1e1e', color: selected ? '#e8e8e8' : '#444', fontFamily: MONO, fontSize: 13, padding: '10px 12px', cursor: 'pointer', boxSizing: 'border-box', userSelect: 'none' }}>
+          style={{ width: '100%', background: '#000', border: '1px solid #1e1e1e', color: selected ? '#e8e8e8' : '#777', fontFamily: MONO, fontSize: 13, padding: '10px 12px', cursor: 'pointer', boxSizing: 'border-box', userSelect: 'none' }}>
           {selected ? selected.title : 'Select a project'}
         </div>
       </div>
@@ -184,7 +184,7 @@ const inputStyle = {
 
 function Label({ children, required }) {
   return (
-    <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.2em', color: '#777', textTransform: 'uppercase', marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
+    <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.2em', color: '#777', textTransform: 'uppercase', marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
       <span>{children}</span>
       {required && <span style={{ color: GOLD }}>required</span>}
     </div>
@@ -416,7 +416,7 @@ export default function WorkWithUsPage() {
                       return (
                         <button key={opt} type="button"
                           onClick={() => setForm(f => ({ ...f, existingProject: f.existingProject === val ? null : val, linkedProjectId: val ? f.linkedProjectId : '' }))}
-                          style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.15em', padding: '6px 20px', borderRadius: 9999, border: `1px solid ${active ? GOLD : '#2a2a2a'}`, background: 'transparent', color: active ? GOLD : '#444', cursor: 'pointer', transition: 'all 0.15s' }}>
+                          style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.15em', padding: '6px 20px', borderRadius: 9999, border: `1px solid ${active ? GOLD : '#2a2a2a'}`, background: 'transparent', color: active ? GOLD : '#777', cursor: 'pointer', transition: 'all 0.15s' }}>
                           {opt}
                         </button>
                       )
