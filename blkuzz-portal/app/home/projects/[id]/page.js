@@ -1194,7 +1194,8 @@ function TeamTab({ project, router, isAuthor }) {
   return (
     <div className="px-3.5 py-4">
       <p className="font-mono text-[11px] tracking-[0.2em] uppercase mb-3" style={{ color: '#777' }}>Member</p>
-      <div className="flex items-center gap-3 mb-5">
+      <div className="flex items-center gap-3 mb-5 cursor-pointer"
+        onClick={() => project.creator?.username && router.push(`/home/profile/${project.creator.username}`)}>
         {project.creator?.avatar?.url || project.creator?.profileImage
           ? <img src={project.creator.avatar?.url ?? project.creator.profileImage}
               alt={project.creator.username} className="w-10 h-10 rounded-full object-cover"
@@ -1628,22 +1629,25 @@ export default function ProjectDetailPage() {
 
       {/* Meta bar */}
       <div className="flex items-center gap-2.5 px-3.5 py-2.5 border-b border-[#141414]">
-        {project.creator?.avatar?.url || project.creator?.profileImage
-          ? <img src={project.creator.avatar?.url ?? project.creator.profileImage}
-              alt={project.creator.username} className="w-8 h-8 rounded-full object-cover shrink-0"
-              onError={e => { e.currentTarget.style.display = 'none' }} />
-          : <div className="w-8 h-8 rounded-full flex items-center justify-center font-mono text-[12px] font-bold shrink-0"
-              style={{ background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}30` }}>
-              {project.creator?.username?.[0]?.toUpperCase()}
-            </div>
-        }
-        <div className="flex-1 min-w-0">
-          <p className="font-body text-[15px] font-normal text-white leading-tight">
-            @{project.creator?.username}
-          </p>
-          <p className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>
-            {project.discipline}{project.location ? ` ${project.location}` : ''}
-          </p>
+        <div className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer"
+          onClick={() => project.creator?.username && router.push(`/home/profile/${project.creator.username}`)}>
+          {project.creator?.avatar?.url || project.creator?.profileImage
+            ? <img src={project.creator.avatar?.url ?? project.creator.profileImage}
+                alt={project.creator.username} className="w-8 h-8 rounded-full object-cover shrink-0"
+                onError={e => { e.currentTarget.style.display = 'none' }} />
+            : <div className="w-8 h-8 rounded-full flex items-center justify-center font-mono text-[12px] font-bold shrink-0"
+                style={{ background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}30` }}>
+                {project.creator?.username?.[0]?.toUpperCase()}
+              </div>
+          }
+          <div className="flex-1 min-w-0">
+            <p className="font-body text-[15px] font-normal text-white leading-tight">
+              @{project.creator?.username}
+            </p>
+            <p className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>
+              {project.discipline}{project.location ? ` ${project.location}` : ''}
+            </p>
+          </div>
         </div>
         {!isAuthor && (
           <button onClick={toggleFollow}
