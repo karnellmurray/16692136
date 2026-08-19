@@ -33,9 +33,9 @@ const taStyle = () => ({
   lineHeight: 1.55,
 })
 
-function SectionLabel({ children }) {
+function SectionLabel({ children, color = 'rgba(255,255,255,0.4)' }) {
   return (
-    <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.25em', color, textTransform: 'uppercase', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
       {children}
       <div style={{ flex: 1, height: 1, background: '#141414' }} />
     </div>
@@ -245,7 +245,7 @@ export default function EditProfilePage() {
           <SectionLabel>Identity</SectionLabel>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
             <div>
-              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5 }}>Username</div>
+              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.18em', color: '#FDC214', textTransform: 'uppercase', marginBottom: 5 }}>Username</div>
               <input
                 value={form.username}
                 disabled={!!usernameCooldown}
@@ -261,15 +261,15 @@ export default function EditProfilePage() {
               }
             </div>
             <div>
-              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5 }}>Location</div>
+              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.18em', color: '#FDC214', textTransform: 'uppercase', marginBottom: 5 }}>Location</div>
               <input value={form.location} onChange={e => { set('location', e.target.value); setLocationError('') }} placeholder="City, UK" style={{ ...iStyle(), ...(locationError ? { border: '1px solid #ff4444', borderBottom: '1px solid #ff4444' } : {}) }} />
               {locationError ? <Hint style={{ color: '#ff4444' }}>{locationError}</Hint> : <Hint style={{ color: '#FDC214' }}>Format: City, UK</Hint>}
             </div>
           </div>
           <div>
-            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5, display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.18em', color: '#FDC214', textTransform: 'uppercase', marginBottom: 5, display: 'flex', justifyContent: 'space-between' }}>
               <span>Bio</span>
-              <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.4)' }}>{form.bio.length}/500</span>
+              <span style={{ fontSize: 9, color: '#FDC214' }}>{form.bio.length}/500</span>
             </div>
             <textarea value={form.bio} onChange={e => set('bio', e.target.value)} maxLength={500} rows={3}
               placeholder="What you do, what you're working on, what you're looking for..."
@@ -279,7 +279,7 @@ export default function EditProfilePage() {
 
         {/* Tags */}
         <div style={{ padding: '14px 16px' }}>
-          <SectionLabel>Tags</SectionLabel>
+          <SectionLabel color="#FDC214">Tags</SectionLabel>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
             {availableTags.map(tag => {
               const active = form.tags.includes(tag)
@@ -298,7 +298,7 @@ export default function EditProfilePage() {
 
         {/* Skills */}
         <div style={{ padding: '14px 16px' }}>
-          <SectionLabel>Skills</SectionLabel>
+          <SectionLabel color="#FDC214">Skills</SectionLabel>
           {form.skills.length > 0 && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 8 }}>
               {form.skills.map(s => (
@@ -324,7 +324,7 @@ export default function EditProfilePage() {
 
         {/* Availability */}
         <div style={{ padding: '14px 16px' }}>
-          <SectionLabel>Availability</SectionLabel>
+          <SectionLabel color="#FDC214">Availability</SectionLabel>
           {[
 
             { key: 'showInDirectory', title: 'Appear in directory',             sub: "If off, your profile won't show in member search results." },
@@ -345,7 +345,7 @@ export default function EditProfilePage() {
 
         {/* Links */}
         <div style={{ padding: '14px 16px' }}>
-          <SectionLabel>Links</SectionLabel>
+          <SectionLabel color="#FDC214">Links</SectionLabel>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <Globe size={18} strokeWidth={1.5} style={{ color: '#FDC214' }} />
