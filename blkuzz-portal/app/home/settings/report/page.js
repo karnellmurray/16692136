@@ -80,7 +80,7 @@ export default function ReportBugPage() {
               placeholder="What were you doing, what did you expect, and what happened instead?"
               className="placeholder-[#777]"
               style={{ ...inputStyle, resize: 'none', fontFamily: 'Space Grotesk, sans-serif', fontSize: 15, lineHeight: 1.5 }} />
-            <p style={{ fontFamily: MONO, fontSize: 10, color: '#777', marginTop: 6, textAlign: 'right' }}>
+            <p style={{ fontFamily: MONO, fontSize: 10, color: '#FDC214', marginTop: 6, textAlign: 'right' }}>
               {description.length}/{MAX_DESCRIPTION_LEN}
             </p>
           </div>
@@ -90,7 +90,7 @@ export default function ReportBugPage() {
           )}
 
           <button type="submit" disabled={!canSubmit}
-            style={{ alignSelf: 'flex-start', padding: '12px 30px', background: canSubmit ? '#FDC214' : '#333', color: canSubmit ? '#0a0a0a' : '#777', border: 'none', borderRadius: 9999, fontFamily: 'IBM Plex Mono, monospace', fontSize: 12, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: canSubmit ? 'pointer' : 'default' }}>
+            style={{ alignSelf: 'flex-start', padding: '12px 30px', background: '#FDC214', color: '#0a0a0a', opacity: canSubmit ? 1 : 0.4, border: 'none', borderRadius: 9999, fontFamily: 'IBM Plex Mono, monospace', fontSize: 12, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: canSubmit ? 'pointer' : 'default' }}>
             {submitting ? 'Sending…' : 'Send Report'}
           </button>
         </form>
