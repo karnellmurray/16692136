@@ -1583,7 +1583,7 @@ export default function ProjectDetailPage() {
         {/* Back button */}
         <button onClick={() => router.back()}
           className="absolute top-3 left-3 z-10 w-8 h-8 flex items-center justify-center">
-          <ArrowLeft size={16} style={{ color: '#FDC214' }} />
+          <ArrowLeft size={22} style={{ color: '#FDC214' }} />
         </button>
 
         {/* Edit cover — author only */}
