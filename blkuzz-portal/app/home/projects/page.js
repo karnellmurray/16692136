@@ -212,7 +212,6 @@ function CreateModal({ onClose, onCreated }) {
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#1e1e1e] sticky top-0" style={{ background: '#0a0a0a' }}>
           <div className="flex-1 text-center">
-            <p className="font-mono text-[8px] tracking-[0.25em] uppercase mb-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>New transmission</p>
             <p className="font-head text-[24px]" style={{ color: '#FDC214', letterSpacing: '2px' }}>Create Project</p>
           </div>
           <button onClick={onClose} className="flex items-center justify-center">
