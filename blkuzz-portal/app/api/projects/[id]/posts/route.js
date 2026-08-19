@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/authOptions'
 import connectDB from '@/lib/mongodb'
 import Project from '@/models/Project'
 import ProjectPost from '@/models/ProjectPost'
+import Notification from '@/models/Notification'
 import mongoose from 'mongoose'
 
 async function resolveProject(id) {
@@ -61,6 +62,23 @@ export async function POST(req, { params }) {
   project.lastPostAt = now
   project.updatedAt  = now
   await project.save()
+
+  const followerIds = (project.followers ?? []).filter(f => f.toString() !== session.user.id)
+  if (followerIds.length > 0) {
+    const text = `@${session.user.username} posted an update in ${project.title}`
+    const link = `/home/projects/${params.id}`
+    await Notification.insertMany(
+      followerIds.map(followerId => ({
+        user:    followerId,
+        type:    'project_post',
+        from:    session.user.id,
+        project: project._id,
+        text,
+        link,
+        read:    false,
+      }))
+    )
+  }
 
   const populated = await post.populate('author', 'username')
   return NextResponse.json(populated, { status: 201 })
