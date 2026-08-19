@@ -208,8 +208,8 @@ export default function BulletinPage() {
       {/* Live bar */}
       <div className="flex items-center justify-center gap-2 px-4 py-2.5 flex-shrink-0" style={{ borderBottom: '1px solid #1f1f1f', background: '#0a0a0a' }}>
         <span className="w-1.5 h-1.5 rounded-full bg-[#008000] animate-pulse2 inline-block" />
-        <span className="font-mono text-[12px] tracking-[0.15em] text-[#008000]">LIVE</span>
-        <span className="font-mono text-[12px] text-[#777] tracking-[0.1em]">{time}</span>
+        <span className="font-mono text-[10px] tracking-[0.15em] text-[#008000]">LIVE</span>
+        <span className="font-mono text-[10px] text-[#777] tracking-[0.1em]">{time}</span>
       </div>
 
       {/* Frequency header */}
