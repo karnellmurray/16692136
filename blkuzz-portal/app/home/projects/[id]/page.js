@@ -556,7 +556,7 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
               isVideo(url)
                 ? <VideoPlayer key={i} url={url} style={{ width: '100%', height: 320 }} />
                 : isAudio(url)
-                ? <AudioPlayer key={i} url={url} style={{ width: '100%' }} />
+                ? <MediaThumb key={i} url={url} style={{ width: 72, height: 72 }} onClick={() => setLightbox(url)} />
                 : <div key={i} className="overflow-hidden cursor-pointer" style={{ width: 72, height: 72 }}
                     onClick={() => setLightbox(url)}>
                     <img src={url} alt="" className="w-full h-full object-cover" />
