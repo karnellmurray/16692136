@@ -209,18 +209,18 @@ export default function BulletinPage() {
       <div className="flex items-center justify-center gap-2 px-4 py-2.5 flex-shrink-0" style={{ borderBottom: '1px solid #1f1f1f', background: '#0a0a0a' }}>
         <span className="w-1.5 h-1.5 rounded-full bg-[#008000] animate-pulse2 inline-block" />
         <span className="font-mono text-[12px] tracking-[0.15em] text-[#008000]">LIVE</span>
-        <span className="font-mono text-[12px] text-[#444] tracking-[0.1em]">{time}</span>
+        <span className="font-mono text-[12px] text-[#777] tracking-[0.1em]">{time}</span>
       </div>
 
       {/* Frequency header */}
       <div className="px-6 py-4 flex-shrink-0" style={{ borderBottom: '1px solid #141414' }}>
         <div className="flex items-start justify-between">
           <div>
-            <p className="font-mono text-[9px] tracking-[0.25em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <p className="font-mono text-[9px] tracking-[0.25em] uppercase mb-1" style={{ color: '#777' }}>
               Open frequency — collab requests &amp; call-outs
             </p>
             <h1 className="font-head text-white text-2xl mb-2" style={{ letterSpacing: '2px' }}>Collaborate</h1>
-            <div className="flex gap-4 font-mono text-[9px] tracking-wide" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <div className="flex gap-4 font-mono text-[9px] tracking-wide" style={{ color: '#777' }}>
               <span><span style={{ color: '#FDC214' }}>{stats.open}</span> open listings</span>
               <span><span style={{ color: '#D2042D' }}>{stats.urgent}</span> urgent</span>
               <span><span style={{ color: '#008000' }}>{stats.today}</span> active today</span>
@@ -250,7 +250,7 @@ export default function BulletinPage() {
       </div>
 
       {/* Column labels */}
-      <div className="flex px-6 py-2 font-mono text-[8px] tracking-[0.15em] uppercase flex-shrink-0" style={{ borderBottom: '1px solid #141414', color: 'rgba(255,255,255,0.4)' }}>
+      <div className="flex px-6 py-2 font-mono text-[8px] tracking-[0.15em] uppercase flex-shrink-0" style={{ borderBottom: '1px solid #141414', color: '#777' }}>
         <div style={{ width: 64 }}>Channel</div>
         <div className="flex-1">Transmission</div>
         <div style={{ width: 44 }} className="hidden lg:block text-right">Logged</div>
@@ -259,9 +259,9 @@ export default function BulletinPage() {
       {/* Scrollable listings */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {loading ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>LOADING...</div>
         ) : filtered.length === 0 ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO CALLOUTS IN THIS CHANNEL YET.</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>NO CALLOUTS IN THIS CHANNEL YET.</div>
         ) : (
           <div className="flex flex-col">
             {filtered.map(post => {
@@ -377,7 +377,7 @@ export default function BulletinPage() {
                   </div>
 
                   {/* Time col */}
-                  <div className="hidden lg:block font-mono text-[8px] shrink-0" style={{ width: 44, color: 'rgba(255,255,255,0.4)', padding: '10px 12px 10px 0', textAlign: 'right' }}>
+                  <div className="hidden lg:block font-mono text-[8px] shrink-0" style={{ width: 44, color: '#777', padding: '10px 12px 10px 0', textAlign: 'right' }}>
                     {shortTimeAgo(post.createdAt)}
                   </div>
                 </div>
