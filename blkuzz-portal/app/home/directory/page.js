@@ -312,7 +312,7 @@ export default function DirectoryPage() {
 
         {remaining > 0 && (
           <button onClick={() => setPage(p => p + 1)}
-            style={{ width: '100%', padding: 14, textAlign: 'center', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.2em', color: '#FDC214', cursor: 'pointer', background: 'none', border: 'none', textTransform: 'uppercase' }}>
+            style={{ width: '100%', padding: 14, textAlign: 'center', fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, letterSpacing: '0.2em', color: '#FDC214', cursor: 'pointer', background: 'none', border: 'none', textTransform: 'uppercase' }}>
             Load more members <span style={{ color: '#008000' }}>· {remaining} remaining</span>
           </button>
         )}
