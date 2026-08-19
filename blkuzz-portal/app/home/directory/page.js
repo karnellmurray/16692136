@@ -124,7 +124,7 @@ function AgentCard({ user, featured }) {
               @{user.username}
             </div>
           </div>
-          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '2px 6px', flexShrink: 0, background: '#00800012', color: '#008000', border: '1px solid #00800030' }}>
+          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '2px 6px', flexShrink: 0, background: '#00800012', color: '#008000', border: '1px solid #008000' }}>
             Active
           </div>
         </div>
