@@ -228,7 +228,7 @@ function CreateModal({ onClose, onCreated }) {
               Project Title *
             </label>
             <input name="title" value={form.title} onChange={handle} required
-              placeholder="e.g. SOUL — FW26" className={inputCls} />
+              placeholder="Name your project" className={inputCls} />
           </div>
 
           {/* Tagline */}
