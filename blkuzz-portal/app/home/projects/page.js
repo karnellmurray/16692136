@@ -738,7 +738,7 @@ export default function ProjectsPage() {
 
       {loading ? (
         <div className="flex-1 flex items-center justify-center">
-          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>LOADING...</span>
+          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#777', letterSpacing: '0.25em' }}>LOADING...</span>
         </div>
       ) : loadError ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-2 px-6 text-center">

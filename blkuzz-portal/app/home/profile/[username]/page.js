@@ -668,7 +668,7 @@ export default function ProfilePage() {
             {/* Members list */}
             <div style={{ overflowY: 'auto', flex: 1, scrollbarWidth: 'none' }}>
               {shareMembers.length === 0 && (
-                <div style={{ padding: '20px 14px', fontFamily: MONO, fontSize: 8, color: '#777', textAlign: 'center', letterSpacing: '0.15em' }}>LOADING...</div>
+                <div style={{ padding: '20px 14px', fontFamily: MONO, fontSize: 9, color: '#777', textAlign: 'center', letterSpacing: '0.15em' }}>LOADING...</div>
               )}
               {shareMembers
                 .filter(m => {

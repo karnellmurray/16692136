@@ -277,7 +277,7 @@ export default function BulletinPage() {
       {/* Scrollable listings */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {loading ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>LOADING...</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#777', letterSpacing: '0.25em' }}>LOADING...</div>
         ) : filtered.length === 0 ? (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>NO CALLOUTS IN THIS CHANNEL YET.</div>
         ) : (

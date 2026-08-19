@@ -1486,7 +1486,7 @@ export default function ProjectDetailPage() {
 
   if (!project) return (
     <div className="-m-8 flex items-center justify-center min-h-screen" style={{ background: '#0a0a0a' }}>
-      <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.25em' }}>LOADING...</span>
+      <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#777', letterSpacing: '0.25em' }}>LOADING...</span>
     </div>
   )
 
