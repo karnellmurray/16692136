@@ -69,7 +69,7 @@ export default function ReportBugPage() {
               Subject
             </label>
             <input value={subject} onChange={e => setSubject(e.target.value)} maxLength={200}
-              placeholder="Short summary of the bug" style={inputStyle} />
+              placeholder="Short summary of the bug" className="placeholder-[#777]" style={inputStyle} />
           </div>
 
           <div>
@@ -78,6 +78,7 @@ export default function ReportBugPage() {
             </label>
             <textarea value={description} onChange={e => setDescription(e.target.value.slice(0, MAX_DESCRIPTION_LEN))} rows={7}
               placeholder="What were you doing, what did you expect, and what happened instead?"
+              className="placeholder-[#777]"
               style={{ ...inputStyle, resize: 'none', fontFamily: 'Space Grotesk, sans-serif', fontSize: 15, lineHeight: 1.5 }} />
             <p style={{ fontFamily: MONO, fontSize: 10, color: '#777', marginTop: 6, textAlign: 'right' }}>
               {description.length}/{MAX_DESCRIPTION_LEN}
