@@ -258,49 +258,32 @@ export default function DirectoryPage() {
         </div>
       </div>
 
-      {/* Tag filter — collapsible toggle-button panel on mobile, pill row at lg+ */}
+      {/* Tag filter — collapsible "+" dropdown */}
       {disciplines.length > 0 && (
-        <>
-          <div className="lg:hidden border-b border-[#141414]" style={{ flexShrink: 0 }}>
-            <button onClick={() => setFiltersOpen(o => !o)}
-              className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.15em]"
-              style={{ background: 'transparent', border: 'none', color: discipline !== 'All' ? '#FDC214' : 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
-              <span>Filters{discipline !== 'All' ? ` · ${discipline}` : ''}</span>
-              <span style={{ color: '#FDC214', fontSize: 14 }}>{filtersOpen ? '−' : '+'}</span>
-            </button>
-            {filtersOpen && (
-              <div className="flex flex-wrap gap-1.5 px-4 pb-2.5">
-                {['All', ...disciplines].map(d => (
-                  <button key={d} onClick={() => { setDiscipline(d); if (d === 'All') setSort(null); setPage(1) }}
-                    className="font-mono text-[7px] tracking-[0.15em] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
-                    style={{
-                      borderColor: discipline === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
-                      color:       discipline === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
-                      background:  discipline === d ? '#FDC214' : 'transparent',
-                      cursor: 'pointer',
-                    }}>
-                    {d}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="hidden lg:flex flex-wrap gap-1.5 px-4 py-2.5 border-b border-[#141414]" style={{ flexShrink: 0 }}>
-            {['All', ...disciplines].map(d => (
-              <button key={d} onClick={() => { setDiscipline(d); if (d === 'All') setSort(null); setPage(1) }}
-                className="font-mono text-[7px] tracking-[0.15em] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
-                style={{
-                  borderColor: discipline === d ? '#FDC214' : 'rgba(255,255,255,0.15)',
-                  color:       discipline === d ? '#0a0a0a' : 'rgba(255,255,255,0.4)',
-                  background:  discipline === d ? '#FDC214' : 'transparent',
-                  cursor: 'pointer',
-                }}>
-                {d}
-              </button>
-            ))}
-          </div>
-        </>
+        <div className="border-b border-[#141414]" style={{ flexShrink: 0 }}>
+          <button onClick={() => setFiltersOpen(o => !o)}
+            className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.15em]"
+            style={{ background: 'transparent', border: 'none', color: discipline !== 'All' ? '#FDC214' : 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
+            <span>Filters{discipline !== 'All' ? ` · ${discipline}` : ''}</span>
+            <span style={{ color: '#FDC214', fontSize: 19 }}>{filtersOpen ? '−' : '+'}</span>
+          </button>
+          {filtersOpen && (
+            <div className="flex flex-wrap gap-1.5 px-4 pb-2.5">
+              {['All', ...disciplines].map(d => (
+                <button key={d} onClick={() => { setDiscipline(d); if (d === 'All') setSort(null); setPage(1) }}
+                  className="font-mono text-[8px] tracking-[0.15em] uppercase px-2.5 py-1 border rounded-full whitespace-nowrap transition-colors"
+                  style={{
+                    borderColor: discipline === d ? '#FDC214' : '#777',
+                    color:       discipline === d ? '#0a0a0a' : '#777',
+                    background:  discipline === d ? '#FDC214' : 'transparent',
+                    cursor: 'pointer',
+                  }}>
+                  {d}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       )}
 
 
