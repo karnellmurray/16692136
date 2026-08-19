@@ -356,7 +356,7 @@ export default function ProfilePage() {
                       : <button
                           onClick={sendCollab}
                           disabled={collabStatus === 'pending' || collabBusy}
-                          style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.12em', padding: '10px 20px', border: collabStatus === 'pending' ? '1px solid #777' : `1px solid ${GOLD}`, color: collabStatus === 'pending' ? '#777' : GOLD, background: 'transparent', cursor: collabStatus === 'pending' ? 'default' : 'pointer', textTransform: 'uppercase', outline: 'none', flexShrink: 0 }}>
+                          style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.12em', padding: '10px 20px', border: collabStatus === 'pending' ? '1px solid #777' : `1px solid ${GOLD}`, color: collabStatus === 'pending' ? '#777' : '#0a0a0a', background: collabStatus === 'pending' ? 'transparent' : GOLD, cursor: collabStatus === 'pending' ? 'default' : 'pointer', textTransform: 'uppercase', outline: 'none', flexShrink: 0 }}>
                           {collabStatus === 'pending' ? 'Requested' : 'Collab'}
                         </button>
                   )}
