@@ -7,6 +7,7 @@ import { transcodeToH264, processImage, transcodeAudio } from '@/lib/mediaProces
 
 const HEIC_MIMES  = ['image/heic', 'image/heif', 'image/heic-sequence', 'image/heif-sequence']
 const AUDIO_EXTS  = ['mp3', 'wav', 'm4a', 'aac', 'flac', 'wma', 'opus']
+const DOCUMENT_MIMES = { 'application/pdf': 'pdf' }
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
@@ -68,6 +69,7 @@ export async function runUploadJob(id) {
     // sniffing comes back empty -- same spirit as the ext fallback below.
     const originalExt = (doc.originalFilename?.split('.').pop() || '').toLowerCase()
     const isAudio = (sniffed?.mime || '').startsWith('audio/') || (!sniffed && AUDIO_EXTS.includes(originalExt))
+    const documentExt = DOCUMENT_MIMES[sniffed?.mime]
 
     let outBuffer, contentType, ext
     if (isVideo) {
@@ -98,6 +100,14 @@ export async function runUploadJob(id) {
         contentType = 'application/octet-stream'
         ext         = inputExt
       }
+    } else if (documentExt) {
+      // Documents (currently just PDF) pass through untouched -- there's no
+      // "processing" step that makes sense here the way transcode/resize do
+      // for video/image, just re-store the sniffed-and-verified bytes under
+      // their real content-type.
+      outBuffer   = buffer
+      contentType = sniffed.mime
+      ext         = documentExt
     } else {
       try {
         // sharp's bundled libheif has no HEVC decoder, so it can't read real

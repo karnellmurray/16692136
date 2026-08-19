@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { io } from 'socket.io-client'
 import { apiFetch } from '@/lib/api'
 import { uploadMedia } from '@/lib/useUploadClient'
-import { Send, Lock, Paperclip, MoreVertical, User, ArrowLeft } from 'lucide-react'
+import { Send, Lock, Paperclip, MoreVertical, User, ArrowLeft, FileText } from 'lucide-react'
 
 function timeAgo(date) {
   const s = Math.floor((Date.now() - new Date(date)) / 1000)
@@ -24,6 +24,7 @@ function initials(username) {
 }
 
 const isVideo = url => /\.(mp4|mov|webm|ogg|avi|m4v|mkv|3gp)(\?|$)/i.test(url)
+const isPdf   = url => /\.pdf(\?|$)/i.test(url)
 
 function Avatar({ user, size = 36, style = {} }) {
   const url = user?.avatarUrl || user?.avatar?.url || user?.profileImage || null
@@ -427,7 +428,13 @@ function InboxPageContent() {
                       {msg.media?.length > 0 && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: '75%' }}>
                           {msg.media.map((url, mi) => (
-                            isVideo(url)
+                            isPdf(url)
+                              ? <a key={mi} href={url} target="_blank" rel="noopener noreferrer"
+                                  style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px', width: '100%', maxWidth: 220, borderRadius: 5, border: '1px solid #1a1a1a', background: '#111', textDecoration: 'none', boxSizing: 'border-box' }}>
+                                  <FileText size={20} style={{ color: '#FDC214', flexShrink: 0 }} />
+                                  <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, color: '#e8e8e8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>PDF Document</span>
+                                </a>
+                              : isVideo(url)
                               ? <video key={mi} src={url} controls onClick={() => setLightbox(url)} style={{ width: '100%', maxWidth: 220, borderRadius: 5, cursor: 'pointer', border: '1px solid #1a1a1a', display: 'block' }} />
                               : <img key={mi} src={url} alt="" onClick={() => setLightbox(url)} style={{ width: '100%', maxWidth: 220, borderRadius: 5, cursor: 'pointer', border: '1px solid #1a1a1a', objectFit: 'cover', display: 'block' }} />
                           ))}
@@ -464,7 +471,11 @@ function InboxPageContent() {
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', padding: '10px 14px 0' }}>
                     {mediaUrls.map((url, i) => (
                       <div key={i} style={{ position: 'relative' }}>
-                        {isVideo(url)
+                        {isPdf(url)
+                          ? <div style={{ width: 48, height: 48, borderRadius: 4, background: '#111', border: '1px solid #1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <FileText size={20} style={{ color: '#FDC214' }} />
+                            </div>
+                          : isVideo(url)
                           ? <video src={url} muted preload="metadata" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4, display: 'block' }} />
                           : <img src={url} alt="" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4, display: 'block' }} />
                         }
@@ -474,7 +485,7 @@ function InboxPageContent() {
                     ))}
                   </div>
                 )}
-                <input ref={fileInputRef} type="file" accept="image/*,video/*" multiple className="hidden" onChange={handleFiles} />
+                <input ref={fileInputRef} type="file" accept="image/*,video/*,.pdf,application/pdf" multiple className="hidden" onChange={handleFiles} />
                 <form onSubmit={send} style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     <Paperclip size={17} onClick={() => fileInputRef.current?.click()} style={{ color: uploading ? '#00C853' : '#FDC214', cursor: uploading ? 'default' : 'pointer' }} />
