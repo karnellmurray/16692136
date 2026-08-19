@@ -380,7 +380,7 @@ function CreateModal({ onClose, onCreated }) {
                 )
               })}
             </div>
-            <p className="font-mono text-[7px] mt-1.5" style={{ color: '#777' }}>{collabDisciplines.length}/10 selected</p>
+            <p className="font-mono text-[10px] mt-1.5" style={{ color: '#FDC214' }}>{collabDisciplines.length}/10 selected</p>
           </div>
 
           {/* Status */}
