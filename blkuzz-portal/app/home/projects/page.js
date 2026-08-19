@@ -146,7 +146,11 @@ function CreateModal({ onClose, onCreated }) {
   }
 
   const toggleCollabDiscipline = d => {
-    setCollabDisciplines(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d])
+    setCollabDisciplines(prev => {
+      if (prev.includes(d)) return prev.filter(x => x !== d)
+      if (prev.length >= 10) return prev
+      return [...prev, d]
+    })
   }
 
   useEffect(() => {
@@ -360,19 +364,23 @@ function CreateModal({ onClose, onCreated }) {
             <div className={`flex flex-wrap gap-1.5 transition-opacity ${collabNeeded ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
               {tagOptions.map(d => {
                 const selected = collabDisciplines.includes(d)
+                const atMax    = collabDisciplines.length >= 10 && !selected
                 return (
-                  <button key={d} type="button" onClick={() => toggleCollabDiscipline(d)}
+                  <button key={d} type="button" disabled={atMax} onClick={() => toggleCollabDiscipline(d)}
                     className="font-mono text-[8px] tracking-[0.1em] uppercase px-2.5 py-1 border rounded-full transition-colors"
                     style={{
                       borderColor: selected ? '#FDC214' : '#333',
                       color:       selected ? '#FDC214' : '#777',
                       background:  'transparent',
+                      cursor:      atMax ? 'not-allowed' : 'pointer',
+                      opacity:     atMax ? 0.4 : 1,
                     }}>
                     {pluralise(d)}
                   </button>
                 )
               })}
             </div>
+            <p className="font-mono text-[7px] mt-1.5" style={{ color: '#777' }}>{collabDisciplines.length}/10 selected</p>
           </div>
 
           {/* Status */}
