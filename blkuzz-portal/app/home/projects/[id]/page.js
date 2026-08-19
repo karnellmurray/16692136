@@ -1610,10 +1610,10 @@ export default function ProjectDetailPage() {
             onClick={() => setCollabModal(true)}
             className="font-mono text-[11px] tracking-[0.15em] uppercase px-[18px] py-2 border shrink-0 transition-colors"
             style={{
-              borderColor: collabDeclined ? 'rgba(210,4,45,0.3)' : `${collabSent ? 'rgba(253,194,20,0.4)' : '#FDC214'}`,
-              color:       collabDeclined ? '#D2042D80' : collabSent ? '#FDC214' : '#0a0a0a',
+              borderColor: collabDeclined ? '#D2042D' : `${collabSent ? 'rgba(253,194,20,0.4)' : '#FDC214'}`,
+              color:       collabDeclined ? '#D2042D' : collabSent ? '#FDC214' : '#0a0a0a',
               background:  collabDeclined ? 'transparent' : collabSent ? 'transparent' : '#FDC214',
-              opacity:     collabSent || collabDeclined ? 0.7 : 1,
+              opacity:     collabSent ? 0.7 : 1,
               cursor:      collabSent || collabDeclined ? 'default' : 'pointer',
             }}>
             {collabDeclined ? 'Declined' : collabSent ? 'Requested ✓' : 'Collab'}
