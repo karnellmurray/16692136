@@ -71,10 +71,11 @@ function runningDuration(date) {
 }
 
 // ─── Hero art ─────────────────────────────────────────────────────────────────
-function HeroArt({ project }) {
+function HeroArt({ project, onClick }) {
   if (project.coverImage) return (
     <img src={project.coverImage} alt={project.title} className="w-full h-full object-cover"
-      style={{ objectPosition: project.coverImagePosition ?? '50% 50%' }} />
+      style={{ objectPosition: project.coverImagePosition ?? '50% 50%', cursor: onClick ? 'pointer' : 'default' }}
+      onClick={onClick} />
   )
   const cfg   = discCfg(project.discipline)
   const label = project.title?.slice(0, 5).toUpperCase() ?? ''
@@ -1489,6 +1490,7 @@ export default function ProjectDetailPage() {
   const [coverFile, setCoverFile]           = useState(null)
   const [coverPos, setCoverPos]             = useState({ x: 50, y: 50 })
   const [coverSaving, setCoverSaving]       = useState(false)
+  const [heroLightbox, setHeroLightbox]     = useState(false)
   const coverDragging   = useRef(false)
   const coverDragAnchor = useRef({})
 
@@ -1575,7 +1577,7 @@ export default function ProjectDetailPage() {
             style={{ objectFit: 'cover', objectPosition: `${coverPos.x}% ${coverPos.y}%`, cursor: 'grab' }}
           />
         ) : (
-          <HeroArt project={project} />
+          <HeroArt project={project} onClick={project.coverImage ? () => setHeroLightbox(true) : undefined} />
         )}
 
         {/* Back button */}
@@ -1756,6 +1758,18 @@ export default function ProjectDetailPage() {
         {tab === 'Media'   && <MediaTab posts={posts} isAuthor={isAuthor} projectSlug={id} onRefresh={load} />}
         {tab === 'Team'    && <TeamTab  project={project} router={router} isAuthor={isAuthor} />}
       </div>
+
+      {/* Cover lightbox */}
+      {heroLightbox && project.coverImage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ background: 'rgba(0,0,0,0.92)' }}
+          onClick={() => setHeroLightbox(false)}>
+          <img src={project.coverImage} alt={project.title} className="max-w-[90vw] max-h-[90vh] object-contain" onClick={e => e.stopPropagation()} />
+          <button className="absolute top-4 right-4" onClick={() => setHeroLightbox(false)}>
+            <img src="/portal/icons/cross-y.png" alt="close" className="w-5 h-5" />
+          </button>
+        </div>
+      )}
 
     </div>
   )
