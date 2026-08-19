@@ -1590,14 +1590,14 @@ export default function ProjectDetailPage() {
         {isAuthor && !coverEditing && (
           <button onClick={() => coverInputRef.current?.click()}
             className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center">
-            <Camera size={14} style={{ color: '#FDC214' }} />
+            <Camera size={20} style={{ color: '#FDC214' }} />
           </button>
         )}
         {isAuthor && coverEditing && (
           <div className="absolute top-3 right-3 z-10 flex gap-1.5">
             <button onClick={() => coverInputRef.current?.click()}
               className="w-8 h-8 flex items-center justify-center">
-              <Camera size={14} style={{ color: '#FDC214' }} />
+              <Camera size={20} style={{ color: '#FDC214' }} />
             </button>
             <button onClick={cancelCover}
               className="w-8 h-8 flex items-center justify-center border border-[#444]"
