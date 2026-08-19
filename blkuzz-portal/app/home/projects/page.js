@@ -329,21 +329,21 @@ function CreateModal({ onClose, onCreated }) {
               className="flex items-center gap-3">
               <div style={{
                 width: 42, height: 24, borderRadius: 9999,
-                background: form.status === 'completed' ? '#FDC214' : '#1e1e1e',
+                background: form.status === 'completed' ? '#D2042D' : '#008000',
                 border: '1px solid',
-                borderColor: form.status === 'completed' ? '#FDC214' : '#333',
+                borderColor: form.status === 'completed' ? '#D2042D' : '#008000',
                 position: 'relative', transition: 'background 0.2s, border-color 0.2s',
                 flexShrink: 0,
               }}>
                 <div style={{
                   position: 'absolute', top: 3, left: form.status === 'completed' ? 21 : 3,
                   width: 16, height: 16, borderRadius: 9999,
-                  background: form.status === 'completed' ? '#0a0a0a' : '#444',
+                  background: '#0a0a0a',
                   transition: 'left 0.2s, background 0.2s',
                 }} />
               </div>
               <span className="font-mono text-[8px] tracking-[0.12em] uppercase"
-                style={{ color: form.status === 'completed' ? '#FDC214' : '#555' }}>
+                style={{ color: form.status === 'completed' ? '#D2042D' : '#008000' }}>
                 {form.status === 'active' ? 'Active' : 'Completed'}
               </span>
             </button>
