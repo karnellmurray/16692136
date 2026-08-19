@@ -257,13 +257,13 @@ export default function EditProfilePage() {
                 ? <Hint style={{ color: '#ff4444' }}>{usernameError}</Hint>
                 : usernameCooldown
                   ? <Hint style={{ color: 'rgba(255,255,255,0.4)' }}>Change available in {usernameCooldown} day{usernameCooldown === 1 ? '' : 's'}</Hint>
-                  : <Hint>3–20 chars · letters, numbers, underscores · changed once per 14 days</Hint>
+                  : <Hint style={{ color: '#FDC214' }}>3–20 chars · letters, numbers, underscores · changed once per 14 days</Hint>
               }
             </div>
             <div>
               <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5 }}>Location</div>
               <input value={form.location} onChange={e => { set('location', e.target.value); setLocationError('') }} placeholder="City, UK" style={{ ...iStyle(), ...(locationError ? { border: '1px solid #ff4444', borderBottom: '1px solid #ff4444' } : {}) }} />
-              {locationError ? <Hint style={{ color: '#ff4444' }}>{locationError}</Hint> : <Hint>Format: City, UK</Hint>}
+              {locationError ? <Hint style={{ color: '#ff4444' }}>{locationError}</Hint> : <Hint style={{ color: '#FDC214' }}>Format: City, UK</Hint>}
             </div>
           </div>
           <div>
