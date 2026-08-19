@@ -2,7 +2,10 @@ import connectDB from '@/lib/mongodb'
 import MediaUpload from '@/models/MediaUpload'
 import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { fileTypeFromBuffer } from 'file-type'
+import heicConvert from 'heic-convert'
 import { transcodeToH264, processImage } from '@/lib/mediaProcessing'
+
+const HEIC_MIMES = ['image/heic', 'image/heif', 'image/heic-sequence', 'image/heif-sequence']
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
@@ -80,7 +83,15 @@ export async function runUploadJob(id) {
       }
     } else {
       try {
-        outBuffer   = await processImage(buffer, doc.type)
+        // sharp's bundled libheif has no HEVC decoder, so it can't read real
+        // iPhone-style HEIC/HEIF photos -- pre-convert those to JPEG with a
+        // pure-JS decoder first, then hand off to the existing, unchanged
+        // processImage() pipeline like any other image.
+        const isHeic  = HEIC_MIMES.includes(sniffed?.mime)
+        const srcBuffer = isHeic
+          ? Buffer.from(await heicConvert({ buffer, format: 'JPEG', quality: 0.92 }))
+          : buffer
+        outBuffer   = await processImage(srcBuffer, doc.type)
         contentType = 'image/webp'
         ext         = 'webp'
       } catch {
