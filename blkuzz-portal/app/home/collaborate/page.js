@@ -414,7 +414,7 @@ export default function BulletinPage() {
                     style={{
                       border: '1px solid', borderRadius: 9999,
                       borderColor: form.category === t ? '#FDC214' : 'rgba(255,255,255,0.15)',
-                      color: form.category === t ? '#FDC214' : 'rgba(255,255,255,0.4)',
+                      color: form.category === t ? '#FDC214' : '#777',
                       background: 'transparent',
                     }}>
                     {t}
@@ -446,7 +446,7 @@ export default function BulletinPage() {
                 className="w-full bg-transparent rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none placeholder-white/40"
                 style={{ border: '1px solid #FDC214' }} />
               <div className="flex flex-col gap-1">
-                <label className="font-mono text-[9px] tracking-[0.15em] uppercase" style={{ color: 'rgba(255,255,255,0.3)' }}>Date (optional)</label>
+                <label className="font-mono text-[9px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>Date (optional)</label>
                 <input
                   type="date"
                   name="date"
@@ -456,7 +456,7 @@ export default function BulletinPage() {
                   style={{
                     background: 'transparent',
                     border: '1px solid #FDC214',
-                    color: form.date ? '#fff' : 'rgba(255,255,255,0.4)',
+                    color: form.date ? '#fff' : '#777',
                     colorScheme: 'dark',
                     fontFamily: 'IBM Plex Mono, monospace',
                   }}
@@ -465,7 +465,7 @@ export default function BulletinPage() {
               <textarea name="content" value={form.content} onChange={handle} required rows={3} placeholder="Describe what you need…"
                 className="w-full bg-transparent rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none resize-none placeholder-white/40"
                 style={{ border: '1px solid #FDC214' }} />
-              <p className="font-mono text-[9px] tracking-[0.15em] uppercase" style={{ color: 'rgba(255,255,255,0.3)' }}>Looking for</p>
+              <p className="font-mono text-[9px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>Looking for</p>
               <div className="flex flex-wrap gap-1.5">
                 {availableTags.map(tag => {
                   const active = form.tags.includes(tag)
@@ -476,7 +476,7 @@ export default function BulletinPage() {
                       style={{
                         border: '1px solid', borderRadius: 9999,
                         borderColor: active ? '#FDC214' : 'rgba(255,255,255,0.15)',
-                        color: active ? '#FDC214' : 'rgba(255,255,255,0.35)',
+                        color: active ? '#FDC214' : '#777',
                         background: 'transparent',
                       }}>
                       {tag}
@@ -515,8 +515,8 @@ export default function BulletinPage() {
                   boxShadow: form.urgent ? '0 0 8px 2px rgba(210,4,45,0.6)' : 'none',
                   transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
                 }} />
-                <AlertTriangle size={12} style={{ color: form.urgent ? '#D2042D' : 'rgba(255,255,255,0.4)' }} />
-                <span className="text-xs" style={{ color: form.urgent ? '#D2042D' : 'rgba(255,255,255,0.4)' }}>Mark as urgent</span>
+                <AlertTriangle size={12} style={{ color: form.urgent ? '#D2042D' : '#777' }} />
+                <span className="text-xs" style={{ color: form.urgent ? '#D2042D' : '#777' }}>Mark as urgent</span>
               </div>
               {editingPost && (
                 <div className="flex items-center gap-2 cursor-pointer select-none" onClick={() => setForm(f => ({ ...f, completed: !f.completed }))}>
@@ -527,7 +527,7 @@ export default function BulletinPage() {
                     boxShadow: form.completed ? '0 0 8px 2px rgba(0,200,83,0.5)' : 'none',
                     transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
                   }} />
-                  <span className="text-xs" style={{ color: form.completed ? '#00C853' : 'rgba(255,255,255,0.4)' }}>Mark as complete — removes callout from the feed</span>
+                  <span className="text-xs" style={{ color: form.completed ? '#00C853' : '#777' }}>Mark as complete — removes callout from the feed</span>
                 </div>
               )}
               <button type="submit" disabled={submitting}
