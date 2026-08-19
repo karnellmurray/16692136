@@ -208,26 +208,26 @@ export default function BulletinPage() {
       {/* Live bar */}
       <div className="flex items-center justify-center gap-2 px-4 py-2.5 flex-shrink-0" style={{ borderBottom: '1px solid #1f1f1f', background: '#0a0a0a' }}>
         <span className="w-1.5 h-1.5 rounded-full bg-[#008000] animate-pulse2 inline-block" />
-        <span className="font-mono text-[10px] tracking-[0.15em] text-[#008000]">LIVE</span>
-        <span className="font-mono text-[10px] text-[#444] tracking-[0.1em]">{time}</span>
+        <span className="font-mono text-[12px] tracking-[0.15em] text-[#008000]">LIVE</span>
+        <span className="font-mono text-[12px] text-[#444] tracking-[0.1em]">{time}</span>
       </div>
 
       {/* Frequency header */}
       <div className="px-6 py-4 flex-shrink-0" style={{ borderBottom: '1px solid #141414' }}>
         <div className="flex items-start justify-between">
           <div>
-            <p className="font-mono text-[8px] tracking-[0.25em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <p className="font-mono text-[9px] tracking-[0.25em] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
               Open frequency — collab requests &amp; call-outs
             </p>
             <h1 className="font-head text-white text-2xl mb-2" style={{ letterSpacing: '2px' }}>Collaborate</h1>
-            <div className="flex gap-4 font-mono text-[8px] tracking-wide" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <div className="flex gap-4 font-mono text-[9px] tracking-wide" style={{ color: 'rgba(255,255,255,0.4)' }}>
               <span><span style={{ color: '#FDC214' }}>{stats.open}</span> open listings</span>
               <span><span style={{ color: '#D2042D' }}>{stats.urgent}</span> urgent</span>
               <span><span style={{ color: '#008000' }}>{stats.today}</span> active today</span>
             </div>
           </div>
           <button onClick={openModal}
-            className="flex items-center gap-1.5 bg-gold text-black font-head tracking-widest uppercase text-[10px] px-3.5 py-2 rounded-full hover:bg-yellow-300 transition-colors shrink-0">
+            className="flex items-center gap-1.5 bg-gold text-black font-head tracking-widest uppercase text-[12px] px-3.5 py-2 rounded-full hover:bg-yellow-300 transition-colors shrink-0">
             <Plus size={12} /> Post call-out
           </button>
         </div>
@@ -237,7 +237,7 @@ export default function BulletinPage() {
       <div className="flex gap-1.5 px-6 py-2.5 flex-shrink-0 overflow-x-auto" style={{ borderBottom: '1px solid #141414', scrollbarWidth: 'none' }}>
         {FILTERS.map(f => (
           <button key={f} onClick={() => setFilter(f)}
-            className="font-mono text-[8px] tracking-[0.1em] uppercase px-2.5 py-1.5 whitespace-nowrap transition-colors"
+            className="font-mono text-[9px] tracking-[0.1em] uppercase px-2.5 py-1.5 whitespace-nowrap transition-colors"
             style={{
               border: '1px solid', borderRadius: 9999,
               borderColor: filter === f ? '#FDC214' : '#1e1e1e',
@@ -250,7 +250,7 @@ export default function BulletinPage() {
       </div>
 
       {/* Column labels */}
-      <div className="flex px-6 py-2 font-mono text-[7px] tracking-[0.15em] uppercase flex-shrink-0" style={{ borderBottom: '1px solid #141414', color: 'rgba(255,255,255,0.4)' }}>
+      <div className="flex px-6 py-2 font-mono text-[8px] tracking-[0.15em] uppercase flex-shrink-0" style={{ borderBottom: '1px solid #141414', color: 'rgba(255,255,255,0.4)' }}>
         <div style={{ width: 64 }}>Channel</div>
         <div className="flex-1">Transmission</div>
         <div style={{ width: 44 }} className="hidden lg:block text-right">Logged</div>
@@ -259,9 +259,9 @@ export default function BulletinPage() {
       {/* Scrollable listings */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {loading ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>LOADING...</div>
         ) : filtered.length === 0 ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO CALLOUTS IN THIS CHANNEL YET.</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>NO CALLOUTS IN THIS CHANNEL YET.</div>
         ) : (
           <div className="flex flex-col">
             {filtered.map(post => {
@@ -275,7 +275,7 @@ export default function BulletinPage() {
                   {/* Channel col */}
                   <div className="flex flex-col items-center justify-center gap-1" style={{ width: 64, flexShrink: 0, padding: '10px 6px', borderRight: '1px solid #141414' }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: ch.color }} />
-                    <div className="font-mono text-[8px] tracking-wide font-bold" style={{ color: ch.color }}>{ch.code}</div>
+                    <div className="font-mono text-[9px] tracking-wide font-bold" style={{ color: ch.color }}>{ch.code}</div>
                     <div className="flex gap-[1px] items-end" style={{ height: 10 }}>
                       {bars.map((h, i) => (
                         <div key={i} style={{ width: 2, height: h, background: `${ch.color}${60 + i * 10}` }} />
@@ -287,30 +287,30 @@ export default function BulletinPage() {
                   <div className="flex-1 min-w-0 px-3.5 py-2.5">
                     <div className="flex items-center gap-2 mb-1">
                       {(() => { const av = post.author?.avatar?.url || post.author?.profileImage || null; return av ? <img src={av} alt="" onError={e => { e.currentTarget.style.display = 'none' }} style={{ width: 16, height: 16, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} /> : null })()}
-                      <span className="font-mono text-[8px]" style={{ color: '#fff' }}>@{post.author?.username}</span>
+                      <span className="font-mono text-[9px]" style={{ color: '#fff' }}>@{post.author?.username}</span>
                       {post.projectRef?.title && (
                         <button onClick={e => { e.stopPropagation(); router.push(`/home/projects/${post.projectRef.slug}`) }}
-                          className="font-mono text-[7px] tracking-[0.08em] uppercase px-2 py-0.5 cursor-pointer"
+                          className="font-mono text-[8px] tracking-[0.08em] uppercase px-2 py-0.5 cursor-pointer"
                           style={{ border: '1px solid rgba(253,194,20,0.4)', color: '#FDC214', borderRadius: 9999 }}>
                           {post.projectRef.title}
                         </button>
                       )}
                       {post.category && (
-                        <span className="font-mono text-[7px] tracking-[0.08em] uppercase px-1.5 py-0.5"
+                        <span className="font-mono text-[8px] tracking-[0.08em] uppercase px-1.5 py-0.5"
                           style={{ color: ch.color, border: `1px solid ${ch.color}60` }}>
                           {post.category}
                         </span>
                       )}
                       {post.urgent && (
-                        <span className="font-mono text-[7px] tracking-[0.1em] uppercase px-1.5 py-0.5" style={{ color: '#D2042D', border: '1px solid #D2042D40' }}>⚠ Urgent</span>
+                        <span className="font-mono text-[8px] tracking-[0.1em] uppercase px-1.5 py-0.5" style={{ color: '#D2042D', border: '1px solid #D2042D40' }}>⚠ Urgent</span>
                       )}
                       {post.completed && (
-                        <span className="font-mono text-[7px] tracking-[0.1em] uppercase px-1.5 py-0.5" style={{ color: '#00C853', border: '1px solid rgba(0,200,83,0.4)', borderRadius: 9999 }}>Complete</span>
+                        <span className="font-mono text-[8px] tracking-[0.1em] uppercase px-1.5 py-0.5" style={{ color: '#00C853', border: '1px solid rgba(0,200,83,0.4)', borderRadius: 9999 }}>Complete</span>
                       )}
                       {post.author?._id === session?.user?.id && (
                         <div className="ml-auto flex items-center gap-2">
                           <button onClick={() => openEditModal(post)}
-                            className="font-mono text-[7px] tracking-[0.1em] uppercase"
+                            className="font-mono text-[8px] tracking-[0.1em] uppercase"
                             style={{ color: 'rgba(255,255,255,0.8)' }}>edit</button>
                           <button onClick={async () => {
                             await apiFetch(`/api/collaborate/${post._id}`, { method: 'DELETE' })
@@ -321,19 +321,19 @@ export default function BulletinPage() {
                         </div>
                       )}
                     </div>
-                    <p className="font-head text-[13px] mb-1 leading-tight" style={{ color: '#FDC214', letterSpacing: '2px' }}>
+                    <p className="font-head text-[15px] mb-1 leading-tight" style={{ color: '#FDC214', letterSpacing: '2px' }}>
                       {post.projectName || post.category || 'Untitled'}
                     </p>
-                    <p className="text-[10px] mb-2 leading-relaxed" style={{ color: '#fff' }}>{post.content}</p>
+                    <p className="text-[12px] mb-2 leading-relaxed" style={{ color: '#fff' }}>{post.content}</p>
                     {post.date && (
-                      <p className="font-mono text-[7px] tracking-[0.1em] uppercase mb-2" style={{ color: '#FDC214' }}>
+                      <p className="font-mono text-[8px] tracking-[0.1em] uppercase mb-2" style={{ color: '#FDC214' }}>
                         Date: {new Date(post.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </p>
                     )}
                     {post.tags?.length > 0 && (
                       <div className="flex flex-wrap gap-1 mb-2">
                         {post.tags.map(t => (
-                          <span key={t} className="font-mono text-[7px] tracking-[0.06em] uppercase px-1.5 py-0.5" style={{ border: '1px solid #FDC214', color: '#FDC214', borderRadius: 9999 }}>{t}</span>
+                          <span key={t} className="font-mono text-[8px] tracking-[0.06em] uppercase px-1.5 py-0.5" style={{ border: '1px solid #FDC214', color: '#FDC214', borderRadius: 9999 }}>{t}</span>
                         ))}
                       </div>
                     )}
@@ -361,7 +361,7 @@ export default function BulletinPage() {
                             })
                             if (res.ok) setSentRequests(prev => new Set([...prev, post._id]))
                           }}
-                          className="font-mono text-[10px] tracking-[0.1em] uppercase px-4 py-2 transition-colors"
+                          className="font-mono text-[12px] tracking-[0.1em] uppercase px-4 py-2 transition-colors"
                           style={{
                             border:       declined ? '1px solid rgba(210,4,45,0.3)' : `1px solid ${sent ? 'rgba(0,200,0,0.4)' : `${ch.color}40`}`,
                             color:        declined ? '#D2042D80' : sent ? '#008000' : ch.color,
@@ -377,7 +377,7 @@ export default function BulletinPage() {
                   </div>
 
                   {/* Time col */}
-                  <div className="hidden lg:block font-mono text-[7px] shrink-0" style={{ width: 44, color: 'rgba(255,255,255,0.4)', padding: '10px 12px 10px 0', textAlign: 'right' }}>
+                  <div className="hidden lg:block font-mono text-[8px] shrink-0" style={{ width: 44, color: 'rgba(255,255,255,0.4)', padding: '10px 12px 10px 0', textAlign: 'right' }}>
                     {shortTimeAgo(post.createdAt)}
                   </div>
                 </div>
