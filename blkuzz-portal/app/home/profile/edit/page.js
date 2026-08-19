@@ -315,7 +315,7 @@ export default function EditProfilePage() {
               placeholder="Add a skill..."
               style={{ flex: 1, background: '#0d0d0d', border: '1px solid #1e1e1e', borderBottom: '1px solid #333', color: '#e8e8e8', fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, padding: '8px 12px', outline: 'none', letterSpacing: '0.05em' }} />
             <button onClick={addSkill}
-              style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', padding: '8px 14px', border: '1px solid #1e1e1e', color: 'rgba(255,255,255,0.4)', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+              style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', padding: '8px 14px', border: '1px solid #FDC214', color: '#FDC214', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
               + Add
             </button>
           </div>
