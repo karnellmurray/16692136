@@ -1281,9 +1281,9 @@ function TeamTab({ project, router, isAuthor }) {
               {project.creator?.username?.[0]?.toUpperCase()}
             </div>
         }
-        <div>
-          <p className="font-body text-[15px] font-normal text-white">@{project.creator?.username}</p>
-          <p className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>
+        <div className="min-w-0">
+          <p className="font-body text-[15px] font-normal text-white truncate">@{project.creator?.username}</p>
+          <p className="font-mono text-[10px] tracking-[0.15em] uppercase truncate" style={{ color: '#777' }}>
             {project.discipline}{project.location ? ` ${project.location}` : ''}
           </p>
         </div>
@@ -1717,10 +1717,10 @@ export default function ProjectDetailPage() {
               </div>
           }
           <div className="flex-1 min-w-0">
-            <p className="font-body text-[15px] font-normal text-white leading-tight">
+            <p className="font-body text-[15px] font-normal text-white leading-tight truncate">
               @{project.creator?.username}
             </p>
-            <p className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>
+            <p className="font-mono text-[10px] tracking-[0.15em] uppercase truncate" style={{ color: '#777' }}>
               {project.discipline}{project.location ? ` ${project.location}` : ''}
             </p>
           </div>
