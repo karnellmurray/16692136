@@ -12,8 +12,8 @@ const iStyle = (disabled) => ({
   border: '1px solid #444',
   color: disabled ? '#333' : '#e8e8e8',
   fontFamily: 'Space Grotesk, sans-serif',
-  fontSize: 12,
-  padding: '9px 12px',
+  fontSize: 14,
+  padding: '10px 12px',
   outline: 'none',
   cursor: disabled ? 'not-allowed' : 'text',
 })
@@ -25,17 +25,17 @@ const taStyle = () => ({
   borderBottom: '1px solid #333',
   color: '#e8e8e8',
   fontFamily: 'Space Grotesk, sans-serif',
-  fontSize: 12,
-  padding: '9px 12px',
+  fontSize: 14,
+  padding: '10px 12px',
   outline: 'none',
   resize: 'none',
-  height: 80,
+  height: 90,
   lineHeight: 1.55,
 })
 
 function SectionLabel({ children }) {
   return (
-    <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
       {children}
       <div style={{ flex: 1, height: 1, background: '#141414' }} />
     </div>
@@ -43,7 +43,7 @@ function SectionLabel({ children }) {
 }
 
 function Hint({ children, style }) {
-  return <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', marginTop: 4, ...style }}>{children}</div>
+  return <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', marginTop: 4, ...style }}>{children}</div>
 }
 
 export default function EditProfilePage() {
@@ -174,18 +174,18 @@ export default function EditProfilePage() {
 
       {/* Classified band */}
       <div style={{ background: '#ff4444', padding: '4px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.35em', color: '#fff', textTransform: 'uppercase' }}>✎ Editing member file</span>
-        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>FILE #{memberCode}</span>
+        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, fontWeight: 700, letterSpacing: '0.35em', color: '#fff', textTransform: 'uppercase' }}>✎ Editing member file</span>
+        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>FILE #{memberCode}</span>
       </div>
 
       {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid #1a1a1a', flexShrink: 0 }}>
-        <span className="font-head" style={{ fontSize: 15, letterSpacing: '2px', color: '#FDC214' }}>BLKUZZ</span>
+        <span className="font-head" style={{ fontSize: 17, letterSpacing: '2px', color: '#FDC214' }}>BLKUZZ</span>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={() => router.back()} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', padding: '7px 16px', background: 'transparent', color: 'rgba(255,255,255,0.4)', border: '1px solid #2a2a2a', fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', borderRadius: 9999 }}>
+          <button onClick={() => router.back()} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, letterSpacing: '0.15em', padding: '8px 18px', background: 'transparent', color: 'rgba(255,255,255,0.4)', border: '1px solid #2a2a2a', fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', borderRadius: 9999 }}>
             Cancel
           </button>
-          <button onClick={save} disabled={saving} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', padding: '7px 16px', background: '#FDC214', color: '#0a0a0a', border: 'none', fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', borderRadius: 9999, opacity: saving ? 0.6 : 1 }}>
+          <button onClick={save} disabled={saving} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, letterSpacing: '0.15em', padding: '8px 18px', background: '#FDC214', color: '#0a0a0a', border: 'none', fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', borderRadius: 9999, opacity: saving ? 0.6 : 1 }}>
             {saving ? 'Saving…' : saved ? 'Saved ✓' : 'Save changes'}
           </button>
         </div>
@@ -196,29 +196,29 @@ export default function EditProfilePage() {
 
         {/* Page header */}
         <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid #141414' }}>
-          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 3 }}>Member file — edit mode</div>
-          <div className="font-head" style={{ fontSize: 20, letterSpacing: '2px', color: '#fff' }}>Edit Profile</div>
+          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 3 }}>Member file — edit mode</div>
+          <div className="font-head" style={{ fontSize: 24, letterSpacing: '2px', color: '#fff' }}>Edit Profile</div>
         </div>
 
         {/* Photo */}
         <div style={{ padding: 16, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-          <div style={{ width: 72, height: 86, border: '1px solid #2a2a2a', position: 'relative', overflow: 'hidden', background: '#001a0d', flexShrink: 0 }}>
+          <div style={{ width: 84, height: 100, border: '1px solid #2a2a2a', position: 'relative', overflow: 'hidden', background: '#001a0d', flexShrink: 0 }}>
             {photo ? (
               <img src={photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             ) : (
               <>
                 <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(#00ff8806 1px, transparent 1px), linear-gradient(90deg, #00ff8806 1px, transparent 1px)', backgroundSize: '10px 10px' }} />
-                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'IBM Plex Mono, monospace', fontWeight: 700, fontSize: 22, color: '#00ff8840', zIndex: 1 }}>{initials}</div>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'IBM Plex Mono, monospace', fontWeight: 700, fontSize: 26, color: '#00ff8840', zIndex: 1 }}>{initials}</div>
               </>
             )}
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.5)', fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, letterSpacing: '0.12em', color: '#00ff8880', textAlign: 'center', padding: '2px 0', textTransform: 'uppercase', zIndex: 2 }}>ID Photo</div>
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.5)', fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.12em', color: '#00ff8880', textAlign: 'center', padding: '2px 0', textTransform: 'uppercase', zIndex: 2 }}>ID Photo</div>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 6 }}>Member ID Photo</div>
+            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 6 }}>Member ID Photo</div>
 <input ref={photoInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
             <div style={{ display: 'flex', gap: 6 }}>
               <button onClick={() => photoInputRef.current?.click()} disabled={uploading}
-                style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', padding: '5px 10px', border: '1px solid #00ff8840', color: '#00ff88', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>
+                style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', padding: '6px 12px', border: '1px solid #00ff8840', color: '#00ff88', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>
                 {uploading ? 'Uploading…' : 'Upload photo'}
               </button>
               {photo && (
@@ -232,7 +232,7 @@ export default function EditProfilePage() {
                   })
                   window.dispatchEvent(new Event('blkuzz:avatar-updated'))
                 }}
-                  style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', padding: '5px 10px', border: '1px solid #ff000040', color: '#ff0000', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>
+                  style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', padding: '6px 12px', border: '1px solid #ff000040', color: '#ff0000', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>
                   Remove
                 </button>
               )}
@@ -245,7 +245,7 @@ export default function EditProfilePage() {
           <SectionLabel>Identity</SectionLabel>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
             <div>
-              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5 }}>Username</div>
+              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5 }}>Username</div>
               <input
                 value={form.username}
                 disabled={!!usernameCooldown}
@@ -261,15 +261,15 @@ export default function EditProfilePage() {
               }
             </div>
             <div>
-              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5 }}>Location</div>
+              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5 }}>Location</div>
               <input value={form.location} onChange={e => { set('location', e.target.value); setLocationError('') }} placeholder="City, UK" style={{ ...iStyle(), ...(locationError ? { border: '1px solid #ff4444', borderBottom: '1px solid #ff4444' } : {}) }} />
               {locationError ? <Hint style={{ color: '#ff4444' }}>{locationError}</Hint> : <Hint>Format: City, UK</Hint>}
             </div>
           </div>
           <div>
-            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5, display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 5, display: 'flex', justifyContent: 'space-between' }}>
               <span>Bio</span>
-              <span style={{ fontSize: 7, color: 'rgba(255,255,255,0.4)' }}>{form.bio.length}/500</span>
+              <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.4)' }}>{form.bio.length}/500</span>
             </div>
             <textarea value={form.bio} onChange={e => set('bio', e.target.value)} maxLength={500} rows={3}
               placeholder="What you do, what you're working on, what you're looking for..."
@@ -287,7 +287,7 @@ export default function EditProfilePage() {
               return (
                 <button key={tag} disabled={atMax}
                   onClick={() => set('tags', active ? form.tags.filter(t => t !== tag) : [...form.tags, tag])}
-                  style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', padding: '5px 10px', border: `1px solid ${active ? '#FDC214' : '#1e1e1e'}`, color: active ? '#FDC214' : 'rgba(255,255,255,0.4)', cursor: atMax ? 'not-allowed' : 'pointer', opacity: atMax ? 0.4 : 1, textTransform: 'uppercase', background: 'transparent', transition: 'all 0.1s', borderRadius: 9999 }}>
+                  style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', padding: '6px 12px', border: `1px solid ${active ? '#FDC214' : '#1e1e1e'}`, color: active ? '#FDC214' : 'rgba(255,255,255,0.4)', cursor: atMax ? 'not-allowed' : 'pointer', opacity: atMax ? 0.4 : 1, textTransform: 'uppercase', background: 'transparent', transition: 'all 0.1s', borderRadius: 9999 }}>
                   {tag}
                 </button>
               )
@@ -302,9 +302,9 @@ export default function EditProfilePage() {
           {form.skills.length > 0 && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 8 }}>
               {form.skills.map(s => (
-                <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.08em', padding: '4px 10px', border: '1px solid #FDC21440', color: '#FDC214', textTransform: 'uppercase', background: 'transparent', borderRadius: 9999 }}>
+                <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.08em', padding: '5px 12px', border: '1px solid #FDC21440', color: '#FDC214', textTransform: 'uppercase', background: 'transparent', borderRadius: 9999 }}>
                   {s}
-                  <span onClick={() => set('skills', form.skills.filter(x => x !== s))} style={{ cursor: 'pointer', color: '#FDC21460', fontSize: 10, lineHeight: 1 }}>×</span>
+                  <span onClick={() => set('skills', form.skills.filter(x => x !== s))} style={{ cursor: 'pointer', color: '#FDC21460', fontSize: 12, lineHeight: 1 }}>×</span>
                 </div>
               ))}
             </div>
@@ -313,9 +313,9 @@ export default function EditProfilePage() {
             <input value={skillInput} onChange={e => setSkillInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addSkill())}
               placeholder="Add a skill..."
-              style={{ flex: 1, background: '#0d0d0d', border: '1px solid #1e1e1e', borderBottom: '1px solid #333', color: '#e8e8e8', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, padding: '7px 10px', outline: 'none', letterSpacing: '0.05em' }} />
+              style={{ flex: 1, background: '#0d0d0d', border: '1px solid #1e1e1e', borderBottom: '1px solid #333', color: '#e8e8e8', fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, padding: '8px 12px', outline: 'none', letterSpacing: '0.05em' }} />
             <button onClick={addSkill}
-              style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.1em', padding: '7px 12px', border: '1px solid #1e1e1e', color: 'rgba(255,255,255,0.4)', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+              style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', padding: '8px 14px', border: '1px solid #1e1e1e', color: 'rgba(255,255,255,0.4)', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
               + Add
             </button>
           </div>
@@ -332,8 +332,8 @@ export default function EditProfilePage() {
           ].map(({ key, title, sub }, i, arr) => (
             <div key={key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0' }}>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: '#ccc', letterSpacing: '-0.01em', marginBottom: 2 }}>{title}</div>
-                <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em' }}>{sub}</div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: '#ccc', letterSpacing: '-0.01em', marginBottom: 2 }}>{title}</div>
+                <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em' }}>{sub}</div>
               </div>
               <div onClick={() => set(key, !form[key])}
                 style={{ width: 36, height: 20, borderRadius: 10, background: form[key] ? '#FDC21430' : '#1a1a1a', border: `1px solid ${form[key] ? '#FDC21440' : '#2a2a2a'}`, position: 'relative', cursor: 'pointer', flexShrink: 0, marginLeft: 16, transition: 'background 0.2s' }}>
@@ -347,8 +347,8 @@ export default function EditProfilePage() {
         <div style={{ padding: '14px 16px' }}>
           <SectionLabel>Links</SectionLabel>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <Globe size={16} strokeWidth={1.5} style={{ color: '#FDC214' }} />
+            <div style={{ width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Globe size={18} strokeWidth={1.5} style={{ color: '#FDC214' }} />
             </div>
             <input value={form.portfolio} onChange={e => set('portfolio', e.target.value)} placeholder="Website URL" style={{ ...iStyle(), margin: 0 }} />
           </div>
