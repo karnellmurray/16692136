@@ -44,6 +44,31 @@ export async function transcodeToH264(inputBuffer, inputExt) {
   return outBuffer
 }
 
+export async function transcodeAudio(inputBuffer, inputExt) {
+  const tmpIn  = join(tmpdir(), `${randomUUID()}.${inputExt}`)
+  const tmpOut = join(tmpdir(), `${randomUUID()}.mp3`)
+
+  await writeFile(tmpIn, inputBuffer)
+
+  await new Promise((resolve, reject) => {
+    const ff = spawn('ffmpeg', [
+      '-i', tmpIn,
+      '-vn',
+      '-c:a', 'libmp3lame',
+      '-b:a', '192k',
+      '-y', tmpOut,
+    ])
+    let stderr = ''
+    ff.stderr.on('data', d => { stderr += d })
+    ff.on('error', reject)
+    ff.on('close', code => code === 0 ? resolve() : reject(new Error(`ffmpeg exited ${code}: ${stderr.slice(-500)}`)))
+  })
+
+  const outBuffer = await readFile(tmpOut)
+  await Promise.all([unlink(tmpIn), unlink(tmpOut)]).catch(() => {})
+  return outBuffer
+}
+
 export async function processImage(buffer, type) {
   const profile = PROFILES[type] ?? PROFILES.post
   const pipeline = sharp(buffer)

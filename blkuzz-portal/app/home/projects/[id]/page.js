@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { ArrowLeft, Heart, MessageCircle, Send, Plus, X, Camera } from 'lucide-react'
+import { ArrowLeft, Heart, MessageCircle, Send, Plus, X, Camera, Music } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
 import { uploadMedia } from '@/lib/useUploadClient'
 
@@ -121,6 +121,7 @@ function ChapterProgress({ chapters, isAuthor, onToggle }) {
 
 // ─── Media helper ─────────────────────────────────────────────────────────────
 const isVideo = url => /\.(mp4|mov|webm|ogg|avi|m4v|mkv|3gp)(\?|$)/i.test(url)
+const isAudio = url => /\.(mp3|wav|m4a|aac|flac|wma|opus)(\?|$)/i.test(url)
 function MediaThumb({ url, className, style, onClick }) {
   if (isVideo(url)) return (
     <div className={`relative overflow-hidden ${className ?? ''}`}
@@ -138,6 +139,13 @@ function MediaThumb({ url, className, style, onClick }) {
         style={{ background: 'rgba(0,0,0,0.35)' }}>
         <div style={{ width: 18, height: 18, background: '#FDC214', WebkitMaskImage: 'url(/portal/icons/play-button-arrowhead.png)', maskImage: 'url(/portal/icons/play-button-arrowhead.png)', WebkitMaskSize: 'contain', maskSize: 'contain', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center', filter: 'drop-shadow(0 0 3px rgba(0,0,0,0.8))' }} />
       </div>
+    </div>
+  )
+  if (isAudio(url)) return (
+    <div className={`relative overflow-hidden flex items-center justify-center ${className ?? ''}`}
+      style={{ background: '#111', ...style, cursor: onClick ? 'pointer' : 'default' }}
+      onClick={onClick}>
+      <Music size={20} color="#FDC214" />
     </div>
   )
   return <img src={url} alt="" className={className} style={style} onClick={onClick} />
@@ -216,6 +224,53 @@ function VideoPlayer({ url, style }) {
           </svg>
         </button>
       </div>
+    </div>
+  )
+}
+
+function AudioPlayer({ url, style }) {
+  const audioRef = useRef(null)
+  const [playing, setPlaying]   = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [current, setCurrent]   = useState(0)
+  const [duration, setDuration] = useState(0)
+
+  const toggle = () => {
+    const a = audioRef.current
+    if (!a) return
+    if (a.paused) { a.play(); setPlaying(true) } else { a.pause(); setPlaying(false) }
+  }
+
+  const seek = e => {
+    const a = audioRef.current
+    if (!a || !a.duration) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const pct  = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width))
+    a.currentTime = pct * a.duration
+  }
+
+  return (
+    <div className="flex items-center gap-2.5 px-3 py-2.5" style={{ background: '#111', border: '1px solid #1a1a1a', ...style }}
+      onClick={e => e.stopPropagation()}>
+      <audio
+        ref={audioRef}
+        src={url}
+        onTimeUpdate={e => { setCurrent(e.target.currentTime); setProgress(e.target.duration ? (e.target.currentTime / e.target.duration) * 100 : 0) }}
+        onLoadedMetadata={e => setDuration(e.target.duration)}
+        onEnded={() => setPlaying(false)}
+      />
+      <Music size={14} color="#FDC214" className="flex-shrink-0" />
+      <button onClick={toggle} className="flex-shrink-0">
+        {playing
+          ? <svg width="11" height="11" viewBox="0 0 24 24" fill="#FDC214"><rect x="5" y="3" width="5" height="18" /><rect x="14" y="3" width="5" height="18" /></svg>
+          : <svg width="11" height="11" viewBox="0 0 24 24" fill="#FDC214"><polygon points="5,3 19,12 5,21" /></svg>}
+      </button>
+      <div className="flex-1 h-[3px] cursor-pointer" style={{ background: 'rgba(255,255,255,0.15)' }} onClick={seek}>
+        <div className="h-full" style={{ width: `${progress}%`, background: '#FDC214' }} />
+      </div>
+      <span className="font-mono text-[8px] tracking-wide flex-shrink-0" style={{ color: 'rgba(255,255,255,0.6)' }}>
+        {fmtTime(current)} / {fmtTime(duration)}
+      </span>
     </div>
   )
 }
@@ -440,7 +495,7 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
         {/* Inline edit form */}
         {editing && (
           <div className="flex flex-col gap-2 mb-3 p-3" style={{ background: '#111', border: '1px solid #1a1a1a' }}>
-            <input ref={editFileRef} type="file" accept="image/*,video/*" multiple className="hidden" onChange={handleEditFiles} />
+            <input ref={editFileRef} type="file" accept="image/*,video/*,audio/*" multiple className="hidden" onChange={handleEditFiles} />
             <ChapterDropdown chapters={chapters} value={editChapter} onChange={setEditChapter}
               onChapterAdded={async title => {
                 const updated = [...(chapters ?? []), { title, status: 'todo' }]
@@ -500,6 +555,8 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
             {post.media.map((url, i) => (
               isVideo(url)
                 ? <VideoPlayer key={i} url={url} style={{ width: '100%', height: 320 }} />
+                : isAudio(url)
+                ? <AudioPlayer key={i} url={url} style={{ width: '100%' }} />
                 : <div key={i} className="overflow-hidden cursor-pointer" style={{ width: 72, height: 72 }}
                     onClick={() => setLightbox(url)}>
                     <img src={url} alt="" className="w-full h-full object-cover" />
@@ -574,6 +631,8 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
         onClick={() => setLightbox(null)}>
         {isVideo(lightbox)
           ? <VideoPlayer url={lightbox} style={{ width: '80vw', maxWidth: 960, height: '60vh' }} />
+          : isAudio(lightbox)
+          ? <AudioPlayer url={lightbox} style={{ width: '80vw', maxWidth: 480 }} />
           : <img src={lightbox} alt="" className="max-w-[90vw] max-h-[90vh] object-contain" onClick={e => e.stopPropagation()} />
         }
         <button className="absolute top-4 right-4" onClick={() => setLightbox(null)}>
@@ -675,7 +734,7 @@ function AddPostForm({ projectSlug, chapters, onAdded }) {
           style={{ background: '#111', border: '1px solid #1a1a1a', color: 'rgba(255,255,255,0.9)' }} />
 
         {/* Media upload */}
-        <input ref={fileInputRef} type="file" accept="image/*,video/*" multiple className="hidden" onChange={handleFiles} />
+        <input ref={fileInputRef} type="file" accept="image/*,video/*,audio/*" multiple className="hidden" onChange={handleFiles} />
         {mediaUrls.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
             {mediaUrls.map((url, i) => (

@@ -3,9 +3,10 @@ import MediaUpload from '@/models/MediaUpload'
 import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { fileTypeFromBuffer } from 'file-type'
 import heicConvert from 'heic-convert'
-import { transcodeToH264, processImage } from '@/lib/mediaProcessing'
+import { transcodeToH264, processImage, transcodeAudio } from '@/lib/mediaProcessing'
 
-const HEIC_MIMES = ['image/heic', 'image/heif', 'image/heic-sequence', 'image/heif-sequence']
+const HEIC_MIMES  = ['image/heic', 'image/heif', 'image/heic-sequence', 'image/heif-sequence']
+const AUDIO_EXTS  = ['mp3', 'wav', 'm4a', 'aac', 'flac', 'wma', 'opus']
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
@@ -62,6 +63,11 @@ export async function runUploadJob(id) {
 
     const sniffed = await fileTypeFromBuffer(buffer).catch(() => null)
     const isVideo = (sniffed?.mime || '').startsWith('video/')
+    // Header-less mp3/raw audio streams don't always carry a detectable
+    // magic number, so fall back to the original filename's extension when
+    // sniffing comes back empty -- same spirit as the ext fallback below.
+    const originalExt = (doc.originalFilename?.split('.').pop() || '').toLowerCase()
+    const isAudio = (sniffed?.mime || '').startsWith('audio/') || (!sniffed && AUDIO_EXTS.includes(originalExt))
 
     let outBuffer, contentType, ext
     if (isVideo) {
@@ -77,6 +83,17 @@ export async function runUploadJob(id) {
         // executable. Landing in the PUBLIC bucket, same as a success --
         // this is still a completed upload from the tracking system's
         // point of view, not a failure.
+        outBuffer   = buffer
+        contentType = 'application/octet-stream'
+        ext         = inputExt
+      }
+    } else if (isAudio) {
+      const inputExt = sniffed?.ext || (originalExt || 'mp3')
+      try {
+        outBuffer   = await transcodeAudio(buffer, inputExt)
+        contentType = 'audio/mpeg'
+        ext         = 'mp3'
+      } catch {
         outBuffer   = buffer
         contentType = 'application/octet-stream'
         ext         = inputExt
