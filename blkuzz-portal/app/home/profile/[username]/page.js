@@ -424,7 +424,7 @@ export default function ProfilePage() {
           <div style={{ display: 'flex', borderBottom: '1px solid #141414', overflowX: 'auto', scrollbarWidth: 'none', position: 'sticky', top: 0, background: '#0a0a0a', zIndex: 10 }}>
             {TABS.map(t => (
               <button key={t} onClick={() => setTab(t)}
-                style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.15em', padding: '12px 16px', color: tab === t ? GOLD : '#444', cursor: 'pointer', textTransform: 'uppercase', whiteSpace: 'nowrap', background: 'transparent', border: 'none', outline: 'none', borderBottom: tab === t ? `2px solid ${GOLD}` : '2px solid transparent' }}>
+                style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.15em', padding: '12px 16px', color: tab === t ? GOLD : '#777', cursor: 'pointer', textTransform: 'uppercase', whiteSpace: 'nowrap', background: 'transparent', border: 'none', outline: 'none', borderBottom: tab === t ? `2px solid ${GOLD}` : '2px solid transparent' }}>
                 {t}
               </button>
             ))}
@@ -701,7 +701,7 @@ export default function ProfilePage() {
                           flexShrink: 0, fontFamily: MONO, fontSize: 8, letterSpacing: '0.1em', textTransform: 'uppercase',
                           padding: '5px 10px', cursor: sent ? 'default' : 'pointer',
                           background: sent ? '#1a1a1a' : GOLD,
-                          color: sent ? '#444' : '#000',
+                          color: sent ? '#777' : '#000',
                           border: 'none', borderRadius: 9999, opacity: sending ? 0.5 : 1,
                         }}
                       >
