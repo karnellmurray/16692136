@@ -41,14 +41,24 @@
   /* ─── Sidebar "Member Portal" block — the avatar/username/email
      row kept hitting wrap/cutoff issues at narrow widths no matter
      how much it got resized, so on mobile it collapses to just the
-     settings icon (still opens the same settings panel). ────────── */
+     settings icon (still opens the same settings panel). Nav stops
+     growing to fill the column so the settings block sits right
+     after the last nav item instead of pinned to the screen bottom
+     -- same relationship the logo has to the first nav item. ────── */
+  .sidebar-nav {
+    flex: none !important;
+  }
+  .sidebar-settings-block {
+    border-top: none !important;
+    padding-top: 4px !important;
+  }
   .member-portal-label,
   .member-portal-link {
     display: none !important;
   }
   .member-portal-row {
     justify-content: flex-end !important;
-    margin-bottom: 14px !important;
+    margin-bottom: 0 !important;
   }
   .member-portal-row button img {
     width: 22px !important;
@@ -56,6 +66,28 @@
   }
   .member-portal-row button {
     opacity: 0.8 !important;
+  }
+
+  /* ─── Project meta bar (creator row + Follow/Collab) — even a
+     truncated username at desktop sizing left the buttons pushed
+     out of frame on narrow screens. Shrink everything so a full
+     20-char username (the app's max) comfortably fits alongside
+     both buttons without ever needing to truncate. ────────────── */
+  .project-meta-avatar {
+    width: 26px !important;
+    height: 26px !important;
+  }
+  .project-meta-username {
+    font-size: 11px !important;
+  }
+  .project-meta-location {
+    font-size: 8px !important;
+    letter-spacing: 0.05em !important;
+  }
+  .project-meta-btn {
+    font-size: 8px !important;
+    letter-spacing: 0.08em !important;
+    padding: 6px 10px !important;
   }
 
   /* ─── Feed "Looking For" ad tile (bottom-right of the screen-wall
@@ -156,6 +188,23 @@
   }
   .feed-ad-dots {
     margin-top: 5px !important;
+  }
+
+  .project-meta-avatar {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  .project-meta-username {
+    font-size: 10px !important;
+  }
+  .project-meta-location {
+    font-size: 7px !important;
+    letter-spacing: 0.03em !important;
+  }
+  .project-meta-btn {
+    font-size: 7px !important;
+    letter-spacing: 0.05em !important;
+    padding: 5px 8px !important;
   }
 
   .screencard-handle {

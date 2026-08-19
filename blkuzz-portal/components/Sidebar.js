@@ -132,7 +132,7 @@ export default function Sidebar() {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5 overflow-y-auto">
+      <nav className="sidebar-nav flex-1 px-3 py-4 flex flex-col gap-0.5 overflow-y-auto">
         {NAV.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + '/')
           return (
@@ -162,7 +162,7 @@ export default function Sidebar() {
       </nav>
 
       {/* User + Settings */}
-      <div className="px-4 py-4 border-t border-white/5 relative" style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }} ref={settingsRef}>
+      <div className="sidebar-settings-block px-4 py-4 border-t border-white/5 relative" style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }} ref={settingsRef}>
         <p className="member-portal-label text-[10px] tracking-widest uppercase mb-3" style={{ color: '#777' }}>Member Portal</p>
         {session?.user && (
           <div className="member-portal-row flex items-center gap-3">

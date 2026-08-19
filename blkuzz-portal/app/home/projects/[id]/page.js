@@ -1704,30 +1704,30 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* Meta bar */}
-      <div className="flex items-center gap-2.5 px-3.5 py-2.5 border-b border-[#141414]">
+      <div className="project-meta-bar flex items-center gap-2.5 px-3.5 py-2.5 border-b border-[#141414]">
         <div className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer"
           onClick={() => project.creator?.username && router.push(`/home/profile/${project.creator.username}`)}>
           {project.creator?.avatar?.url || project.creator?.profileImage
             ? <img src={project.creator.avatar?.url ?? project.creator.profileImage}
-                alt={project.creator.username} className="w-8 h-8 rounded-full object-cover shrink-0"
+                alt={project.creator.username} className="project-meta-avatar w-8 h-8 rounded-full object-cover shrink-0"
                 onError={e => { e.currentTarget.style.display = 'none' }} />
-            : <div className="w-8 h-8 rounded-full flex items-center justify-center font-mono text-[12px] font-bold shrink-0"
+            : <div className="project-meta-avatar w-8 h-8 rounded-full flex items-center justify-center font-mono text-[12px] font-bold shrink-0"
                 style={{ background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}30` }}>
                 {project.creator?.username?.[0]?.toUpperCase()}
               </div>
           }
           <div className="flex-1 min-w-0">
-            <p className="font-body text-[15px] font-normal text-white leading-tight truncate">
+            <p className="project-meta-username font-body text-[15px] font-normal text-white leading-tight truncate">
               @{project.creator?.username}
             </p>
-            <p className="font-mono text-[10px] tracking-[0.15em] uppercase truncate" style={{ color: '#777' }}>
+            <p className="project-meta-location font-mono text-[10px] tracking-[0.15em] uppercase truncate" style={{ color: '#777' }}>
               {project.discipline}{project.location ? ` ${project.location}` : ''}
             </p>
           </div>
         </div>
         {!isAuthor && (
           <button onClick={toggleFollow}
-            className="font-mono text-[11px] tracking-[0.15em] uppercase px-[18px] py-2 border shrink-0 transition-colors"
+            className="project-meta-btn font-mono text-[11px] tracking-[0.15em] uppercase px-[18px] py-2 border shrink-0 transition-colors"
             style={{
               borderColor: following ? '#008000' : 'rgba(0,128,0,0.35)',
               color:       following ? '#0a0a0a' : '#008000',
@@ -1740,7 +1740,7 @@ export default function ProjectDetailPage() {
           <button
             disabled={collabSent}
             onClick={() => setCollabModal(true)}
-            className="font-mono text-[11px] tracking-[0.15em] uppercase px-[18px] py-2 border shrink-0 transition-colors"
+            className="project-meta-btn font-mono text-[11px] tracking-[0.15em] uppercase px-[18px] py-2 border shrink-0 transition-colors"
             style={{
               borderColor: collabSent ? 'rgba(253,194,20,0.4)' : '#FDC214',
               color:       collabSent ? '#FDC214' : '#0a0a0a',
