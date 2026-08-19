@@ -114,7 +114,7 @@ function AgentCard({ user, featured }) {
         {/* Top row */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 4, gap: 8 }}>
           <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#777', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {user.blkuzzId || blkuzzIdFallback(user.id)}{user.location ? ` · ${user.location}` : ''}
             </div>
             <div className="font-head" style={{ fontSize: nameFontSize(user.name), color: '#FDC214', letterSpacing: '2px', lineHeight: 1.2 }}>
@@ -232,13 +232,13 @@ export default function DirectoryPage() {
       {/* Header */}
       <div style={{ padding: '16px', borderBottom: '1px solid #141414', flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, opacity: 0.03, backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #008000 2px, #008000 3px)', pointerEvents: 'none' }} />
-        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 4 }}>
+        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.3em', color: '#777', textTransform: 'uppercase', marginBottom: 4 }}>
           Restricted access · member database
         </div>
         <div className="font-head" style={{ fontSize: 24, letterSpacing: '2px', color: '#fff', lineHeight: 1, marginBottom: 2 }}>
           Directory
         </div>
-        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>
+        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: '#777', letterSpacing: '0.1em' }}>
           <span style={{ color: '#008000' }}>{loading ? '...' : users.length} members</span>
           {disciplines.length > 0 && <> · {disciplines.length} tags</>}
         </div>
@@ -263,7 +263,7 @@ export default function DirectoryPage() {
         <div className="border-b border-[#141414]" style={{ flexShrink: 0 }}>
           <button onClick={() => setFiltersOpen(o => !o)}
             className="w-full flex items-center justify-between px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.15em]"
-            style={{ background: 'transparent', border: 'none', color: discipline !== 'All' ? '#FDC214' : 'rgba(255,255,255,0.6)', cursor: 'pointer' }}>
+            style={{ background: 'transparent', border: 'none', color: discipline !== 'All' ? '#FDC214' : '#777', cursor: 'pointer' }}>
             <span>Filters{discipline !== 'All' ? ` · ${discipline}` : ''}</span>
             <span style={{ color: '#FDC214', fontSize: 19 }}>{filtersOpen ? '−' : '+'}</span>
           </button>
@@ -290,7 +290,7 @@ export default function DirectoryPage() {
       {/* Agent list */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {loading ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', padding: 48, fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', padding: 48, fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#777', letterSpacing: '0.25em' }}>
             LOADING...
           </div>
         ) : null}
@@ -300,7 +300,7 @@ export default function DirectoryPage() {
               {error}
             </div>
           ) : visible.length === 0 ? (
-            <div style={{ padding: 32, textAlign: 'center', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.2em' }}>
+            <div style={{ padding: 32, textAlign: 'center', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#777', letterSpacing: '0.2em' }}>
               NO MEMBERS FOUND
             </div>
           ) : visible.map((user, i) => (
