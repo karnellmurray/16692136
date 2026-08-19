@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useMemo, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { apiFetch } from '@/lib/api'
@@ -55,6 +56,12 @@ export default function BulletinPage() {
   const [declinedRequests, setDeclinedRequests] = useState(new Set())
   const [editingPost, setEditingPost]   = useState(null)
   const fileInputRef                    = useRef(null)
+
+  // The modal portals straight to document.body (see below) so it can't get
+  // clipped by this page's own overflow:hidden fixed shell -- document.body
+  // isn't available during SSR, so wait for the client mount.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
 
   const load = (currentFilter) => {
     const f = currentFilter ?? filter
@@ -415,7 +422,7 @@ export default function BulletinPage() {
         </div>
       )}
 
-      {modal && (
+      {modal && mounted && createPortal(
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
           <div className="border rounded-2xl w-full max-w-md p-6 overflow-y-auto max-h-[90vh] max-h-[90dvh]" style={{ borderColor: '#FDC214', background: 'transparent', scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
             <div className="relative flex items-center justify-center mb-6">
@@ -559,7 +566,8 @@ export default function BulletinPage() {
               </button>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   )
