@@ -124,7 +124,6 @@ function FeaturedArt({ project }) {
 // ─── Create modal ─────────────────────────────────────────────────────────────
 function CreateModal({ onClose, onCreated }) {
   const [form, setForm]               = useState({ title: '', tagline: '', description: '', location: '', status: 'active' })
-  const [chapInput, setChapInput]     = useState('')
   const [submitting, setSubmitting]   = useState(false)
   const [coverFile, setCoverFile]       = useState(null)
   const [coverPreview, setCoverPreview] = useState(null)
@@ -169,8 +168,6 @@ function CreateModal({ onClose, onCreated }) {
     setSubmitError(null)
 
     try {
-      const chapters = chapInput.split(',').map(s => s.trim()).filter(Boolean)
-
       let coverImage = ''
       if (coverFile) {
         const fd = new FormData()
@@ -186,7 +183,7 @@ function CreateModal({ onClose, onCreated }) {
       const res  = await apiFetch('/api/projects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, chapters, coverImage, coverImagePosition }),
+        body: JSON.stringify({ ...form, coverImage, coverImagePosition }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed to create project')
@@ -260,18 +257,6 @@ function CreateModal({ onClose, onCreated }) {
             </label>
             <input name="location" value={form.location} onChange={handle}
               placeholder="e.g. London, My bedroom…" className={inputCls} />
-          </div>
-
-          {/* Milestones */}
-          <div className="px-5 pt-4 pb-4">
-            <label className="font-mono text-[7px] tracking-[0.25em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
-              Milestones
-            </label>
-            <input value={chapInput} onChange={e => setChapInput(e.target.value)}
-              placeholder="Idea, Update, Progress…" className={inputCls} />
-            <p className="font-mono text-[7px] mt-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Comma-separated. Leave blank for defaults.
-            </p>
           </div>
 
           {/* Cover image upload */}
