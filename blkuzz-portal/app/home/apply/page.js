@@ -184,7 +184,7 @@ const inputStyle = {
 
 function Label({ children, required }) {
   return (
-    <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.2em', color: '#777', textTransform: 'uppercase', marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
+    <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.2em', color: GOLD, textTransform: 'uppercase', marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
       <span>{children}</span>
       {required && <span style={{ color: GOLD }}>required</span>}
     </div>
