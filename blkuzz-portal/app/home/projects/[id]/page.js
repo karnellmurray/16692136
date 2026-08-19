@@ -497,7 +497,7 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
         {/* Media */}
         {post.media?.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
-            {post.media.slice(0, 4).map((url, i) => (
+            {post.media.map((url, i) => (
               isVideo(url)
                 ? <VideoPlayer key={i} url={url} style={{ width: '100%', height: 320 }} />
                 : <div key={i} className="overflow-hidden cursor-pointer" style={{ width: 72, height: 72 }}
