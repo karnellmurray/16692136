@@ -36,11 +36,31 @@ export async function POST(req, { params }) {
 
   // ── Project collab invite ──────────────────────────────────────────────────
   if (notif.type === 'collab_invite') {
-    if (action === 'accept' && notif.project) {
-      await Project.findByIdAndUpdate(notif.project, {
-        $push: { collaborators: { user: session.user.id, role: notif.role || '' } },
+    const project = notif.project ? await Project.findById(notif.project, 'title collaborators') : null
+
+    if (action === 'accept' && project) {
+      project.collaborators.push({ user: session.user.id, role: notif.role || '' })
+      await project.save()
+    }
+
+    if (notif.from) {
+      const me = await Signup.findById(session.user.id, 'username').lean()
+      const projectTitle = project?.title ?? 'your project'
+      await Notification.create({
+        user:    notif.from,
+        type:    'collab_invite',
+        from:    session.user.id,
+        project: notif.project,
+        role:    notif.role || '',
+        status:  action === 'accept' ? 'accepted' : 'declined',
+        text:    action === 'accept'
+          ? `@${me?.username ?? 'someone'} accepted your invite to collaborate on "${projectTitle}"`
+          : `@${me?.username ?? 'someone'} declined your invite to collaborate on "${projectTitle}"`,
+        link:    notif.link,
+        read:    false,
       })
     }
+
     return NextResponse.json({ ok: true, status: notif.status })
   }
 
