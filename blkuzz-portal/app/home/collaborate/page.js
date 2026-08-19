@@ -363,7 +363,7 @@ export default function BulletinPage() {
                           }}
                           className="font-mono text-[12px] tracking-[0.1em] uppercase px-4 py-2 transition-colors"
                           style={{
-                            border:       declined ? '1px solid #D2042D' : `1px solid ${sent ? 'rgba(0,200,0,0.4)' : `${ch.color}40`}`,
+                            border:       declined ? '1px solid #D2042D' : `1px solid ${sent ? '#008000' : ch.color}`,
                             color:        declined ? '#D2042D' : sent ? '#008000' : ch.color,
                             background:   'transparent',
                             borderRadius: 9999,
