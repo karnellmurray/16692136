@@ -265,13 +265,13 @@ export default function Sidebar() {
                 </button>
                 {accountOpen && (
                   <>
-                    <button
-                      style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 14px 8px 26px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#666', textTransform: 'uppercase', background: 'none', border: 'none', borderBottom: '1px solid #141414', cursor: 'pointer' }}
-                      onMouseEnter={e => e.currentTarget.style.color = '#888'}
+                    <Link href="/home/settings/report" onClick={() => setSettingsOpen(false)}
+                      style={{ display: 'block', padding: '8px 14px 8px 26px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#666', textTransform: 'uppercase', textDecoration: 'none', borderBottom: '1px solid #141414' }}
+                      onMouseEnter={e => e.currentTarget.style.color = '#FDC214'}
                       onMouseLeave={e => e.currentTarget.style.color = '#666'}
                     >
-                      Report / Feedback
-                    </button>
+                      Report Bugs
+                    </Link>
                     <button
                       style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 14px 8px 26px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#ff444450', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer' }}
                       onMouseEnter={e => e.currentTarget.style.color = '#ff4444'}
