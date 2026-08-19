@@ -196,15 +196,15 @@ export default function Sidebar() {
           }}>
             {/* Header */}
             <div style={{ padding: '10px 14px', borderBottom: '1px solid #1a1a1a' }}>
-              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.25em', color: '#444', textTransform: 'uppercase' }}>Settings</div>
+              <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.25em', color: '#777', textTransform: 'uppercase' }}>Settings</div>
             </div>
 
             {/* Profile */}
-            <div style={{ padding: '6px 14px 2px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, letterSpacing: '0.25em', color: '#333', textTransform: 'uppercase' }}>Profile</div>
+            <div style={{ padding: '6px 14px 2px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 6, letterSpacing: '0.25em', color: '#777', textTransform: 'uppercase' }}>Profile</div>
             <Link href="/home/profile/edit" onClick={() => setSettingsOpen(false)}
-              style={{ display: 'block', padding: '9px 14px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#888', textTransform: 'uppercase', textDecoration: 'none', borderBottom: '1px solid #1a1a1a' }}
+              style={{ display: 'block', padding: '9px 14px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#777', textTransform: 'uppercase', textDecoration: 'none', borderBottom: '1px solid #1a1a1a' }}
               onMouseEnter={e => e.currentTarget.style.color = '#FDC214'}
-              onMouseLeave={e => e.currentTarget.style.color = '#888'}
+              onMouseLeave={e => e.currentTarget.style.color = '#777'}
             >
               Edit profile
             </Link>
@@ -212,9 +212,9 @@ export default function Sidebar() {
             {/* Sign out */}
             <button
               onClick={async () => { await apiFetch('/api/presence', { method: 'DELETE' }); signOut({ callbackUrl: '/portal/login' }) }}
-              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 14px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#888', textTransform: 'uppercase', background: 'none', border: 'none', borderBottom: '1px solid #1a1a1a', cursor: 'pointer' }}
+              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 14px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#777', textTransform: 'uppercase', background: 'none', border: 'none', borderBottom: '1px solid #1a1a1a', cursor: 'pointer' }}
               onMouseEnter={e => e.currentTarget.style.color = '#fff'}
-              onMouseLeave={e => e.currentTarget.style.color = '#888'}
+              onMouseLeave={e => e.currentTarget.style.color = '#777'}
             >
               Sign out
             </button>
@@ -222,9 +222,9 @@ export default function Sidebar() {
             {/* System tab */}
             <button
               onClick={() => setSystemOpen(o => !o)}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', textAlign: 'left', padding: '9px 14px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#555', textTransform: 'uppercase', background: 'none', border: 'none', borderTop: '1px solid #1a1a1a', cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', textAlign: 'left', padding: '9px 14px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#777', textTransform: 'uppercase', background: 'none', border: 'none', borderTop: '1px solid #1a1a1a', cursor: 'pointer' }}
               onMouseEnter={e => e.currentTarget.style.color = '#888'}
-              onMouseLeave={e => e.currentTarget.style.color = '#555'}
+              onMouseLeave={e => e.currentTarget.style.color = '#777'}
             >
               <span>System</span>
               <span style={{ fontSize: 8, opacity: 0.4 }}>{systemOpen ? '▲' : '▼'}</span>
@@ -236,18 +236,18 @@ export default function Sidebar() {
                 {/* Privacy */}
                 <button
                   onClick={() => setPrivacyOpen(o => !o)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', textAlign: 'left', padding: '8px 14px 8px 20px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', color: '#555', textTransform: 'uppercase', background: 'none', border: 'none', borderBottom: '1px solid #141414', cursor: 'pointer' }}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', textAlign: 'left', padding: '8px 14px 8px 20px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', color: '#777', textTransform: 'uppercase', background: 'none', border: 'none', borderBottom: '1px solid #141414', cursor: 'pointer' }}
                   onMouseEnter={e => e.currentTarget.style.color = '#888'}
-                  onMouseLeave={e => e.currentTarget.style.color = '#555'}
+                  onMouseLeave={e => e.currentTarget.style.color = '#777'}
                 >
                   <span>Privacy</span>
                   <span style={{ fontSize: 7, opacity: 0.4 }}>{privacyOpen ? '▲' : '▼'}</span>
                 </button>
                 {privacyOpen && (
                   <Link href="/home/settings/blocked" onClick={() => setSettingsOpen(false)}
-                    style={{ display: 'block', padding: '8px 14px 8px 26px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#666', textTransform: 'uppercase', textDecoration: 'none', borderBottom: '1px solid #141414' }}
+                    style={{ display: 'block', padding: '8px 14px 8px 26px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#777', textTransform: 'uppercase', textDecoration: 'none', borderBottom: '1px solid #141414' }}
                     onMouseEnter={e => e.currentTarget.style.color = '#FDC214'}
-                    onMouseLeave={e => e.currentTarget.style.color = '#666'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#777'}
                   >
                     Blocked members
                   </Link>
@@ -256,31 +256,31 @@ export default function Sidebar() {
                 {/* Account */}
                 <button
                   onClick={() => setAccountOpen(o => !o)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', textAlign: 'left', padding: '8px 14px 8px 20px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', color: '#555', textTransform: 'uppercase', background: 'none', border: 'none', borderBottom: accountOpen ? '1px solid #141414' : 'none', cursor: 'pointer' }}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', textAlign: 'left', padding: '8px 14px 8px 20px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', color: '#777', textTransform: 'uppercase', background: 'none', border: 'none', borderBottom: accountOpen ? '1px solid #141414' : 'none', cursor: 'pointer' }}
                   onMouseEnter={e => e.currentTarget.style.color = '#888'}
-                  onMouseLeave={e => e.currentTarget.style.color = '#555'}
+                  onMouseLeave={e => e.currentTarget.style.color = '#777'}
                 >
                   <span>Account</span>
                   <span style={{ fontSize: 7, opacity: 0.4 }}>{accountOpen ? '▲' : '▼'}</span>
                 </button>
                 {accountOpen && (
-                  <>
-                    <Link href="/home/settings/report" onClick={() => setSettingsOpen(false)}
-                      style={{ display: 'block', padding: '8px 14px 8px 26px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#666', textTransform: 'uppercase', textDecoration: 'none', borderBottom: '1px solid #141414' }}
-                      onMouseEnter={e => e.currentTarget.style.color = '#FDC214'}
-                      onMouseLeave={e => e.currentTarget.style.color = '#666'}
-                    >
-                      Report Bugs
-                    </Link>
-                    <button
-                      style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 14px 8px 26px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#ff444450', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer' }}
-                      onMouseEnter={e => e.currentTarget.style.color = '#ff4444'}
-                      onMouseLeave={e => e.currentTarget.style.color = '#ff444450'}
-                    >
-                      Delete account
-                    </button>
-                  </>
+                  <button
+                    style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 14px 8px 26px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', color: '#ff444450', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer' }}
+                    onMouseEnter={e => e.currentTarget.style.color = '#ff4444'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#ff444450'}
+                  >
+                    Delete account
+                  </button>
                 )}
+
+                {/* Report Bugs */}
+                <Link href="/home/settings/report" onClick={() => setSettingsOpen(false)}
+                  style={{ display: 'block', padding: '8px 14px 8px 20px', fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', color: '#777', textTransform: 'uppercase', textDecoration: 'none', borderTop: '1px solid #141414' }}
+                  onMouseEnter={e => e.currentTarget.style.color = '#FDC214'}
+                  onMouseLeave={e => e.currentTarget.style.color = '#777'}
+                >
+                  Report Bugs
+                </Link>
 
               </div>
             )}
