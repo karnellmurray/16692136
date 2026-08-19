@@ -389,7 +389,7 @@ export default function WorkWithUsPage() {
                 <div style={{ marginBottom: 18 }}>
                   <Label required>The pitch</Label>
                   <textarea name="pitch" value={form.pitch} onChange={handle} required placeholder="What is it. Why does it matter. Why now. Why you." className="placeholder-white" style={{ ...inputStyle, resize: 'none', height: 120, lineHeight: 1.65 }} />
-                  <Hint>No decks. No jargon. Just the truth of the project.</Hint>
+                  <Hint>Tell us about your project.</Hint>
                 </div>
 
                 <div style={{ marginBottom: 18 }}>
