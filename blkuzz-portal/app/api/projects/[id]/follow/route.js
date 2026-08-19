@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
 import connectDB from '@/lib/mongodb'
 import Project from '@/models/Project'
+import Notification from '@/models/Notification'
+import Signup from '@/models/Signup'
 import mongoose from 'mongoose'
 
 export async function POST(req, { params }) {
@@ -33,5 +35,19 @@ export async function POST(req, { params }) {
   }
 
   await project.save()
+
+  if (following) {
+    const follower = await Signup.findById(session.user.id, 'username').lean()
+    await Notification.create({
+      user:    project.creator,
+      type:    'follow',
+      from:    session.user.id,
+      project: project._id,
+      text:    `@${follower?.username ?? 'someone'} started following your project`,
+      link:    `/home/projects/${params.id}`,
+      read:    false,
+    })
+  }
+
   return NextResponse.json({ following, count: project.followerCount })
 }
