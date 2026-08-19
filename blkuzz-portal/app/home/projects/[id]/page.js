@@ -1134,7 +1134,7 @@ function TeamTab({ project, router, isAuthor }) {
 
   return (
     <div className="px-3.5 py-4">
-      <p className="font-mono text-[9px] tracking-[0.2em] uppercase mb-3" style={{ color: '#777' }}>Member</p>
+      <p className="font-mono text-[11px] tracking-[0.2em] uppercase mb-3" style={{ color: '#777' }}>Member</p>
       <div className="flex items-center gap-3 mb-5">
         {project.creator?.avatar?.url || project.creator?.profileImage
           ? <img src={project.creator.avatar?.url ?? project.creator.profileImage}
