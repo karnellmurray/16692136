@@ -46,7 +46,7 @@ function MembersSelect({ selected, onChange, allMembers }) {
         {selected.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 6 }}>
             {selected.map(m => (
-              <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#0d0d0d', border: `1px solid ${GOLD}40`, padding: '3px 8px 3px 10px', borderRadius: 9999, fontFamily: MONO, fontSize: 8, color: GOLD, letterSpacing: '0.08em' }}>
+              <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#0d0d0d', border: `1px solid ${GOLD}40`, padding: '3px 8px 3px 10px', borderRadius: 9999, fontFamily: MONO, fontSize: 9, color: GOLD, letterSpacing: '0.08em' }}>
                 @{m.username}
                 <button type="button" onClick={() => remove(m.id)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 0, marginLeft: 2, display: 'flex', alignItems: 'center' }}>
                   <img src="/portal/icons/cross-y.png" alt="remove" style={{ width: 8, height: 8, filter: 'brightness(0) saturate(100%) invert(85%) sepia(50%) saturate(700%) hue-rotate(355deg) brightness(103%)' }} />
@@ -62,7 +62,7 @@ function MembersSelect({ selected, onChange, allMembers }) {
           onFocus={() => setOpen(true)}
           placeholder={selected.length === 0 ? 'Search members...' : 'Add another member...'}
           className="placeholder-white"
-          style={{ width: '100%', background: '#0d0d0d', border: '1px solid #1e1e1e', borderBottom: '1px solid #333', color: '#e8e8e8', fontFamily: SANS, fontSize: 12, padding: '10px 12px', outline: 'none', boxSizing: 'border-box' }}
+          style={{ width: '100%', background: '#0d0d0d', border: '1px solid #1e1e1e', borderBottom: '1px solid #333', color: '#e8e8e8', fontFamily: SANS, fontSize: 14, padding: '10px 12px', outline: 'none', boxSizing: 'border-box' }}
         />
       </div>
       {/* Dropdown — z50, above everything */}
@@ -73,8 +73,8 @@ function MembersSelect({ selected, onChange, allMembers }) {
               style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', cursor: 'pointer', borderBottom: '1px solid #111' }}>
               <MemberAvatar member={m} size={22} />
               <div>
-                <div style={{ fontFamily: MONO, fontSize: 8, color: '#e8e8e8', letterSpacing: '0.05em' }}>@{m.username}</div>
-                {m.discipline && <div style={{ fontFamily: MONO, fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em' }}>{m.discipline}</div>}
+                <div style={{ fontFamily: MONO, fontSize: 9, color: '#e8e8e8', letterSpacing: '0.05em' }}>@{m.username}</div>
+                {m.discipline && <div style={{ fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em' }}>{m.discipline}</div>}
               </div>
             </div>
           ))}
@@ -122,17 +122,17 @@ function MediaUpload({ files, onChange }) {
         onClick={() => !uploading && inputRef.current?.click()}
         style={{ border: `1px dashed ${GOLD}`, padding: '14px 16px', cursor: uploading ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, opacity: uploading ? 0.6 : 1 }}
       >
-        <span style={{ fontFamily: MONO, fontSize: 14, color: 'rgba(255,255,255,0.4)', lineHeight: 1 }}>+</span>
-        <span style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>
+        <span style={{ fontFamily: MONO, fontSize: 16, color: 'rgba(255,255,255,0.4)', lineHeight: 1 }}>+</span>
+        <span style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>
           {uploading ? 'Uploading...' : 'Upload any media to support your pitch'}
         </span>
       </div>
-      {error && <div style={{ fontFamily: MONO, fontSize: 7, color: '#D2042D', marginTop: 4 }}>{error}</div>}
+      {error && <div style={{ fontFamily: MONO, fontSize: 8, color: '#D2042D', marginTop: 4 }}>{error}</div>}
       {files.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
           {files.map((f, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#0d0d0d', border: '1px solid #1e1e1e', padding: '7px 10px' }}>
-              <span style={{ fontFamily: MONO, fontSize: 8, color: GOLD, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.name}</span>
+              <span style={{ fontFamily: MONO, fontSize: 9, color: GOLD, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.name}</span>
               <button type="button" onClick={() => remove(i)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, lineHeight: 0, flexShrink: 0 }}>
                 <img src="/portal/icons/cross-y.png" alt="remove" style={{ width: 8, height: 8, filter: 'brightness(0) saturate(100%) invert(85%) sepia(50%) saturate(700%) hue-rotate(355deg) brightness(103%)' }} />
               </button>
@@ -154,7 +154,7 @@ function ProjectSelect({ value, onChange, projects }) {
       {open && <div style={{ position: 'fixed', inset: 0, zIndex: 48 }} onMouseDown={() => setOpen(false)} />}
       <div style={{ position: 'relative', zIndex: 49 }}>
         <div onClick={() => setOpen(o => !o)}
-          style={{ width: '100%', background: '#000', border: '1px solid #1e1e1e', color: selected ? '#e8e8e8' : '#444', fontFamily: MONO, fontSize: 11, padding: '10px 12px', cursor: 'pointer', boxSizing: 'border-box', userSelect: 'none' }}>
+          style={{ width: '100%', background: '#000', border: '1px solid #1e1e1e', color: selected ? '#e8e8e8' : '#444', fontFamily: MONO, fontSize: 13, padding: '10px 12px', cursor: 'pointer', boxSizing: 'border-box', userSelect: 'none' }}>
           {selected ? selected.title : 'Select a project'}
         </div>
       </div>
@@ -165,7 +165,7 @@ function ProjectSelect({ value, onChange, projects }) {
               onMouseEnter={() => setHovered(p._id)}
               onMouseLeave={() => setHovered(null)}
               onMouseDown={() => { onChange(p._id); setOpen(false) }}
-              style={{ padding: '9px 12px', fontFamily: MONO, fontSize: 10, cursor: 'pointer', background: hovered === p._id ? GOLD : 'transparent', color: hovered === p._id ? '#000' : '#e8e8e8', borderBottom: '1px solid #0f0f0f' }}>
+              style={{ padding: '9px 12px', fontFamily: MONO, fontSize: 12, cursor: 'pointer', background: hovered === p._id ? GOLD : 'transparent', color: hovered === p._id ? '#000' : '#e8e8e8', borderBottom: '1px solid #0f0f0f' }}>
               {p.title}
             </div>
           ))}
@@ -178,13 +178,13 @@ function ProjectSelect({ value, onChange, projects }) {
 const inputStyle = {
   width: '100%', background: '#0d0d0d', border: '1px solid #1e1e1e',
   borderBottom: '1px solid #333', color: '#e8e8e8', fontFamily: SANS,
-  fontSize: 12, padding: '10px 12px', outline: 'none',
+  fontSize: 14, padding: '10px 12px', outline: 'none',
   boxSizing: 'border-box', display: 'block',
 }
 
 function Label({ children, required }) {
   return (
-    <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
+    <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
       <span>{children}</span>
       {required && <span style={{ color: GOLD }}>required</span>}
     </div>
@@ -192,7 +192,7 @@ function Label({ children, required }) {
 }
 
 function Hint({ children }) {
-  return <div style={{ fontFamily: MONO, fontSize: 7, color: '#252525', letterSpacing: '0.08em', marginTop: 4 }}>{children}</div>
+  return <div style={{ fontFamily: MONO, fontSize: 8, color: '#252525', letterSpacing: '0.08em', marginTop: 4 }}>{children}</div>
 }
 
 const WaxSeal = ({ size = 80 }) => (
@@ -255,8 +255,8 @@ export default function WorkWithUsPage() {
 
       {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid #1a1a1a', flexShrink: 0 }}>
-        <span className="font-head" style={{ fontSize: 15, letterSpacing: '2px', color: '#FDC214' }}>BLKUZZ</span>
-        <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: GOLD, border: `1px solid ${GOLD}30`, padding: '3px 8px' }}>
+        <span className="font-head" style={{ fontSize: 17, letterSpacing: '2px', color: '#FDC214' }}>BLKUZZ</span>
+        <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.12em', color: GOLD, border: `1px solid ${GOLD}30`, padding: '3px 8px' }}>
           {loading ? '—' : closed ? `Closed · ${config.currentQuarter}` : `${config.slotsRemaining} slots remaining · ${config.currentQuarter}`}
         </div>
       </div>
@@ -273,15 +273,15 @@ export default function WorkWithUsPage() {
             <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 3px, #ffffff02 3px, #ffffff02 4px)', pointerEvents: 'none' }} />
             <div style={{ position: 'relative', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{ marginBottom: 28 }}><WaxSeal size={200} /></div>
-              <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.35em', color: GOLD, textTransform: 'uppercase', marginBottom: 12 }}>We want to hear from you</div>
-              <h1 style={{ fontSize: 52, lineHeight: 1.05, marginBottom: 0 }}>
+              <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.35em', color: GOLD, textTransform: 'uppercase', marginBottom: 12 }}>We want to hear from you</div>
+              <h1 style={{ fontSize: 60, lineHeight: 1.05, marginBottom: 0 }}>
                 <span className="font-head" style={{ letterSpacing: '2px', color: '#fff' }}>Work </span>
                 <em style={{ fontFamily: SERIF, fontStyle: 'italic', fontWeight: 600, color: GOLD }}>with</em>
                 <br />
                 <span className="font-head" style={{ letterSpacing: '2px', color: '#fff' }}>Blkuzz</span>
               </h1>
               <div style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)`, margin: '20px auto' }} />
-              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 1.75, maxWidth: 300, textAlign: 'center' }}>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)', lineHeight: 1.75, maxWidth: 300, textAlign: 'center' }}>
                 We select a small number of projects each quarter to develop into Blkuzz company content. If you have a project you&apos;d like to work on, get in touch.
               </p>
             </div>
@@ -295,15 +295,15 @@ export default function WorkWithUsPage() {
               { num: loading ? '—' : config.currentQuarter, label: 'Current\nintake' },
             ].map((s, i, arr) => (
               <div key={i} style={{ flex: 1, padding: '18px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, borderRight: i < arr.length - 1 ? '1px solid #141414' : 'none' }}>
-                <div style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, color: GOLD, lineHeight: 1 }}>{s.num}</div>
-                <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.5, whiteSpace: 'pre-line' }}>{s.label}</div>
+                <div style={{ fontFamily: SERIF, fontSize: 35, fontWeight: 600, color: GOLD, lineHeight: 1 }}>{s.num}</div>
+                <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.5, whiteSpace: 'pre-line' }}>{s.label}</div>
               </div>
             ))}
           </div>
 
           {/* What selection means */}
           <div style={{ padding: '24px 24px 32px', flex: 1 }}>
-            <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
               What selection means
               <div style={{ flex: 1, height: 1, background: '#1a1a1a' }} />
             </div>
@@ -315,10 +315,10 @@ export default function WorkWithUsPage() {
                 { num: '04', title: 'Permanent record',          desc: 'Selected projects are archived as official Blkuzz works. Your name on them. Forever.', accent: '#e8ff00' },
               ].map(item => (
                 <div key={item.num} style={{ display: 'flex', gap: 14, padding: '14px 0', borderBottom: '1px solid #0f0f0f', alignItems: 'flex-start' }}>
-                  <div style={{ fontFamily: MONO, fontSize: 8, color: item.accent, letterSpacing: '0.1em', opacity: 0.7, flexShrink: 0, paddingTop: 2 }}>{item.num}</div>
+                  <div style={{ fontFamily: MONO, fontSize: 9, color: item.accent, letterSpacing: '0.1em', opacity: 0.7, flexShrink: 0, paddingTop: 2 }}>{item.num}</div>
                   <div style={{ flex: 1, borderLeft: `2px solid ${item.accent}30`, paddingLeft: 12 }}>
-                    <div className="font-head" style={{ fontSize: 11, letterSpacing: '2px', color: '#e8e8e8', marginBottom: 4, lineHeight: 1.3 }}>{item.title}</div>
-                    <div style={{ fontSize: 10, color: '#FDC214', lineHeight: 1.55 }}>{item.desc}</div>
+                    <div className="font-head" style={{ fontSize: 13, letterSpacing: '2px', color: '#e8e8e8', marginBottom: 4, lineHeight: 1.3 }}>{item.title}</div>
+                    <div style={{ fontSize: 12, color: '#FDC214', lineHeight: 1.55 }}>{item.desc}</div>
                   </div>
                 </div>
               ))}
@@ -331,34 +331,34 @@ export default function WorkWithUsPage() {
         <div className="lg:overflow-y-auto" style={{ flex: 1, scrollbarWidth: 'none', display: 'flex', flexDirection: 'column' }}>
 
           {loading ? (
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MONO, fontSize: 8, color: '#222', letterSpacing: '0.2em' }}>—</div>
+            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MONO, fontSize: 9, color: '#222', letterSpacing: '0.2em' }}>—</div>
 
           ) : submitState === 'done' ? (
             <div className="px-6 lg:px-12" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 24, paddingTop: 40, paddingBottom: 40, textAlign: 'center' }}>
               <WaxSeal size={180} />
-              <div style={{ fontFamily: SERIF, fontSize: 32, fontWeight: 600, color: '#fff', lineHeight: 1.15 }}>
+              <div style={{ fontFamily: SERIF, fontSize: 37, fontWeight: 600, color: '#fff', lineHeight: 1.15 }}>
                 Your submission<br />has been received.
               </div>
               <div style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-              <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.12em', lineHeight: 2 }}>
+              <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.12em', lineHeight: 2 }}>
                 We will respond within 14 days.
               </div>
             </div>
 
           ) : closed ? (
             <div className="px-6 lg:px-12" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12, paddingTop: 48, paddingBottom: 48, textAlign: 'center' }}>
-              <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>
+              <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>
                 Submissions for {config.currentQuarter} are now closed.
               </div>
-              <div style={{ fontFamily: SERIF, fontSize: 20, color: 'rgba(255,255,255,0.4)', fontStyle: 'italic' }}>Check back next quarter.</div>
+              <div style={{ fontFamily: SERIF, fontSize: 23, color: 'rgba(255,255,255,0.4)', fontStyle: 'italic' }}>Check back next quarter.</div>
             </div>
 
           ) : existing ? (
             <div className="px-6 lg:px-12" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, paddingTop: 40, paddingBottom: 40, textAlign: 'center' }}>
-              <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase', border: `1px solid ${GOLD}30`, padding: '4px 12px' }}>Under review</div>
-              <div style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 600, color: '#fff', lineHeight: 1.2 }}>&quot;{existing.projectTitle}&quot;</div>
+              <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase', border: `1px solid ${GOLD}30`, padding: '4px 12px' }}>Under review</div>
+              <div style={{ fontFamily: SERIF, fontSize: 32, fontWeight: 600, color: '#fff', lineHeight: 1.2 }}>&quot;{existing.projectTitle}&quot;</div>
               <div style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-              <div style={{ fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', lineHeight: 2 }}>
+              <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', lineHeight: 2 }}>
                 Submitted {new Date(existing.submittedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}<br />
                 We will respond within 14 days.
               </div>
@@ -367,8 +367,8 @@ export default function WorkWithUsPage() {
           ) : (
             <div className="px-6 lg:px-12" style={{ paddingTop: 40, paddingBottom: 40 }}>
               <div style={{ marginBottom: 32 }}>
-                <div className="font-head" style={{ fontSize: 22, letterSpacing: '2px', color: GOLD, marginBottom: 6 }}>Submit your pitch</div>
-                <div style={{ fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{config.currentQuarter} 2026 · Closes when slots fill</div>
+                <div className="font-head" style={{ fontSize: 25, letterSpacing: '2px', color: GOLD, marginBottom: 6 }}>Submit your pitch</div>
+                <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{config.currentQuarter} 2026 · Closes when slots fill</div>
               </div>
 
               <form onSubmit={submit}>
@@ -408,7 +408,7 @@ export default function WorkWithUsPage() {
 
                 <div style={{ marginBottom: 18 }}>
                   <Label>Existing project</Label>
-                  <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em', marginBottom: 10 }}>Is this an existing Blkuzz project?</div>
+                  <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em', marginBottom: 10 }}>Is this an existing Blkuzz project?</div>
                   <div style={{ display: 'flex', gap: 8 }}>
                     {['Yes', 'No'].map(opt => {
                       const val = opt === 'Yes'
@@ -416,7 +416,7 @@ export default function WorkWithUsPage() {
                       return (
                         <button key={opt} type="button"
                           onClick={() => setForm(f => ({ ...f, existingProject: f.existingProject === val ? null : val, linkedProjectId: val ? f.linkedProjectId : '' }))}
-                          style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.15em', padding: '6px 20px', borderRadius: 9999, border: `1px solid ${active ? GOLD : '#2a2a2a'}`, background: 'transparent', color: active ? GOLD : '#444', cursor: 'pointer', transition: 'all 0.15s' }}>
+                          style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.15em', padding: '6px 20px', borderRadius: 9999, border: `1px solid ${active ? GOLD : '#2a2a2a'}`, background: 'transparent', color: active ? GOLD : '#444', cursor: 'pointer', transition: 'all 0.15s' }}>
                           {opt}
                         </button>
                       )
@@ -425,7 +425,7 @@ export default function WorkWithUsPage() {
                   {form.existingProject === true && (
                     <div style={{ marginTop: 10 }}>
                       {myProjects.length === 0 ? (
-                        <div style={{ fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', padding: '10px 12px', border: '1px solid #1e1e1e' }}>No projects found in your account.</div>
+                        <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', padding: '10px 12px', border: '1px solid #1e1e1e' }}>No projects found in your account.</div>
                       ) : (
                         <ProjectSelect
                           value={form.linkedProjectId}
@@ -446,15 +446,15 @@ export default function WorkWithUsPage() {
                 </div>
 
                 {errorMsg && (
-                  <div style={{ fontFamily: MONO, fontSize: 8, color: '#D2042D', letterSpacing: '0.08em', marginBottom: 14 }}>{errorMsg}</div>
+                  <div style={{ fontFamily: MONO, fontSize: 9, color: '#D2042D', letterSpacing: '0.08em', marginBottom: 14 }}>{errorMsg}</div>
                 )}
 
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
-                  <button type="submit" disabled={submitState === 'submitting'} style={{ width: 'fit-content', alignSelf: 'center', background: 'transparent', border: `1px solid ${GOLD}`, borderRadius: 9999, color: GOLD, fontFamily: MONO, fontSize: 10, letterSpacing: '0.25em', padding: '12px 32px', cursor: 'pointer', textTransform: 'uppercase', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, position: 'relative', overflow: 'hidden', opacity: submitState === 'submitting' ? 0.6 : 1, transition: 'background 0.15s' }}>
+                  <button type="submit" disabled={submitState === 'submitting'} style={{ width: 'fit-content', alignSelf: 'center', background: 'transparent', border: `1px solid ${GOLD}`, borderRadius: 9999, color: GOLD, fontFamily: MONO, fontSize: 12, letterSpacing: '0.25em', padding: '12px 32px', cursor: 'pointer', textTransform: 'uppercase', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, position: 'relative', overflow: 'hidden', opacity: submitState === 'submitting' ? 0.6 : 1, transition: 'background 0.15s' }}>
                     <SmallSeal />
                     {submitState === 'submitting' ? 'Sending...' : 'Seal and submit'}
                   </button>
-                  <div style={{ fontFamily: MONO, fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textAlign: 'center', lineHeight: 1.9 }}>
+                  <div style={{ fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textAlign: 'center', lineHeight: 1.9 }}>
                     Submissions are reviewed by the Blkuzz team only.<br />
                     We respond within 14 days. Denied submissions are not a reflection of your work.
                   </div>
