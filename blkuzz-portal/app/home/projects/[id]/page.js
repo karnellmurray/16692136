@@ -1360,7 +1360,6 @@ export default function ProjectDetailPage() {
   const [following, setFollowing]       = useState(false)
   const [followerCount, setFollowerCount] = useState(0)
   const [collabSent, setCollabSent]     = useState(false)
-  const [collabDeclined, setCollabDeclined] = useState(false)
   const [collabModal, setCollabModal]   = useState(false)
   const [collabMessage, setCollabMessage] = useState('')
   const [collabSending, setCollabSending] = useState(false)
@@ -1381,16 +1380,6 @@ export default function ProjectDetailPage() {
   }
 
   useEffect(() => { if (id) load() }, [id, session])
-
-  useEffect(() => {
-    if (!project?._id) return
-    apiFetch('/api/notifications').then(r => r.json()).then(data => {
-      const declined = (data.notifications ?? []).some(
-        n => n.type === 'collab_request' && n.status === 'declined' && (n.project?._id ?? n.project)?.toString() === project._id.toString()
-      )
-      setCollabDeclined(declined)
-    })
-  }, [project?._id])
 
   const sendCollab = async () => {
     setCollabSending(true)
@@ -1606,17 +1595,17 @@ export default function ProjectDetailPage() {
         )}
         {!isAuthor && creatorId && (
           <button
-            disabled={collabSent || collabDeclined}
+            disabled={collabSent}
             onClick={() => setCollabModal(true)}
             className="font-mono text-[11px] tracking-[0.15em] uppercase px-[18px] py-2 border shrink-0 transition-colors"
             style={{
-              borderColor: collabDeclined ? '#D2042D' : `${collabSent ? 'rgba(253,194,20,0.4)' : '#FDC214'}`,
-              color:       collabDeclined ? '#D2042D' : collabSent ? '#FDC214' : '#0a0a0a',
-              background:  collabDeclined ? 'transparent' : collabSent ? 'transparent' : '#FDC214',
+              borderColor: collabSent ? 'rgba(253,194,20,0.4)' : '#FDC214',
+              color:       collabSent ? '#FDC214' : '#0a0a0a',
+              background:  collabSent ? 'transparent' : '#FDC214',
               opacity:     collabSent ? 0.7 : 1,
-              cursor:      collabSent || collabDeclined ? 'default' : 'pointer',
+              cursor:      collabSent ? 'default' : 'pointer',
             }}>
-            {collabDeclined ? 'Declined' : collabSent ? 'Requested ✓' : 'Collab'}
+            {collabSent ? 'Requested ✓' : 'Collab'}
           </button>
         )}
       </div>
