@@ -768,12 +768,13 @@ function AboutTab({ project, isAuthor, onRefresh }) {
 
   const handle = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
-  const toggleDiscipline = d => setForm(f => ({
-    ...f,
-    collaboratorDisciplines: f.collaboratorDisciplines.includes(d)
-      ? f.collaboratorDisciplines.filter(x => x !== d)
-      : [...f.collaboratorDisciplines, d],
-  }))
+  const toggleDiscipline = d => setForm(f => {
+    if (f.collaboratorDisciplines.includes(d)) {
+      return { ...f, collaboratorDisciplines: f.collaboratorDisciplines.filter(x => x !== d) }
+    }
+    if (f.collaboratorDisciplines.length >= 10) return f
+    return { ...f, collaboratorDisciplines: [...f.collaboratorDisciplines, d] }
+  })
 
   const save = async () => {
     setSaving(true)
@@ -856,7 +857,7 @@ function AboutTab({ project, isAuthor, onRefresh }) {
                   className="font-mono text-[8px] tracking-[0.1em] uppercase px-3 py-1 border rounded-full transition-colors"
                   style={{
                     borderColor: active ? '#FDC214' : '#333',
-                    color:       active ? '#FDC214' : 'rgba(255,255,255,0.4)',
+                    color:       active ? '#FDC214' : '#777',
                     background:  'transparent',
                   }}>
                   {opt}
@@ -868,13 +869,16 @@ function AboutTab({ project, isAuthor, onRefresh }) {
         <div className={`flex flex-wrap gap-1.5 transition-opacity ${form.collaboratorsNeeded ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
           {allTags.map(d => {
             const selected = form.collaboratorDisciplines.includes(d)
+            const atMax    = form.collaboratorDisciplines.length >= 10 && !selected
             return (
-              <button key={d} type="button" onClick={() => toggleDiscipline(d)}
+              <button key={d} type="button" disabled={atMax} onClick={() => toggleDiscipline(d)}
                 className="font-mono text-[8px] tracking-[0.1em] uppercase px-2.5 py-1 border rounded-full transition-colors"
                 style={{
                   borderColor: selected ? '#FDC214' : '#333',
-                  color:       selected ? '#FDC214' : 'rgba(255,255,255,0.4)',
+                  color:       selected ? '#FDC214' : '#777',
                   background:  'transparent',
+                  cursor:      atMax ? 'not-allowed' : 'pointer',
+                  opacity:     atMax ? 0.4 : 1,
                 }}>
                 {pluralise(d)}
               </button>
