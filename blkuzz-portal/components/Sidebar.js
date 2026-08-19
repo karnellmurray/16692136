@@ -163,7 +163,7 @@ export default function Sidebar() {
 
       {/* User + Settings */}
       <div className="px-4 py-4 border-t border-white/5 relative" ref={settingsRef}>
-        <p className="text-white/25 text-[10px] tracking-widest uppercase mb-3">Member Portal</p>
+        <p className="text-[10px] tracking-widest uppercase mb-3" style={{ color: '#777' }}>Member Portal</p>
         {session?.user && (
           <div className="flex items-center gap-3">
             <Link href="/home/profile/me" className="flex items-center gap-3 flex-1 min-w-0 hover:opacity-80 transition-opacity">
