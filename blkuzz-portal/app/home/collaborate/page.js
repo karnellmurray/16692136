@@ -241,7 +241,7 @@ export default function BulletinPage() {
             style={{
               border: '1px solid', borderRadius: 9999,
               borderColor: filter === f ? '#FDC214' : '#1e1e1e',
-              color: filter === f ? '#FDC214' : '#444',
+              color: filter === f ? '#FDC214' : '#777',
               background: 'transparent',
             }}>
             {f}
