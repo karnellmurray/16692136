@@ -204,8 +204,7 @@ function CreateModal({ onClose, onCreated }) {
   ].join(' ')
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ background: 'rgba(0,0,0,0.85)' }}
-      onClick={e => e.target === e.currentTarget && onClose()}>
+    <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ background: 'rgba(0,0,0,0.85)' }}>
       <div className="w-full max-w-lg border-t border-l border-r border-[#1e1e1e] max-h-[92vh] overflow-y-auto flex flex-col"
         style={{ background: '#0a0a0a' }}>
 
