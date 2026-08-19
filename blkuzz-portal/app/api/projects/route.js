@@ -78,7 +78,7 @@ export async function POST(req) {
     const session = await getServerSession(authOptions)
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { title, disciplines, tagline, description, location, tags, chapters, coverImage, coverImagePosition, status } = await req.json()
+    const { title, disciplines, tagline, description, location, tags, chapters, coverImage, coverImagePosition, status, collaboratorsNeeded, collaboratorDisciplines } = await req.json()
     if (!title?.trim()) {
       return NextResponse.json({ error: 'title is required' }, { status: 400 })
     }
@@ -108,6 +108,8 @@ export async function POST(req) {
       coverImage:         coverImage?.trim(),
       coverImagePosition: coverImagePosition ?? '50% 50%',
       status:             status === 'completed' ? 'completed' : 'active',
+      collaboratorsNeeded:     !!collaboratorsNeeded,
+      collaboratorDisciplines: Array.isArray(collaboratorDisciplines) ? collaboratorDisciplines : [],
     })
 
     return NextResponse.json(project, { status: 201 })

@@ -130,9 +130,13 @@ function CreateModal({ onClose, onCreated }) {
   const [dragging, setDragging]         = useState(false)
   const [imgPos, setImgPos]             = useState({ x: 50, y: 50 })
   const [repoHover, setRepoHover]       = useState(false)
+  const [collabDisciplines, setCollabDisciplines] = useState([])
+  const [collabOpen, setCollabOpen]   = useState(false)
+  const [tagOptions, setTagOptions]   = useState([])
   const fileInputRef  = useRef(null)
   const imgDragging   = useRef(false)
   const imgDragAnchor = useRef({ mx: 0, my: 0, px: 50, py: 50 })
+  const collabRef     = useRef(null)
   const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
 
   const pickFile = file => {
@@ -141,6 +145,23 @@ function CreateModal({ onClose, onCreated }) {
     setCoverPreview(URL.createObjectURL(file))
     setImgPos({ x: 50, y: 50 })
   }
+
+  const toggleCollabDiscipline = d => {
+    setCollabDisciplines(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d])
+  }
+
+  useEffect(() => {
+    apiFetch('/api/projects/tags').then(r => r.json()).then(d => {
+      if (Array.isArray(d)) setTagOptions(d)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!collabOpen) return
+    const handler = e => { if (collabRef.current && !collabRef.current.contains(e.target)) setCollabOpen(false) }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [collabOpen])
 
   useEffect(() => {
     const move = e => {
@@ -183,7 +204,11 @@ function CreateModal({ onClose, onCreated }) {
       const res  = await apiFetch('/api/projects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, coverImage, coverImagePosition }),
+        body: JSON.stringify({
+          ...form, coverImage, coverImagePosition,
+          collaboratorsNeeded:     collabDisciplines.length > 0,
+          collaboratorDisciplines: collabDisciplines,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed to create project')
@@ -255,6 +280,35 @@ function CreateModal({ onClose, onCreated }) {
             </label>
             <input name="location" value={form.location} onChange={handle}
               placeholder="e.g. London, My bedroom…" className={inputCls} />
+          </div>
+
+          {/* Looking for collaborators */}
+          <div className="px-5 pt-4 pb-3">
+            <label className="font-mono text-[10px] tracking-[0.25em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
+              Looking For Collaborators
+            </label>
+            <div ref={collabRef} className="relative">
+              <button type="button" onClick={() => setCollabOpen(o => !o)}
+                className="w-full flex items-center justify-between font-mono text-[11px] tracking-[0.04em] px-3 py-2.5"
+                style={{ background: 'transparent', border: '1px solid #1e1e1e', borderBottom: '1px solid #333', color: collabDisciplines.length ? '#e8e8e8' : 'rgba(255,255,255,0.4)' }}>
+                <span>{collabDisciplines.length ? collabDisciplines.map(pluralise).join(', ') : 'None — select disciplines needed'}</span>
+                <span style={{ color: '#FDC214', fontSize: 15 }}>{collabOpen ? '−' : '+'}</span>
+              </button>
+              {collabOpen && (
+                <div className="absolute left-0 right-0 z-50 mt-0.5 max-h-52 overflow-y-auto" style={{ background: '#111', border: '1px solid #1a1a1a' }}>
+                  {tagOptions.map(d => {
+                    const selected = collabDisciplines.includes(d)
+                    return (
+                      <button key={d} type="button" onClick={() => toggleCollabDiscipline(d)}
+                        className="w-full text-left px-3 py-2 font-mono text-[9px] tracking-[0.05em] uppercase transition-colors"
+                        style={{ borderTop: '1px solid #1a1a1a', color: selected ? '#FDC214' : 'rgba(255,255,255,0.6)' }}>
+                        {selected ? '✓ ' : ''}{pluralise(d)}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Cover image upload */}
