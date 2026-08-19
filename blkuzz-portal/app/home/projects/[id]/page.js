@@ -848,7 +848,7 @@ function AboutTab({ project, isAuthor, onRefresh }) {
       {/* Collaborators needed */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <p className="font-mono text-[8px] tracking-[0.2em] uppercase" style={{ color: '#777' }}>Collaborators Needed</p>
+          <p className="font-mono text-[8px] tracking-[0.2em] uppercase" style={{ color: '#777' }}>Looking For Collaborators</p>
           <div className="flex gap-1.5">
             {['Yes', 'No'].map(opt => {
               const active = opt === 'Yes' ? form.collaboratorsNeeded : !form.collaboratorsNeeded
