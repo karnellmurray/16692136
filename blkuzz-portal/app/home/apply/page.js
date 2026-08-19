@@ -192,7 +192,7 @@ function Label({ children, required }) {
 }
 
 function Hint({ children }) {
-  return <div style={{ fontFamily: MONO, fontSize: 8, color: '#777', letterSpacing: '0.08em', marginTop: 4 }}>{children}</div>
+  return <div style={{ fontFamily: MONO, fontSize: 11, color: '#777', letterSpacing: '0.08em', marginTop: 4 }}>{children}</div>
 }
 
 const WaxSeal = ({ size = 80 }) => (
