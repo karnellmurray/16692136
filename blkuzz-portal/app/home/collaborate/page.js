@@ -377,7 +377,7 @@ export default function BulletinPage() {
                   </div>
 
                   {/* Time col */}
-                  <div className="hidden lg:block font-mono text-[8px] shrink-0" style={{ width: 44, color: '#777', padding: '10px 12px 10px 0', textAlign: 'right' }}>
+                  <div className="hidden lg:block font-mono text-[11px] shrink-0" style={{ width: 44, color: '#777', padding: '10px 12px 10px 0', textAlign: 'right' }}>
                     {shortTimeAgo(post.createdAt)}
                   </div>
                 </div>
