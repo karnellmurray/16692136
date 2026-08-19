@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { apiFetch } from '@/lib/api'
+import { uploadMedia } from '@/lib/useUploadClient'
 import { Plus, AlertTriangle } from 'lucide-react'
 
 const TYPES = ['Looking for', 'Open to work', 'Events']
@@ -138,12 +139,11 @@ export default function BulletinPage() {
     if (!files.length) return
     setUploading(true)
     const urls = await Promise.all(files.map(async file => {
-      const fd = new FormData()
-      fd.append('file', file)
-      fd.append('type', 'post')
-      const res  = await apiFetch('/api/upload', { method: 'POST', body: fd })
-      const data = await res.json()
-      return data.url ?? null
+      try {
+        return await uploadMedia(file, 'post')
+      } catch {
+        return null
+      }
     }))
     setMediaUrls(prev => [...prev, ...urls.filter(Boolean)])
     setUploading(false)

@@ -7,6 +7,7 @@ const PitchSchema = new mongoose.Schema({
   pitch:          { type: String, required: true, trim: true, maxlength: 2000 },
   workLink:       { type: String, trim: true },
   supportNeeded:  { type: String, trim: true },
+  mediaFiles:     [{ type: String, trim: true }],
   status:         { type: String, enum: ['pending', 'reviewed', 'accepted', 'declined'], default: 'pending' },
   submittedAt:    { type: Date, default: Date.now },
   respondedAt:    { type: Date },

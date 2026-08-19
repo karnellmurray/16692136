@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { apiFetch } from '@/lib/api'
+import { uploadMedia } from '@/lib/useUploadClient'
 import { Globe } from 'lucide-react'
 
 const iStyle = (disabled) => ({
@@ -103,20 +104,18 @@ export default function EditProfilePage() {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
-    const fd = new FormData()
-    fd.append('file', file)
-    fd.append('type', 'avatar')
-    const res  = await apiFetch('/api/upload', { method: 'POST', body: fd })
-    const data = await res.json()
-    if (data.url) {
-      setProfile(p => ({ ...p, profileImage: data.url, avatar: null }))
+    try {
+      const url = await uploadMedia(file, 'avatar')
+      setProfile(p => ({ ...p, profileImage: url, avatar: null }))
       setSaved(false)
       await apiFetch('/api/profile', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profileImage: data.url }),
+        body: JSON.stringify({ profileImage: url }),
       })
       window.dispatchEvent(new Event('blkuzz:avatar-updated'))
+    } catch (err) {
+      console.error('[avatar upload]', err.message)
     }
     setUploading(false)
   }

@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
 import connectDB from '@/lib/mongodb'
 import Signup from '@/models/Signup'
+import { deleteOwnedUpload } from '@/lib/s3Delete'
 
 const cdn   = (process.env.AWS_S3_CLOUDFRONT_URL ?? '').replace(/\/$/, '')
 const s3    = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`
@@ -79,11 +80,25 @@ export async function PATCH(req) {
 
   const update = { $set: set }
   if (profileImage) update.$unset = { 'avatar.url': '' }
+
+  // Capture the old media reference before it's overwritten, so it can be
+  // cleaned up from S3 after the write succeeds -- only when profileImage
+  // was actually part of this request (it's frequently absent on unrelated
+  // field saves, which must never delete the current avatar).
+  const prev = profileImage !== undefined
+    ? await Signup.findById(session.user.id, 'profileImage avatar').lean()
+    : null
+
   const user = await Signup.findByIdAndUpdate(
     session.user.id,
     update,
     { new: true, select: '-passwordHash' }
   ).lean()
+
+  if (prev) {
+    const oldValue = prev.profileImage || prev.avatar?.url
+    if (oldValue && oldValue !== profileImage) deleteOwnedUpload(oldValue)
+  }
 
   return NextResponse.json(user)
 }

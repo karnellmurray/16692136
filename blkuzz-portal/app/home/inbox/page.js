@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { io } from 'socket.io-client'
 import { apiFetch } from '@/lib/api'
+import { uploadMedia } from '@/lib/useUploadClient'
 import { Send, Lock, Paperclip, FolderOpen, MoreVertical, User, ArrowLeft } from 'lucide-react'
 
 function timeAgo(date) {
@@ -170,12 +171,11 @@ function InboxPageContent() {
     if (!files.length) return
     setUploading(true)
     const urls = await Promise.all(files.map(async file => {
-      const fd = new FormData()
-      fd.append('file', file)
-      fd.append('type', 'post')
-      const res  = await apiFetch('/api/upload', { method: 'POST', body: fd })
-      const data = await res.json()
-      return data.url ?? null
+      try {
+        return await uploadMedia(file, 'post')
+      } catch {
+        return null
+      }
     }))
     setMediaUrls(prev => [...prev, ...urls.filter(Boolean)])
     setUploading(false)

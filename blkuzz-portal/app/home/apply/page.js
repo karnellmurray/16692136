@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { apiFetch } from '@/lib/api'
+import { uploadMedia } from '@/lib/useUploadClient'
 
 const GOLD  = '#FDC214'
 const MONO  = 'IBM Plex Mono, monospace'
@@ -96,13 +97,8 @@ function MediaUpload({ files, onChange }) {
     setError('')
     try {
       const results = await Promise.all(selected.map(async file => {
-        const fd = new FormData()
-        fd.append('file', file)
-        fd.append('type', 'post')
-        const res  = await apiFetch('/api/upload', { method: 'POST', body: fd })
-        const data = await res.json()
-        if (!res.ok) throw new Error(data.error || 'Upload failed')
-        return { name: file.name, url: data.url, type: file.type }
+        const url = await uploadMedia(file, 'post')
+        return { name: file.name, url, type: file.type }
       }))
       onChange([...files, ...results])
     } catch (err) {

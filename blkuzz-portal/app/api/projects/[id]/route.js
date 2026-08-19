@@ -9,6 +9,7 @@ import Notification from '@/models/Notification'
 import BulletinPost from '@/models/BulletinPost'
 import '@/models/Signup'
 import mongoose from 'mongoose'
+import { deleteOwnedUpload, deleteOwnedUploads } from '@/lib/s3Delete'
 
 const cdn   = (process.env.AWS_S3_CLOUDFRONT_URL ?? '').replace(/\/$/, '')
 const s3    = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`
@@ -77,12 +78,19 @@ export async function PATCH(req, { params }) {
   }
 
   const body = await req.json()
+  const prevCoverImage = project.coverImage
+
   const allowed = ['title', 'tagline', 'description', 'disciplines', 'tags', 'location', 'coverImage', 'coverImagePosition', 'status', 'progress', 'collaboratorsNeeded', 'collaboratorDisciplines']
   for (const key of allowed) {
     if (body[key] !== undefined) project[key] = body[key]
   }
   project.updatedAt = new Date()
   await project.save()
+
+  if (body.coverImage !== undefined && prevCoverImage && prevCoverImage !== body.coverImage) {
+    deleteOwnedUpload(prevCoverImage)
+  }
+
   return NextResponse.json(project)
 }
 
@@ -101,7 +109,7 @@ export async function DELETE(req, { params }) {
   const projectId = project._id
 
   // Delete comments on all project posts, then the posts themselves
-  const posts = await ProjectPost.find({ project: projectId }, '_id').lean()
+  const posts = await ProjectPost.find({ project: projectId }, '_id media').lean()
   if (posts.length) {
     await ProjectComment.deleteMany({ post: { $in: posts.map(p => p._id) } })
     await ProjectPost.deleteMany({ project: projectId })
@@ -113,6 +121,14 @@ export async function DELETE(req, { params }) {
   // Detach bulletin posts that referenced this project
   await BulletinPost.updateMany({ projectRef: projectId }, { $unset: { projectRef: '' }, $set: { projectName: project.title } })
 
+  const coverImage = project.coverImage
   await project.deleteOne()
+
+  // Only after the full cascade above has succeeded -- an explicit, bounded
+  // list of exactly the keys this project owned, never a sweep.
+  const mediaKeys = posts.flatMap(p => p.media ?? [])
+  if (coverImage) mediaKeys.push(coverImage)
+  deleteOwnedUploads(mediaKeys)
+
   return NextResponse.json({ ok: true })
 }

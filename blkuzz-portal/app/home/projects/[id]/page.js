@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { ArrowLeft, Heart, MessageCircle, Send, Plus, X, Camera } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
+import { uploadMedia } from '@/lib/useUploadClient'
 
 // ─── Discipline colour config ─────────────────────────────────────────────────
 const DISC = {
@@ -319,12 +320,11 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
     if (!files.length) return
     setEditUploading(true)
     const urls = await Promise.all(files.map(async file => {
-      const fd = new FormData()
-      fd.append('file', file)
-      fd.append('type', 'post')
-      const res  = await apiFetch('/api/upload', { method: 'POST', body: fd })
-      const data = await res.json()
-      return data.url ?? null
+      try {
+        return await uploadMedia(file, 'post')
+      } catch {
+        return null
+      }
     }))
     setEditMedia(prev => [...prev, ...urls.filter(Boolean)])
     setEditUploading(false)
@@ -615,12 +615,11 @@ function AddPostForm({ projectSlug, chapters, onAdded }) {
     if (!files.length) return
     setUploading(true)
     const urls = await Promise.all(files.map(async file => {
-      const fd = new FormData()
-      fd.append('file', file)
-      fd.append('type', 'post')
-      const res  = await apiFetch('/api/upload', { method: 'POST', body: fd })
-      const data = await res.json()
-      return data.url ?? null
+      try {
+        return await uploadMedia(file, 'post')
+      } catch {
+        return null
+      }
     }))
     setMediaUrls(prev => [...prev, ...urls.filter(Boolean)])
     setUploading(false)
@@ -1460,12 +1459,11 @@ export default function ProjectDetailPage() {
     setCoverSaving(true)
     let coverImage = project.coverImage ?? ''
     if (coverFile) {
-      const fd = new FormData()
-      fd.append('file', coverFile)
-      fd.append('type', 'cover')
-      const upRes  = await apiFetch('/api/upload', { method: 'POST', body: fd })
-      const upData = await upRes.json()
-      coverImage = upData.url ?? coverImage
+      try {
+        coverImage = await uploadMedia(coverFile, 'cover')
+      } catch (err) {
+        console.error('[cover upload]', err.message)
+      }
     }
     const position = `${coverPos.x.toFixed(1)}% ${coverPos.y.toFixed(1)}%`
     await apiFetch(`/api/projects/${id}`, {

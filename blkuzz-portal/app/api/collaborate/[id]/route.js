@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
 import connectDB from '@/lib/mongodb'
 import BulletinPost from '@/models/BulletinPost'
+import { deleteOwnedUploads } from '@/lib/s3Delete'
 
 export async function PATCH(req, { params }) {
   try {
@@ -17,6 +18,7 @@ export async function PATCH(req, { params }) {
     }
 
     const { role, projectName, content, tags, category, urgent, media, projectRef, completed, date } = await req.json()
+    const prevMedia = post.media ?? []
 
     if (role        !== undefined) post.role        = role
     if (projectName !== undefined) post.projectName = projectName
@@ -30,6 +32,12 @@ export async function PATCH(req, { params }) {
     if (projectRef  !== undefined) post.projectRef  = projectRef || null
 
     await post.save()
+
+    if (media !== undefined) {
+      const removed = prevMedia.filter(url => !post.media.includes(url))
+      deleteOwnedUploads(removed)
+    }
+
     return NextResponse.json(post)
   } catch (err) {
     console.error('[PATCH /api/collaborate/[id]]', err)
@@ -49,7 +57,10 @@ export async function DELETE(req, { params }) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
+    const media = post.media ?? []
     await post.deleteOne()
+    deleteOwnedUploads(media)
+
     return NextResponse.json({ ok: true })
   } catch (err) {
     console.error('[DELETE /api/collaborate/[id]]', err)

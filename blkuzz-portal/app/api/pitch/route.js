@@ -38,7 +38,7 @@ export async function POST(req) {
     return NextResponse.json({ error: 'You already have a pending submission.' }, { status: 409 })
   }
 
-  const { projectTitle, membersInvolved, pitch, workLink, supportNeeded } = await req.json()
+  const { projectTitle, membersInvolved, pitch, workLink, supportNeeded, mediaFiles } = await req.json()
   if (!projectTitle?.trim() || !pitch?.trim()) {
     return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 })
   }
@@ -50,6 +50,7 @@ export async function POST(req) {
     pitch:           pitch.trim(),
     workLink:        workLink?.trim() || '',
     supportNeeded:   supportNeeded?.trim() || '',
+    mediaFiles:      Array.isArray(mediaFiles) ? mediaFiles.filter(Boolean) : [],
   })
 
   // Decrement slots

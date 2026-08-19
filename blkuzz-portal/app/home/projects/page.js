@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { Search, Plus, User, Users, Heart, X } from 'lucide-react'
 import { apiFetch } from '@/lib/api'
+import { uploadMedia } from '@/lib/useUploadClient'
 
 // ─── Discipline colour config ─────────────────────────────────────────────────
 const DISC = {
@@ -187,13 +188,7 @@ function CreateModal({ onClose, onCreated }) {
     try {
       let coverImage = ''
       if (coverFile) {
-        const fd = new FormData()
-        fd.append('file', coverFile)
-        fd.append('type', 'cover')
-        const upRes = await apiFetch('/api/upload', { method: 'POST', body: fd })
-        const upData = await upRes.json()
-        if (!upRes.ok) throw new Error(upData.error ?? 'Upload failed')
-        coverImage = upData.url ?? ''
+        coverImage = await uploadMedia(coverFile, 'cover')
       }
 
       const coverImagePosition = `${imgPos.x.toFixed(1)}% ${imgPos.y.toFixed(1)}%`
