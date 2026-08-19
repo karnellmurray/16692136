@@ -277,13 +277,15 @@ function AudioPlayer({ url, style }) {
 }
 
 // ─── Custom chapter dropdown ──────────────────────────────────────────────────
-function ChapterDropdown({ chapters, value, onChange, onChapterAdded }) {
-  const [open, setOpen]         = useState(false)
-  const [newInput, setNewInput] = useState('')
-  const ref                     = useRef(null)
+function ChapterDropdown({ chapters, value, onChange, onChapterAdded, onChapterRenamed, onChapterDeleted, isAuthor }) {
+  const [open, setOpen]           = useState(false)
+  const [newInput, setNewInput]   = useState('')
+  const [editingIdx, setEditingIdx] = useState(null)
+  const [editValue, setEditValue]   = useState('')
+  const ref                       = useRef(null)
 
   useEffect(() => {
-    const handler = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    const handler = e => { if (ref.current && !ref.current.contains(e.target)) { setOpen(false); setEditingIdx(null) } }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [])
@@ -298,6 +300,24 @@ function ChapterDropdown({ chapters, value, onChange, onChapterAdded }) {
     setNewInput('')
     setOpen(false)
     onChapterAdded?.(trimmed)
+  }
+
+  const startEdit = (i, title) => {
+    setEditingIdx(i)
+    setEditValue(title)
+  }
+
+  const saveEdit = title => {
+    const trimmed = editValue.trim()
+    setEditingIdx(null)
+    if (!trimmed || trimmed === title || allOptions.some(c => c.title === trimmed)) return
+    onChapterRenamed?.(title, trimmed)
+    if (value === title) onChange(trimmed)
+  }
+
+  const deleteChapter = title => {
+    onChapterDeleted?.(title)
+    if (value === title) onChange('')
   }
 
   return (
@@ -315,15 +335,47 @@ function ChapterDropdown({ chapters, value, onChange, onChapterAdded }) {
           {[{ title: null }, ...allOptions].map((ch, i) => {
             const isPlaceholder = ch.title === null
             const isSelected    = !isPlaceholder && ch.title === value
+            const isEditingRow  = !isPlaceholder && editingIdx === i
+
+            if (isEditingRow) return (
+              <div key={i} className="flex items-center gap-1.5 px-2 py-1.5" style={{ borderTop: i > 0 ? '1px solid #1a1a1a' : 'none', background: '#0d0d0d' }}>
+                <input
+                  autoFocus
+                  value={editValue}
+                  onChange={e => setEditValue(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') { e.preventDefault(); saveEdit(ch.title) }
+                    if (e.key === 'Escape') { e.preventDefault(); setEditingIdx(null) }
+                  }}
+                  className="flex-1 font-mono text-[10px] px-2 py-1 focus:outline-none"
+                  style={{ background: '#1a1a1a', border: 'none', color: '#FDC214' }}
+                />
+                <button type="button" onClick={() => saveEdit(ch.title)} className="font-mono text-[9px] px-2 py-1 shrink-0" style={{ background: '#FDC214', color: '#0a0a0a' }}>Save</button>
+              </div>
+            )
+
             return (
-              <button key={i} type="button"
-                onClick={() => { onChange(isPlaceholder ? '' : ch.title); setOpen(false) }}
-                className="w-full text-left px-3 py-2 font-mono text-[10px] tracking-[0.05em] transition-colors"
-                style={{ borderTop: i > 0 ? '1px solid #1a1a1a' : 'none', color: isSelected ? '#FDC214' : isPlaceholder ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.8)' }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#FDC214'; e.currentTarget.style.color = '#0a0a0a' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isSelected ? '#FDC214' : isPlaceholder ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.8)' }}>
-                {isPlaceholder ? 'None' : ch.title}
-              </button>
+              <div key={i} className="flex items-center"
+                style={{ borderTop: i > 0 ? '1px solid #1a1a1a' : 'none' }}>
+                <button type="button"
+                  onClick={() => { onChange(isPlaceholder ? '' : ch.title); setOpen(false) }}
+                  className="flex-1 min-w-0 text-left px-3 py-2 font-mono text-[10px] tracking-[0.05em] transition-colors truncate"
+                  style={{ color: isSelected ? '#FDC214' : isPlaceholder ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.8)' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#FDC214'; e.currentTarget.style.color = '#0a0a0a' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isSelected ? '#FDC214' : isPlaceholder ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.8)' }}>
+                  {isPlaceholder ? 'None' : ch.title}
+                </button>
+                {!isPlaceholder && isAuthor && (
+                  <div className="flex items-center gap-2 px-2 shrink-0">
+                    <span onClick={e => { e.stopPropagation(); startEdit(i, ch.title) }}
+                      className="font-mono text-[8px] tracking-[0.05em] uppercase cursor-pointer" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                      edit
+                    </span>
+                    <img src="/portal/icons/trash-bin.png" alt="delete" onClick={e => { e.stopPropagation(); deleteChapter(ch.title) }}
+                      style={{ width: 10, height: 10, cursor: 'pointer', filter: 'invert(21%) sepia(95%) saturate(7000%) hue-rotate(342deg) brightness(85%) contrast(115%)' }} />
+                  </div>
+                )}
+              </div>
             )
           })}
           <div className="flex items-center gap-1.5 px-2 py-2" style={{ borderTop: '1px solid #1a1a1a' }}>
@@ -505,7 +557,24 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
                   body: JSON.stringify({ chapters: updated }),
                 })
                 onRefresh()
-              }} />
+              }}
+              onChapterRenamed={async (oldTitle, newTitle) => {
+                const updated = (chapters ?? []).map(c => c.title === oldTitle ? { ...c, title: newTitle } : c)
+                await apiFetch(`/api/projects/${projectSlug}/chapters`, {
+                  method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ chapters: updated }),
+                })
+                onRefresh()
+              }}
+              onChapterDeleted={async title => {
+                const updated = (chapters ?? []).filter(c => c.title !== title)
+                await apiFetch(`/api/projects/${projectSlug}/chapters`, {
+                  method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ chapters: updated }),
+                })
+                onRefresh()
+              }}
+              isAuthor={isAuthor} />
             <textarea value={editContent} onChange={e => setEditContent(e.target.value)} rows={3}
               className="w-full font-space text-[14px] px-3 py-2.5 focus:outline-none resize-none placeholder-white/40"
               style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', color: 'rgba(255,255,255,0.9)' }} />
@@ -647,8 +716,7 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
 
 // ─── Add post form (author only) ──────────────────────────────────────────────
 function AddPostForm({ projectSlug, chapters, onAdded }) {
-  const persistChapter = async (title) => {
-    const updated = [...(chapters ?? []), { title, status: 'todo' }]
+  const saveChapters = async updated => {
     await apiFetch(`/api/projects/${projectSlug}/chapters`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -656,6 +724,13 @@ function AddPostForm({ projectSlug, chapters, onAdded }) {
     })
     onAdded()
   }
+  const persistChapter = title => saveChapters([...(chapters ?? []), { title, status: 'todo' }])
+  // Renaming/removing a milestone only ever touches project.chapters --
+  // existing posts' chapterRef is a plain string, not a foreign key, so
+  // posts that already reference this milestone keep showing it exactly
+  // as it was, untouched by this.
+  const renameChapter = (oldTitle, newTitle) => saveChapters((chapters ?? []).map(c => c.title === oldTitle ? { ...c, title: newTitle } : c))
+  const deleteChapterFromList = title => saveChapters((chapters ?? []).filter(c => c.title !== title))
   const [open, setOpen]          = useState(false)
   const [content, setContent]    = useState('')
   const [mediaUrls, setMediaUrls] = useState([])   // uploaded CDN URLs
@@ -728,7 +803,8 @@ function AddPostForm({ projectSlug, chapters, onAdded }) {
         <button type="button" onClick={() => setOpen(false)}><X size={14} style={{ color: '#777' }} /></button>
       </div>
       <form onSubmit={submit} className="flex flex-col gap-2.5">
-        <ChapterDropdown chapters={chapters} value={chapterRef} onChange={setChapRef} onChapterAdded={persistChapter} />
+        <ChapterDropdown chapters={chapters} value={chapterRef} onChange={setChapRef} onChapterAdded={persistChapter}
+          onChapterRenamed={renameChapter} onChapterDeleted={deleteChapterFromList} isAuthor />
         <textarea value={content} onChange={e => setContent(e.target.value)} rows={3}
           placeholder="Tell us about the project…"
           className="w-full font-space text-[14px] px-3 py-2.5 focus:outline-none resize-none placeholder-white/40"
