@@ -74,7 +74,7 @@ function MembersSelect({ selected, onChange, allMembers }) {
               <MemberAvatar member={m} size={22} />
               <div>
                 <div style={{ fontFamily: MONO, fontSize: 9, color: '#e8e8e8', letterSpacing: '0.05em' }}>@{m.username}</div>
-                {m.discipline && <div style={{ fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em' }}>{m.discipline}</div>}
+                {m.discipline && <div style={{ fontFamily: MONO, fontSize: 8, color: '#777', letterSpacing: '0.05em' }}>{m.discipline}</div>}
               </div>
             </div>
           ))}
@@ -122,8 +122,8 @@ function MediaUpload({ files, onChange }) {
         onClick={() => !uploading && inputRef.current?.click()}
         style={{ border: `1px dashed ${GOLD}`, padding: '14px 16px', cursor: uploading ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, opacity: uploading ? 0.6 : 1 }}
       >
-        <span style={{ fontFamily: MONO, fontSize: 16, color: 'rgba(255,255,255,0.4)', lineHeight: 1 }}>+</span>
-        <span style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>
+        <span style={{ fontFamily: MONO, fontSize: 16, color: '#777', lineHeight: 1 }}>+</span>
+        <span style={{ fontFamily: MONO, fontSize: 10, color: '#777', letterSpacing: '0.1em' }}>
           {uploading ? 'Uploading...' : 'Upload any media to support your pitch'}
         </span>
       </div>
@@ -184,7 +184,7 @@ const inputStyle = {
 
 function Label({ children, required }) {
   return (
-    <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
+    <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.2em', color: '#777', textTransform: 'uppercase', marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
       <span>{children}</span>
       {required && <span style={{ color: GOLD }}>required</span>}
     </div>
@@ -281,7 +281,7 @@ export default function WorkWithUsPage() {
                 <span className="font-head" style={{ letterSpacing: '2px', color: '#fff' }}>Blkuzz</span>
               </h1>
               <div style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)`, margin: '20px auto' }} />
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)', lineHeight: 1.75, maxWidth: 300, textAlign: 'center' }}>
+              <p style={{ fontSize: 14, color: '#777', lineHeight: 1.75, maxWidth: 300, textAlign: 'center' }}>
                 We select a small number of projects each quarter to develop into Blkuzz company content. If you have a project you&apos;d like to work on, get in touch.
               </p>
             </div>
@@ -296,14 +296,14 @@ export default function WorkWithUsPage() {
             ].map((s, i, arr) => (
               <div key={i} style={{ flex: 1, padding: '18px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, borderRight: i < arr.length - 1 ? '1px solid #141414' : 'none' }}>
                 <div style={{ fontFamily: SERIF, fontSize: 35, fontWeight: 600, color: GOLD, lineHeight: 1 }}>{s.num}</div>
-                <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.5, whiteSpace: 'pre-line' }}>{s.label}</div>
+                <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: '#777', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.5, whiteSpace: 'pre-line' }}>{s.label}</div>
               </div>
             ))}
           </div>
 
           {/* What selection means */}
           <div style={{ padding: '24px 24px 32px', flex: 1 }}>
-            <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.3em', color: '#777', textTransform: 'uppercase', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
               What selection means
               <div style={{ flex: 1, height: 1, background: '#1a1a1a' }} />
             </div>
@@ -340,17 +340,17 @@ export default function WorkWithUsPage() {
                 Your submission<br />has been received.
               </div>
               <div style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-              <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.12em', lineHeight: 2 }}>
+              <div style={{ fontFamily: MONO, fontSize: 10, color: '#777', letterSpacing: '0.12em', lineHeight: 2 }}>
                 We will respond within 14 days.
               </div>
             </div>
 
           ) : closed ? (
             <div className="px-6 lg:px-12" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12, paddingTop: 48, paddingBottom: 48, textAlign: 'center' }}>
-              <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>
+              <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.25em', color: '#777', textTransform: 'uppercase' }}>
                 Submissions for {config.currentQuarter} are now closed.
               </div>
-              <div style={{ fontFamily: SERIF, fontSize: 23, color: 'rgba(255,255,255,0.4)', fontStyle: 'italic' }}>Check back next quarter.</div>
+              <div style={{ fontFamily: SERIF, fontSize: 23, color: '#777', fontStyle: 'italic' }}>Check back next quarter.</div>
             </div>
 
           ) : existing ? (
@@ -358,7 +358,7 @@ export default function WorkWithUsPage() {
               <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.3em', color: GOLD, textTransform: 'uppercase', border: `1px solid ${GOLD}30`, padding: '4px 12px' }}>Under review</div>
               <div style={{ fontFamily: SERIF, fontSize: 32, fontWeight: 600, color: '#fff', lineHeight: 1.2 }}>&quot;{existing.projectTitle}&quot;</div>
               <div style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-              <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', lineHeight: 2 }}>
+              <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', letterSpacing: '0.1em', lineHeight: 2 }}>
                 Submitted {new Date(existing.submittedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}<br />
                 We will respond within 14 days.
               </div>
@@ -368,7 +368,7 @@ export default function WorkWithUsPage() {
             <div className="px-6 lg:px-12" style={{ paddingTop: 40, paddingBottom: 40 }}>
               <div style={{ marginBottom: 32 }}>
                 <div className="font-head" style={{ fontSize: 25, letterSpacing: '2px', color: GOLD, marginBottom: 6 }}>Submit your pitch</div>
-                <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{config.currentQuarter} 2026 · Closes when slots fill</div>
+                <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{config.currentQuarter} 2026 · Closes when slots fill</div>
               </div>
 
               <form onSubmit={submit}>
@@ -408,7 +408,7 @@ export default function WorkWithUsPage() {
 
                 <div style={{ marginBottom: 18 }}>
                   <Label>Existing project</Label>
-                  <div style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em', marginBottom: 10 }}>Is this an existing Blkuzz project?</div>
+                  <div style={{ fontFamily: MONO, fontSize: 10, color: '#777', letterSpacing: '0.08em', marginBottom: 10 }}>Is this an existing Blkuzz project?</div>
                   <div style={{ display: 'flex', gap: 8 }}>
                     {['Yes', 'No'].map(opt => {
                       const val = opt === 'Yes'
@@ -425,7 +425,7 @@ export default function WorkWithUsPage() {
                   {form.existingProject === true && (
                     <div style={{ marginTop: 10 }}>
                       {myProjects.length === 0 ? (
-                        <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', padding: '10px 12px', border: '1px solid #1e1e1e' }}>No projects found in your account.</div>
+                        <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', padding: '10px 12px', border: '1px solid #1e1e1e' }}>No projects found in your account.</div>
                       ) : (
                         <ProjectSelect
                           value={form.linkedProjectId}
@@ -454,7 +454,7 @@ export default function WorkWithUsPage() {
                     <SmallSeal />
                     {submitState === 'submitting' ? 'Sending...' : 'Seal and submit'}
                   </button>
-                  <div style={{ fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textAlign: 'center', lineHeight: 1.9 }}>
+                  <div style={{ fontFamily: MONO, fontSize: 8, color: '#777', letterSpacing: '0.1em', textAlign: 'center', lineHeight: 1.9 }}>
                     Submissions are reviewed by the Blkuzz team only.<br />
                     We respond within 14 days. Denied submissions are not a reflection of your work.
                   </div>
