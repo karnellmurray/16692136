@@ -202,7 +202,7 @@ function ScreenCard({ card, position, onVideoEnded, onVideoPlay, onClick }) {
           </span>
           {card.collabMembers ? (
             <>
-              <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 13, fontWeight: 600, color: '#e8e8e8', lineHeight: 1.3, marginBottom: 4 }}>
+              <div className="screencard-collab-title" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 13, fontWeight: 600, color: '#e8e8e8', lineHeight: 1.3, marginBottom: 4 }}>
                 <span style={{ color: '#00aaff' }}>
                   {card.collabMembers.slice(0, 2).map(m => `@${m.username}`).join(' ')}
                 </span>
@@ -210,7 +210,7 @@ function ScreenCard({ card, position, onVideoEnded, onVideoPlay, onClick }) {
                 <span style={{ color: '#fff', fontWeight: 700 }}>{card.title}</span>
               </div>
               {card.tagline && (
-                <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#e8e8e8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div className="screencard-collab-tagline" style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: '#e8e8e8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {card.tagline}
                 </div>
               )}

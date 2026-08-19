@@ -67,6 +67,12 @@
   .screencard-description {
     font-size: 9px !important;
   }
+  .screencard-collab-title {
+    font-size: 11px !important;
+  }
+  .screencard-collab-tagline {
+    font-size: 8px !important;
+  }
 
   /* ─── Red "classified band" banner (profile view + edit) — the
      wide letter-spacing that reads fine on desktop needs real room
@@ -140,6 +146,12 @@
   }
   .screencard-description {
     font-size: 8px !important;
+  }
+  .screencard-collab-title {
+    font-size: 10px !important;
+  }
+  .screencard-collab-tagline {
+    font-size: 7px !important;
   }
 
   .classified-band-left {
