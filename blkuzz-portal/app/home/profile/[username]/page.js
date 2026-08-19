@@ -52,7 +52,7 @@ function agentNum(id) {
 
 function SectionLabel({ children }) {
   return (
-    <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.25em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.25em', color: '#777', textTransform: 'uppercase', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
       {children}
       <div style={{ flex: 1, height: 1, background: '#141414' }} />
     </div>
@@ -124,7 +124,7 @@ function ProjectRow({ project }) {
         <div style={{ display: 'flex', gap: 10 }}>
           <span style={{ fontFamily: MONO, fontSize: 8, color: '#fff' }}>{project.followers?.length ?? project.followerCount ?? 0} followers</span>
           {project.updatedAt && <span style={{ fontFamily: MONO, fontSize: 8, color: '#fff' }}>{timeAgo(project.updatedAt)}</span>}
-          <span style={{ fontFamily: MONO, fontSize: 8, color: project.status === 'active' ? GREEN : 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>{project.status}</span>
+          <span style={{ fontFamily: MONO, fontSize: 8, color: project.status === 'active' ? GREEN : '#777', textTransform: 'uppercase' }}>{project.status}</span>
         </div>
       </div>
       <div style={{ width: 54, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
@@ -263,19 +263,19 @@ export default function ProfilePage() {
   }
 
   if (loading) return (
-    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#777', letterSpacing: '0.25em' }}>
       LOADING...
     </div>
   )
 
   if (notFound) return (
-    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#777', letterSpacing: '0.25em' }}>
       MEMBER FILE NOT FOUND
     </div>
   )
 
   if (data?.isBlocked) return (
-    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: MONO, fontSize: 9, color: '#777', letterSpacing: '0.25em' }}>
       THIS PROFILE IS NOT AVAILABLE
     </div>
   )
@@ -314,9 +314,9 @@ export default function ProfilePage() {
                 {dotsOpen && (
                   <div style={{ position: 'absolute', right: 0, top: '100%', marginTop: 8, background: '#0d0d0d', border: '1px solid #1e1e1e', zIndex: 100, minWidth: 160 }}>
                     <button onClick={() => { setDotsOpen(false); setDotsConfirm('block') }}
-                      style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', background: 'none', border: 'none', borderBottom: '1px solid #1a1a1a', fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', color: '#aaa', textTransform: 'uppercase', cursor: 'pointer' }}
+                      style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', background: 'none', border: 'none', borderBottom: '1px solid #1a1a1a', fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', color: '#777', textTransform: 'uppercase', cursor: 'pointer' }}
                       onMouseEnter={e => e.currentTarget.style.color = '#fff'}
-                      onMouseLeave={e => e.currentTarget.style.color = '#aaa'}
+                      onMouseLeave={e => e.currentTarget.style.color = '#777'}
                     >Block</button>
                     <button onClick={() => { setDotsOpen(false); setDotsConfirm('block-report') }}
                       style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', background: 'none', border: 'none', fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', color: '#D2042D', textTransform: 'uppercase', cursor: 'pointer' }}
@@ -369,17 +369,17 @@ export default function ProfilePage() {
                 )}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5px 12px' }}>
                   <div style={{ display: 'flex', gap: 6, alignItems: 'baseline' }}>
-                    <span style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Status</span>
+                    <span style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: '#777', textTransform: 'uppercase' }}>Status</span>
                     <span style={{ fontFamily: MONO, fontSize: 10, color: GREEN }}>✓ Active</span>
                   </div>
                   <div style={{ display: 'flex', gap: 6, alignItems: 'baseline' }}>
-                    <span style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Since</span>
+                    <span style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: '#777', textTransform: 'uppercase' }}>Since</span>
                     <span style={{ fontFamily: MONO, fontSize: 10, color: GREEN }}>{memberSince(user.createdAt)}</span>
                   </div>
                   {user.location && (
                     <div style={{ display: 'flex', gap: 6, alignItems: 'baseline', gridColumn: '1 / -1' }}>
-                      <span style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Base</span>
-                      <span style={{ fontFamily: MONO, fontSize: 10, color: 'rgba(255,255,255,0.4)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.location}</span>
+                      <span style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.12em', color: '#777', textTransform: 'uppercase' }}>Base</span>
+                      <span style={{ fontFamily: MONO, fontSize: 10, color: '#777', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.location}</span>
                     </div>
                   )}
                 </div>
@@ -415,7 +415,7 @@ export default function ProfilePage() {
             ].map((s, i, arr) => (
               <div key={i} style={{ padding: '14px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, borderRight: i < arr.length - 1 ? '1px solid #141414' : 'none' }}>
                 <div style={{ fontSize: 26, fontWeight: 900, letterSpacing: '-0.03em', color: s.color, lineHeight: 1 }}>{s.num}</div>
-                <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>{s.label}</div>
+                <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.15em', color: '#777', textTransform: 'uppercase' }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -443,12 +443,12 @@ export default function ProfilePage() {
                     <SectionLabel>Profile</SectionLabel>
                     {user.bio
                       ? <div style={{ fontSize: 13, color: '#fff', lineHeight: 1.65, marginBottom: 12 }}>{user.bio}</div>
-                      : <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)' }}>No bio on file.</div>
+                      : <div style={{ fontFamily: MONO, fontSize: 9, color: '#777' }}>No bio on file.</div>
                     }
                     {user.links?.portfolio && (
                       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
                         <a href={user.links.portfolio} target="_blank" rel="noopener noreferrer"
-                          style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.08em', padding: '4px 9px', border: '1px solid #1e1e1e', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.08em', padding: '4px 9px', border: '1px solid #1e1e1e', color: '#777', textTransform: 'uppercase', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
                           <ExternalLink size={9} /> Website
                         </a>
                       </div>
@@ -464,7 +464,7 @@ export default function ProfilePage() {
                             <span key={i} style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.08em', padding: '6px 13px', border: '1px solid #FDC21440', color: '#FDC214', textTransform: 'uppercase', borderRadius: 9999 }}>{s}</span>
                           ))}
                         </div>
-                      : <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No skills on file.</div>
+                      : <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', textAlign: 'center' }}>No skills on file.</div>
                     }
                   </div>
 
@@ -477,7 +477,7 @@ export default function ProfilePage() {
                     <div>
                       <SectionLabel>Active projects</SectionLabel>
                       {projects.filter(p => p.status === 'active').length === 0
-                        ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>None on file.</div>
+                        ? <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', textAlign: 'center' }}>None on file.</div>
                         : projects.filter(p => p.status === 'active').slice(0, 3).map(p => <ProjectRow key={p._id} project={p} />)
                       }
                     </div>
@@ -486,7 +486,7 @@ export default function ProfilePage() {
                     <div>
                       <SectionLabel>Collaborations</SectionLabel>
                       {collabs.length === 0
-                        ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>None on file.</div>
+                        ? <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', textAlign: 'center' }}>None on file.</div>
                         : collabs.slice(0, 3).map(c => {
                             const color = projColor(c.title)
                             return (
@@ -497,7 +497,7 @@ export default function ProfilePage() {
                                   <div style={{ fontSize: 13, color: GOLD, letterSpacing: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} className="font-head">{c.title}</div>
                                   <div style={{ fontFamily: MONO, fontSize: 8, color: '#fff' }}>{c.role || 'Collaborator'} <span style={{ color: '#00aaff' }}>@{c.creator?.username}</span></div>
                                 </div>
-                                <div style={{ fontFamily: MONO, fontSize: 8, color: c.status === 'active' ? GREEN : 'rgba(255,255,255,0.4)', textTransform: 'uppercase', flexShrink: 0 }}>{c.status}</div>
+                                <div style={{ fontFamily: MONO, fontSize: 8, color: c.status === 'active' ? GREEN : '#777', textTransform: 'uppercase', flexShrink: 0 }}>{c.status}</div>
                               </Link>
                             )
                           })
@@ -514,7 +514,7 @@ export default function ProfilePage() {
               <div>
                 <SectionLabel>All projects ({projects.length})</SectionLabel>
                 {projects.length === 0
-                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No projects on file.</div>
+                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', textAlign: 'center' }}>No projects on file.</div>
                   : projects.map(p => <ProjectRow key={p._id} project={p} />)
                 }
               </div>
@@ -525,7 +525,7 @@ export default function ProfilePage() {
               <div>
                 <SectionLabel>Collaboration history ({collabs.length})</SectionLabel>
                 {collabs.length === 0
-                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No collaborations on file.</div>
+                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', textAlign: 'center' }}>No collaborations on file.</div>
                   : collabs.map(c => {
                       const color = projColor(c.title)
                       return (
@@ -539,7 +539,7 @@ export default function ProfilePage() {
                           </div>
                           <div style={{ flexShrink: 0, textAlign: 'right' }}>
                             <div style={{ fontFamily: MONO, fontSize: 8, color: c.status === 'active' ? GREEN : color, textTransform: 'uppercase' }}>{c.status}</div>
-                            {c.updatedAt && <div style={{ fontFamily: MONO, fontSize: 7, color: 'rgba(255,255,255,0.4)', marginTop: 3 }}>{timeAgo(c.updatedAt)}</div>}
+                            {c.updatedAt && <div style={{ fontFamily: MONO, fontSize: 7, color: '#777', marginTop: 3 }}>{timeAgo(c.updatedAt)}</div>}
                           </div>
                         </Link>
                       )
@@ -553,7 +553,7 @@ export default function ProfilePage() {
               <div>
                 <SectionLabel>Media</SectionLabel>
                 {media.length === 0
-                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No media on file.</div>
+                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', textAlign: 'center' }}>No media on file.</div>
                   : (
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
                       {media.flatMap(post =>
@@ -578,12 +578,12 @@ export default function ProfilePage() {
               <div>
                 <SectionLabel>Recent activity</SectionLabel>
                 {activity.length === 0
-                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>No activity on file.</div>
+                  ? <div style={{ fontFamily: MONO, fontSize: 9, color: '#777', textAlign: 'center' }}>No activity on file.</div>
                   : activity.map((post, i) => (
                     <div key={post._id ?? i} style={{ display: 'flex', gap: 10, padding: '11px 0', borderBottom: '1px solid #0f0f0f', alignItems: 'flex-start' }}>
                       <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#2a2a2a', flexShrink: 0, marginTop: 8 }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.4 }}>
+                        <div style={{ fontSize: 13, color: '#777', lineHeight: 1.4 }}>
                           Posted {post.type === 'milestone' ? 'a milestone' : post.type === 'media' ? 'media' : 'an update'} to{' '}
                           {post.project
                             ? <Link href={`/home/projects/${post.project.slug}`} className="font-head" style={{ color: GOLD, textDecoration: 'none', letterSpacing: '2px' }}>{post.project.title}</Link>
@@ -596,7 +596,7 @@ export default function ProfilePage() {
                           </div>
                         )}
                       </div>
-                      <div style={{ fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', flexShrink: 0, marginTop: 1 }}>
+                      <div style={{ fontFamily: MONO, fontSize: 8, color: '#777', flexShrink: 0, marginTop: 1 }}>
                         {timeAgo(post.createdAt)}
                       </div>
                     </div>
@@ -615,7 +615,7 @@ export default function ProfilePage() {
             <div className="font-head" style={{ fontSize: 13, color: '#fff', letterSpacing: '2px', marginBottom: 8 }}>
               {dotsConfirm === 'block' ? 'Block' : 'Block & Report'} <span style={{ color: GOLD }}>@{user?.username}?</span>
             </div>
-            <p style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, marginBottom: 24, letterSpacing: '0.05em' }}>
+            <p style={{ fontFamily: MONO, fontSize: 9, color: '#777', lineHeight: 1.7, marginBottom: 24, letterSpacing: '0.05em' }}>
               {dotsConfirm === 'block'
                 ? 'They will no longer be able to message you or see your profile.'
                 : 'This member will be blocked and reported to the Blkuzz team for review.'
@@ -623,7 +623,7 @@ export default function ProfilePage() {
             </p>
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={() => setDotsConfirm(null)}
-                style={{ flex: 1, fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '9px 0', background: 'none', border: '1px solid #2a2a2a', color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }}>
+                style={{ flex: 1, fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '9px 0', background: 'none', border: '1px solid #2a2a2a', color: '#777', cursor: 'pointer' }}>
                 Cancel
               </button>
               <button onClick={() => executeBlock(dotsConfirm === 'block-report')}
@@ -649,8 +649,8 @@ export default function ProfilePage() {
             </div>
 
             {/* Profile being shared */}
-            <div style={{ padding: '8px 14px', borderBottom: '1px solid #111', fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>
-              Sharing <span style={{ color: '#888' }}>@{user?.username}</span>&apos;s member file
+            <div style={{ padding: '8px 14px', borderBottom: '1px solid #111', fontFamily: MONO, fontSize: 8, color: '#777', letterSpacing: '0.1em' }}>
+              Sharing <span style={{ color: '#777' }}>@{user?.username}</span>&apos;s member file
             </div>
 
             {/* Search */}
@@ -668,7 +668,7 @@ export default function ProfilePage() {
             {/* Members list */}
             <div style={{ overflowY: 'auto', flex: 1, scrollbarWidth: 'none' }}>
               {shareMembers.length === 0 && (
-                <div style={{ padding: '20px 14px', fontFamily: MONO, fontSize: 8, color: 'rgba(255,255,255,0.4)', textAlign: 'center', letterSpacing: '0.15em' }}>LOADING...</div>
+                <div style={{ padding: '20px 14px', fontFamily: MONO, fontSize: 8, color: '#777', textAlign: 'center', letterSpacing: '0.15em' }}>LOADING...</div>
               )}
               {shareMembers
                 .filter(m => {
@@ -687,12 +687,12 @@ export default function ProfilePage() {
                       <div style={{ width: 28, height: 28, borderRadius: '50%', flexShrink: 0, overflow: 'hidden', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {m.avatar
                           ? <img src={m.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.currentTarget.style.display = 'none' }} />
-                          : <span style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.4)' }}>{(m.username || '?')[0].toUpperCase()}</span>
+                          : <span style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, color: '#777' }}>{(m.username || '?')[0].toUpperCase()}</span>
                         }
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontFamily: MONO, fontSize: 9, color: GOLD, letterSpacing: '0.05em', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>@{m.username}</div>
-                        {m.name && <div style={{ fontFamily: MONO, fontSize: 7, color: 'rgba(255,255,255,0.4)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.name}</div>}
+                        {m.name && <div style={{ fontFamily: MONO, fontSize: 7, color: '#777', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.name}</div>}
                       </div>
                       <button
                         onClick={() => handleShareSend(String(m.id))}
