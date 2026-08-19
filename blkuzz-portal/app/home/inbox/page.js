@@ -25,6 +25,14 @@ function initials(username) {
 
 const isVideo = url => /\.(mp4|mov|webm|ogg|avi|m4v|mkv|3gp)(\?|$)/i.test(url)
 const isPdf   = url => /\.pdf(\?|$)/i.test(url)
+function filenameFromUrl(url) {
+  try {
+    const last = new URL(url).pathname.split('/').pop()
+    return last ? decodeURIComponent(last) : 'Document.pdf'
+  } catch {
+    return 'Document.pdf'
+  }
+}
 
 function Avatar({ user, size = 36, style = {} }) {
   const url = user?.avatarUrl || user?.avatar?.url || user?.profileImage || null
@@ -432,7 +440,7 @@ function InboxPageContent() {
                               ? <a key={mi} href={url} target="_blank" rel="noopener noreferrer"
                                   style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px', width: '100%', maxWidth: 220, borderRadius: 5, border: '1px solid #1a1a1a', background: '#111', textDecoration: 'none', boxSizing: 'border-box' }}>
                                   <FileText size={20} style={{ color: '#FDC214', flexShrink: 0 }} />
-                                  <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, color: '#e8e8e8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>PDF Document</span>
+                                  <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, color: '#e8e8e8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{filenameFromUrl(url)}</span>
                                 </a>
                               : isVideo(url)
                               ? <video key={mi} src={url} controls onClick={() => setLightbox(url)} style={{ width: '100%', maxWidth: 220, borderRadius: 5, cursor: 'pointer', border: '1px solid #1a1a1a', display: 'block' }} />

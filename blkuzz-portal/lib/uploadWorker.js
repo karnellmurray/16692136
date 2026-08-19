@@ -33,6 +33,17 @@ function buildPublicUrl(key) {
   return `${cdn}/${key}`
 }
 
+// Documents render as a filename-labeled card client-side rather than a
+// thumbnail, so unlike video/image/audio (id-only key is enough) the real
+// filename needs to survive into the URL. S3 keys are just strings -- an
+// extra "/" segment is a normal, valid part of a key, not a real folder.
+function sanitizeFilename(name, ext) {
+  const base = (name || '').split(/[/\\]/).pop() || `document.${ext}`
+  let cleaned = base.replace(/[^a-zA-Z0-9 ._-]/g, '_').trim().slice(-120) || `document.${ext}`
+  if (!cleaned.toLowerCase().endsWith(`.${ext}`)) cleaned += `.${ext}`
+  return cleaned
+}
+
 function notify(ownerId, event, payload) {
   try {
     global.io?.to(`user:${ownerId}`).emit(event, payload)
@@ -128,7 +139,9 @@ export async function runUploadJob(id) {
       }
     }
 
-    const finalKey = `uploads/${doc.type}/${doc._id}.${ext}`
+    const finalKey = documentExt
+      ? `uploads/${doc.type}/${doc._id}/${sanitizeFilename(doc.originalFilename, ext)}`
+      : `uploads/${doc.type}/${doc._id}.${ext}`
     await s3.send(new PutObjectCommand({
       Bucket:      PUBLIC_BUCKET,
       Key:         finalKey,

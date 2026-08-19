@@ -38,9 +38,11 @@ function resolveOwnedKey(urlOrKey) {
 }
 
 // The worker names finished files `uploads/{type}/{mediaUploadId}.{ext}` --
-// the MediaUpload doc's own _id is embedded right in the key, so the
-// tracking record can be found without storing/matching finalUrl at all.
-const KEY_ID_RE = /^uploads\/[^/]+\/([0-9a-fA-F]{24})\.[^./]+$/
+// or, for documents (which keep their real filename for display),
+// `uploads/{type}/{mediaUploadId}/{filename}`. Either way the doc's own
+// _id is embedded right in the key, so the tracking record can be found
+// without storing/matching finalUrl at all.
+const KEY_ID_RE = /^uploads\/[^/]+\/([0-9a-fA-F]{24})(?:\.[^./]+|\/[^/]+)$/
 function mediaUploadIdFromKey(key) {
   return key.match(KEY_ID_RE)?.[1] ?? null
 }
