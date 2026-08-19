@@ -373,20 +373,20 @@ function InboxPageContent() {
                 ) : (
                   <>
                 <div onClick={() => router.push(`/home/profile/${activeUser.username}`)} style={{ cursor: 'pointer' }}>
-                  <Avatar user={activeUser} size={32} style={{ background: '#001a0d', color: 'rgba(0,255,136,0.5)' }} />
+                  <Avatar user={activeUser} size={40} style={{ background: '#001a0d', color: 'rgba(0,255,136,0.5)' }} />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <div className="font-head" style={{ fontSize: 14, color: '#FDC214', letterSpacing: '2px' }}>
+                  <div className="font-head" style={{ fontSize: 17, color: '#FDC214', letterSpacing: '2px' }}>
                     {activeUser.name || activeUser.username}
                   </div>
-                  <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: '#fff', letterSpacing: '0.1em', marginTop: 1 }}>
+                  <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#fff', letterSpacing: '0.1em', marginTop: 1 }}>
                     @{activeUser.username}
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-                  <User size={15} onClick={() => activeUser?.username && router.push(`/home/profile/${activeUser.username}`)} style={{ color: '#FDC214', cursor: 'pointer' }} />
+                  <User size={18} onClick={() => activeUser?.username && router.push(`/home/profile/${activeUser.username}`)} style={{ color: '#FDC214', cursor: 'pointer' }} />
                   <div ref={menuRef} style={{ position: 'relative' }}>
-                    <MoreVertical size={15} onClick={() => setMenuOpen(o => !o)} style={{ color: '#FDC214', cursor: 'pointer' }} />
+                    <MoreVertical size={18} onClick={() => setMenuOpen(o => !o)} style={{ color: '#FDC214', cursor: 'pointer' }} />
                     {menuOpen && (
                       <div style={{ position: 'absolute', right: 0, top: '100%', marginTop: 6, background: '#000', border: 'none', zIndex: 100, minWidth: 160, boxShadow: '0 4px 16px rgba(0,0,0,0.8)' }}>
                         <button onClick={() => { setMenuOpen(false); setConfirmModal('block') }}
