@@ -158,6 +158,12 @@
   }
   .collab-post-btn {
     padding: 8px 10px !important;
+    background: transparent !important;
+    color: #FDC214 !important;
+  }
+  .collab-post-btn svg {
+    width: 28px !important;
+    height: 28px !important;
   }
   .collab-post-btn-label {
     display: none;
