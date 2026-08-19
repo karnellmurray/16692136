@@ -454,7 +454,7 @@ export default function WorkWithUsPage() {
                     <SmallSeal />
                     {submitState === 'submitting' ? 'Sending...' : 'Seal and submit'}
                   </button>
-                  <div style={{ fontFamily: MONO, fontSize: 8, color: '#777', letterSpacing: '0.1em', textAlign: 'center', lineHeight: 1.9 }}>
+                  <div style={{ fontFamily: MONO, fontSize: 11, color: '#777', letterSpacing: '0.1em', textAlign: 'center', lineHeight: 1.9 }}>
                     Submissions are reviewed by the Blkuzz team only.<br />
                     We respond within 14 days. Denied submissions are not a reflection of your work.
                   </div>
