@@ -192,7 +192,7 @@ function Label({ children, required }) {
 }
 
 function Hint({ children }) {
-  return <div style={{ fontFamily: MONO, fontSize: 8, color: '#252525', letterSpacing: '0.08em', marginTop: 4 }}>{children}</div>
+  return <div style={{ fontFamily: MONO, fontSize: 8, color: '#777', letterSpacing: '0.08em', marginTop: 4 }}>{children}</div>
 }
 
 const WaxSeal = ({ size = 80 }) => (
@@ -331,7 +331,7 @@ export default function WorkWithUsPage() {
         <div className="lg:overflow-y-auto" style={{ flex: 1, scrollbarWidth: 'none', display: 'flex', flexDirection: 'column' }}>
 
           {loading ? (
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MONO, fontSize: 9, color: '#222', letterSpacing: '0.2em' }}>—</div>
+            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MONO, fontSize: 9, color: '#777', letterSpacing: '0.2em' }}>—</div>
 
           ) : submitState === 'done' ? (
             <div className="px-6 lg:px-12" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 24, paddingTop: 40, paddingBottom: 40, textAlign: 'center' }}>
