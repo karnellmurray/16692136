@@ -300,7 +300,7 @@ export default function ProfilePage() {
         {/* Classified band */}
         <div style={{ background: RED, padding: '4px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
           <div style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, letterSpacing: '0.35em', color: '#fff', textTransform: 'uppercase' }}>Member file — restricted access</div>
-          <div style={{ fontFamily: MONO, fontSize: 8, color: '#ffffff80', letterSpacing: '0.1em' }}>FILE #{blkuzzId}</div>
+          <div style={{ fontFamily: MONO, fontSize: 11, color: '#fff', letterSpacing: '0.1em' }}>FILE #{blkuzzId}</div>
         </div>
 
         {/* Top bar */}
