@@ -258,14 +258,14 @@ function InboxPageContent() {
                           <span className="font-head" style={{ fontSize: 13, color: '#FDC214', letterSpacing: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                             {c.user?.name || c.user?.username || 'Unknown'}
                           </span>
-                          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: 'rgba(255,255,255,0.4)', flexShrink: 0 }}>
+                          <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, color: 'rgba(255,255,255,0.4)', flexShrink: 0 }}>
                             {c.lastMessage?.createdAt ? timeAgo(c.lastMessage.createdAt) : ''}
                           </span>
                         </div>
                         <div style={{ fontSize: 12, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: 3 }}>
                           {c.lastMessage?.content || ''}
                         </div>
-                        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: 'rgba(255,255,255,0.4)' }}>@{c.user?.username}</div>
+                        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>@{c.user?.username}</div>
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6, flexShrink: 0 }}>
                         {hasUnread && (
