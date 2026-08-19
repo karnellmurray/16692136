@@ -1,4 +1,6 @@
 import { S3Client, DeleteObjectCommand, DeleteObjectsCommand } from '@aws-sdk/client-s3'
+import connectDB from '@/lib/mongodb'
+import MediaUpload from '@/models/MediaUpload'
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
@@ -35,6 +37,14 @@ function resolveOwnedKey(urlOrKey) {
   return key.startsWith(OWNED_PREFIX) ? key : null
 }
 
+// The worker names finished files `uploads/{type}/{mediaUploadId}.{ext}` --
+// the MediaUpload doc's own _id is embedded right in the key, so the
+// tracking record can be found without storing/matching finalUrl at all.
+const KEY_ID_RE = /^uploads\/[^/]+\/([0-9a-fA-F]{24})\.[^./]+$/
+function mediaUploadIdFromKey(key) {
+  return key.match(KEY_ID_RE)?.[1] ?? null
+}
+
 // Best-effort delete of a single stored media reference. Never throws --
 // a cleanup failure must never fail the mutation that's replacing/removing
 // the reference. Call ONLY after the corresponding Mongo write has already
@@ -46,6 +56,15 @@ export async function deleteOwnedUpload(urlOrKey) {
     await s3.send(new DeleteObjectCommand({ Bucket: BUCKET, Key: key }))
   } catch (err) {
     console.error('[s3Delete] failed to delete', key, err.message)
+  }
+  const mediaUploadId = mediaUploadIdFromKey(key)
+  if (mediaUploadId) {
+    try {
+      await connectDB()
+      await MediaUpload.deleteOne({ _id: mediaUploadId })
+    } catch (err) {
+      console.error('[s3Delete] failed to delete MediaUpload record', mediaUploadId, err.message)
+    }
   }
 }
 
@@ -66,5 +85,15 @@ export async function deleteOwnedUploads(urlsOrKeys) {
     }
   } catch (err) {
     console.error('[s3Delete] batch delete failed', err.message)
+  }
+
+  const mediaUploadIds = keys.map(mediaUploadIdFromKey).filter(Boolean)
+  if (mediaUploadIds.length) {
+    try {
+      await connectDB()
+      await MediaUpload.deleteMany({ _id: { $in: mediaUploadIds } })
+    } catch (err) {
+      console.error('[s3Delete] batch MediaUpload cleanup failed', err.message)
+    }
   }
 }
