@@ -526,7 +526,7 @@ export default function BulletinPage() {
               )}
               <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading}
                 className="font-mono text-[8px] tracking-[0.12em] uppercase px-3 py-1.5 transition-colors self-start"
-                style={{ border: '1px solid', borderColor: uploading ? '#00C853' : '#FDC214', color: uploading ? '#00C853' : '#FDC214' }}>
+                style={{ border: '1px solid', borderColor: uploading ? '#008000' : '#FDC214', color: uploading ? '#008000' : '#FDC214' }}>
                 {uploading ? 'Uploading…' : '+ Add media'}
               </button>
 
