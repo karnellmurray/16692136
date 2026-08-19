@@ -495,7 +495,7 @@ function PostCard({ post, projectSlug, currentUserId, currentUsername, isAuthor,
         {/* Inline edit form */}
         {editing && (
           <div className="flex flex-col gap-2 mb-3 p-3" style={{ background: '#111', border: '1px solid #1a1a1a' }}>
-            <input ref={editFileRef} type="file" accept="image/*,video/*,audio/*" multiple className="hidden" onChange={handleEditFiles} />
+            <input ref={editFileRef} type="file" accept="image/*,video/*,audio/*,.mp3,.wav,.m4a,.aac,.flac,.wma,.opus" multiple className="hidden" onChange={handleEditFiles} />
             <ChapterDropdown chapters={chapters} value={editChapter} onChange={setEditChapter}
               onChapterAdded={async title => {
                 const updated = [...(chapters ?? []), { title, status: 'todo' }]
@@ -734,7 +734,7 @@ function AddPostForm({ projectSlug, chapters, onAdded }) {
           style={{ background: '#111', border: '1px solid #1a1a1a', color: 'rgba(255,255,255,0.9)' }} />
 
         {/* Media upload */}
-        <input ref={fileInputRef} type="file" accept="image/*,video/*,audio/*" multiple className="hidden" onChange={handleFiles} />
+        <input ref={fileInputRef} type="file" accept="image/*,video/*,audio/*,.mp3,.wav,.m4a,.aac,.flac,.wma,.opus" multiple className="hidden" onChange={handleFiles} />
         {mediaUrls.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
             {mediaUrls.map((url, i) => (
