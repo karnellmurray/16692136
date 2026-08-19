@@ -38,6 +38,25 @@
     top: 56px !important;
   }
 
+  /* ─── Sidebar "Member Portal" block — the avatar/username/email
+     row kept hitting wrap/cutoff issues at narrow widths no matter
+     how much it got resized, so on mobile it collapses to just the
+     settings icon (still opens the same settings panel). ────────── */
+  .member-portal-label,
+  .member-portal-link {
+    display: none !important;
+  }
+  .member-portal-row {
+    justify-content: center !important;
+  }
+  .member-portal-row button img {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .member-portal-row button {
+    opacity: 0.8 !important;
+  }
+
   /* ─── Feed "Looking For" ad tile (bottom-right of the screen-wall
      grid) — at tablet width the single grid column is already tight,
      so trim padding/type scale before phone width makes it worse. ── */

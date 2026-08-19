@@ -163,10 +163,10 @@ export default function Sidebar() {
 
       {/* User + Settings */}
       <div className="px-4 py-4 border-t border-white/5 relative" style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }} ref={settingsRef}>
-        <p className="text-[10px] tracking-widest uppercase mb-3" style={{ color: '#777' }}>Member Portal</p>
+        <p className="member-portal-label text-[10px] tracking-widest uppercase mb-3" style={{ color: '#777' }}>Member Portal</p>
         {session?.user && (
-          <div className="flex items-center gap-3">
-            <Link href="/home/profile/me" className="flex items-center gap-3 flex-1 min-w-0 hover:opacity-80 transition-opacity">
+          <div className="member-portal-row flex items-center gap-3">
+            <Link href="/home/profile/me" className="member-portal-link flex items-center gap-3 flex-1 min-w-0 hover:opacity-80 transition-opacity">
               {avatarUrl && !avatarErr
                 ? <img src={avatarUrl} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0" onError={() => setAvatarErr(true)} />
                 : <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center text-gold text-xs font-head uppercase flex-shrink-0">
