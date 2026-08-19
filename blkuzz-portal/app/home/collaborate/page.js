@@ -366,7 +366,7 @@ export default function BulletinPage() {
                       <div className={`grid gap-1 mb-2 grid-cols-1 ${post.media.length > 1 ? 'lg:grid-cols-2' : ''}`}>
                         {post.media.map((url, i) => (
                           isVideo(url)
-                            ? <video key={i} src={url} controls onClick={() => setLightbox(url)} className="w-full rounded cursor-pointer h-40 lg:h-[200px]" style={{ objectFit: 'cover', display: 'block', border: '1px solid #1a1a1a' }} />
+                            ? <video key={i} src={url} controls muted onClick={() => setLightbox(url)} className="w-full rounded cursor-pointer h-40 lg:h-[200px]" style={{ objectFit: 'cover', display: 'block', border: '1px solid #1a1a1a' }} />
                             : <img key={i} src={url} alt="" onClick={() => setLightbox(url)} className="w-full rounded cursor-pointer h-40 lg:h-[200px]" style={{ objectFit: 'cover', display: 'block', border: '1px solid #1a1a1a' }} />
                         ))}
                       </div>
