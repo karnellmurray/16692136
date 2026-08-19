@@ -182,7 +182,7 @@ export default function EditProfilePage() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid #1a1a1a', flexShrink: 0 }}>
         <span className="font-head" style={{ fontSize: 17, letterSpacing: '2px', color: '#FDC214' }}>BLKUZZ</span>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={() => router.back()} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, letterSpacing: '0.15em', padding: '8px 18px', background: 'transparent', color: 'rgba(255,255,255,0.4)', border: '1px solid #2a2a2a', fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', borderRadius: 9999 }}>
+          <button onClick={() => router.back()} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, letterSpacing: '0.15em', padding: '8px 18px', background: 'transparent', color: '#777', border: '1px solid #2a2a2a', fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', borderRadius: 9999 }}>
             Cancel
           </button>
           <button onClick={save} disabled={saving} style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, letterSpacing: '0.15em', padding: '8px 18px', background: '#FDC214', color: '#0a0a0a', border: 'none', fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', borderRadius: 9999, opacity: saving ? 0.6 : 1 }}>
@@ -287,7 +287,7 @@ export default function EditProfilePage() {
               return (
                 <button key={tag} disabled={atMax}
                   onClick={() => set('tags', active ? form.tags.filter(t => t !== tag) : [...form.tags, tag])}
-                  style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', padding: '6px 12px', border: `1px solid ${active ? '#FDC214' : '#1e1e1e'}`, color: active ? '#FDC214' : 'rgba(255,255,255,0.4)', cursor: atMax ? 'not-allowed' : 'pointer', opacity: atMax ? 0.4 : 1, textTransform: 'uppercase', background: 'transparent', transition: 'all 0.1s', borderRadius: 9999 }}>
+                  style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.1em', padding: '6px 12px', border: `1px solid ${active ? '#FDC214' : '#1e1e1e'}`, color: active ? '#FDC214' : '#777', cursor: atMax ? 'not-allowed' : 'pointer', opacity: atMax ? 0.4 : 1, textTransform: 'uppercase', background: 'transparent', transition: 'all 0.1s', borderRadius: 9999 }}>
                   {tag}
                 </button>
               )
