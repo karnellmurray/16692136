@@ -483,7 +483,7 @@ export default function BulletinPage() {
               <textarea name="content" value={form.content} onChange={handleContentChange} required rows={3} placeholder="Describe what you need…"
                 className="w-full bg-transparent rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none resize-none placeholder-white/40"
                 style={{ border: '1px solid #FDC214' }} />
-              <p className="font-mono text-[8px] tracking-[0.1em] uppercase -mt-1" style={{ color: '#777' }}>{countWords(form.content)}/{MAX_DESCRIPTION_WORDS} words</p>
+              <p className="font-mono text-[11px] tracking-[0.1em] uppercase -mt-1" style={{ color: '#777' }}>{countWords(form.content)}/{MAX_DESCRIPTION_WORDS} words</p>
               <p className="font-mono text-[9px] tracking-[0.15em] uppercase" style={{ color: '#777' }}>Looking for</p>
               <div className="flex flex-wrap gap-1.5">
                 {availableTags.map(tag => {
@@ -506,7 +506,7 @@ export default function BulletinPage() {
                   )
                 })}
               </div>
-              <p className="font-mono text-[7px] tracking-[0.1em]" style={{ color: '#777' }}>{form.tags.length}/{MAX_TAGS} selected</p>
+              <p className="font-mono text-[11px] tracking-[0.1em]" style={{ color: '#777' }}>{form.tags.length}/{MAX_TAGS} selected</p>
               {/* Media upload */}
               <input ref={fileInputRef} type="file" accept="image/*,video/*" multiple className="hidden" onChange={handleFiles} />
               {mediaUrls.length > 0 && (
