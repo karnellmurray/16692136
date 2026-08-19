@@ -57,9 +57,9 @@ export default function ReportBugPage() {
       {sent ? (
         <div style={{ padding: '32px 0', textAlign: 'center' }}>
           <p style={{ fontFamily: MONO, fontSize: 13, color: '#008000', letterSpacing: '0.15em', marginBottom: 16 }}>REPORT SENT — THANK YOU</p>
-          <button onClick={() => router.back()}
-            style={{ padding: '10px 24px', background: 'transparent', border: '1px solid #333', color: '#777', fontFamily: MONO, fontSize: 11, letterSpacing: '0.1em', cursor: 'pointer' }}>
-            BACK TO SETTINGS
+          <button onClick={() => router.push('/home/feed')}
+            style={{ padding: '10px 24px', background: 'transparent', border: '1px solid #FDC214', borderRadius: 9999, color: '#FDC214', fontFamily: MONO, fontSize: 11, letterSpacing: '0.1em', cursor: 'pointer' }}>
+            BACK TO FEED
           </button>
         </div>
       ) : (
