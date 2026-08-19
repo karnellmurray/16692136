@@ -716,6 +716,9 @@ export default function FeedPage() {
       {(() => {
         const adTile = collabAds.length > 0 && (() => {
           const ad = collabAds[collabAdIdx]
+          const MAX_VISIBLE_DISCIPLINES = 3
+          const visibleDisciplines = ad.collaboratorDisciplines.slice(0, MAX_VISIBLE_DISCIPLINES)
+          const extraDisciplines   = ad.collaboratorDisciplines.length - visibleDisciplines.length
           return (
             <div className="feed-ad-tile" onClick={ad.slug ? () => router.push(`/home/projects/${ad.slug}`) : undefined} style={{
               gridColumn: '3 / 4', gridRow: '3 / 4',
@@ -733,25 +736,31 @@ export default function FeedPage() {
               <div style={{ position: 'absolute', inset: 0, background: '#e8ff00', opacity: adFlash ? 0.85 : 0, transition: adFlash ? 'none' : 'opacity 0.15s ease', pointerEvents: 'none', zIndex: 3 }} />
 
               <div className="flex items-center mb-2">
-                <span className="font-mono text-[7px] tracking-[0.2em] uppercase" style={{ color: '#e8ff00' }}>→ LOOKING FOR</span>
+                <span className="feed-ad-label font-mono text-[7px] tracking-[0.2em] uppercase" style={{ color: '#e8ff00' }}>→ LOOKING FOR</span>
               </div>
 
-              <p className="font-head leading-tight mb-1" style={{ color: '#fff', fontSize: 17, letterSpacing: '1px' }}>
+              <p className="feed-ad-title font-head leading-tight mb-1" style={{ color: '#fff', fontSize: 17, letterSpacing: '1px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                 {ad.title}
               </p>
-              <p className="font-mono mb-2" style={{ color: '#777', fontSize: 10 }}>is looking for</p>
+              <p className="feed-ad-subtitle font-mono mb-2" style={{ color: '#777', fontSize: 10 }}>is looking for</p>
 
               <div className="flex flex-wrap gap-1">
-                {ad.collaboratorDisciplines.map((d, i) => (
-                  <span key={i} className="font-mono tracking-[0.1em] uppercase px-2.5 py-1"
+                {visibleDisciplines.map((d, i) => (
+                  <span key={i} className="feed-ad-pill font-mono tracking-[0.1em] uppercase px-2.5 py-1"
                     style={{ border: '1px solid rgba(232,255,0,0.6)', color: '#e8ff00', borderRadius: 9999, fontSize: 9 }}>
                     {pluralise(d)}
                   </span>
                 ))}
+                {extraDisciplines > 0 && (
+                  <span className="feed-ad-pill font-mono tracking-[0.1em] uppercase px-2.5 py-1"
+                    style={{ border: '1px solid rgba(232,255,0,0.3)', color: 'rgba(232,255,0,0.6)', borderRadius: 9999, fontSize: 9 }}>
+                    +{extraDisciplines}
+                  </span>
+                )}
               </div>
 
               {collabAds.length > 1 && (
-                <div className="flex gap-1 mt-3">
+                <div className="feed-ad-dots flex gap-1 mt-3">
                   {collabAds.map((_, i) => (
                     <span key={i} style={{ width: 4, height: 4, borderRadius: '50%', display: 'inline-block', background: i === collabAdIdx ? '#e8ff00' : 'rgba(255,255,255,0.15)' }} />
                   ))}
