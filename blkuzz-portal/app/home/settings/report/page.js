@@ -51,7 +51,7 @@ export default function ReportBugPage() {
 
       <h1 className="font-head" style={{ fontSize: 20, color: '#FDC214', letterSpacing: '3px', marginBottom: 8 }}>REPORT BUGS</h1>
       <p style={{ fontFamily: MONO, fontSize: 11, color: '#777', letterSpacing: '0.05em', lineHeight: 1.6, marginBottom: 28 }}>
-        Found something broken? Let us know and we'll take a look. Reports go straight to the BLKUZZ team.
+        Found something broken? Let us know and we'll take a look. Reports go straight to Headquarters.
       </p>
 
       {sent ? (
