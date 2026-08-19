@@ -114,13 +114,13 @@ function AgentCard({ user, featured }) {
         {/* Top row */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 4, gap: 8 }}>
           <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#777', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#777', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {user.blkuzzId || blkuzzIdFallback(user.id)}{user.location ? ` · ${user.location}` : ''}
             </div>
             <div className="font-head" style={{ fontSize: nameFontSize(user.name), color: '#FDC214', letterSpacing: '2px', lineHeight: 1.2 }}>
               {user.name}
             </div>
-            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: '#fff', letterSpacing: '0.05em', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#fff', letterSpacing: '0.05em', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               @{user.username}
             </div>
           </div>
@@ -145,8 +145,8 @@ function AgentCard({ user, featured }) {
 
         {/* Meta row */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-<span style={{ display: 'flex', alignItems: 'center', gap: 3, fontFamily: 'IBM Plex Mono, monospace', fontSize: 7, letterSpacing: '0.08em', color: '#FDC214' }}>
-            <FolderOpen size={10} /> {user.projects} projects
+<span style={{ display: 'flex', alignItems: 'center', gap: 3, fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.08em', color: '#FDC214' }}>
+            <FolderOpen size={12} /> {user.projects} projects
           </span>
 
           {/* Barcode */}
