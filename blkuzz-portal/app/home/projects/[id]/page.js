@@ -1232,7 +1232,7 @@ function TeamTab({ project, router, isAuthor }) {
             onClick={e => e.stopPropagation()}>
 
             <div className="flex items-center justify-between mb-3">
-              <p className="font-mono text-[9px] tracking-[0.2em] uppercase" style={{ color: '#FDC214' }}>Add Collaborator</p>
+              <p className="font-mono text-[10px] tracking-[0.2em] uppercase" style={{ color: '#FDC214' }}>Add Collaborator</p>
               <button onClick={closeDirectory} className="flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity">
                 <img src="/portal/icons/cross-y.png" alt="close" style={{ width: 12, height: 12, objectFit: 'contain' }} />
               </button>
@@ -1242,12 +1242,12 @@ function TeamTab({ project, router, isAuthor }) {
               value={dirQuery}
               onChange={e => setDirQuery(e.target.value)}
               placeholder="SEARCH MEMBERS..."
-              className="w-full bg-transparent border border-[#FDC214] font-mono text-[10px] tracking-widest text-white px-4 py-2 mb-3 outline-none dir-search" style={{ borderRadius: 50 }}
+              className="w-full bg-transparent border border-[#FDC214] font-mono text-[12px] tracking-widest text-white px-4 py-2 mb-3 outline-none dir-search" style={{ borderRadius: 50 }}
             />
 
             <div className="overflow-y-auto flex-1 mb-3">
               {filteredDir.length === 0 && (
-                <p className="font-mono text-[9px] text-center py-6" style={{ color: '#777' }}>
+                <p className="font-mono text-[10px] text-center py-6" style={{ color: '#777' }}>
                   {dirUsers.length === 0 ? 'Loading...' : 'No members found'}
                 </p>
               )}
@@ -1268,19 +1268,19 @@ function TeamTab({ project, router, isAuthor }) {
                       {u.avatar
                         ? <img src={u.avatar} alt="" className="w-full h-full object-cover"
                             onError={e => { e.currentTarget.style.display = 'none' }} />
-                        : <div className="w-full h-full flex items-center justify-center font-mono text-[10px]"
+                        : <div className="w-full h-full flex items-center justify-center font-mono text-[12px]"
                             style={{ color: '#777' }}>
                             {u.username?.[0]?.toUpperCase()}
                           </div>
                       }
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-head text-[12px] truncate" style={{ color: '#FDC214', letterSpacing: '1px' }}>{u.name}</p>
-                      <p className="font-mono text-[8px] mb-1" style={{ color: '#fff' }}>@{u.username}</p>
+                      <p className="font-head text-[14px] truncate" style={{ color: '#FDC214', letterSpacing: '1px' }}>{u.name}</p>
+                      <p className="font-mono text-[9px] mb-1" style={{ color: '#fff' }}>@{u.username}</p>
                       {(u.tags ?? []).length > 0 && (
                         <div className="flex flex-wrap gap-1">
                           {(u.tags ?? []).map(t => (
-                            <span key={t} className="font-mono text-[7px] tracking-wide px-1.5 py-0.5"
+                            <span key={t} className="font-mono text-[8px] tracking-wide px-1.5 py-0.5"
                               style={{ border: '1px solid #FDC214', color: '#FDC214', background: 'transparent', borderRadius: 50 }}>
                               {t}
                             </span>
@@ -1289,7 +1289,7 @@ function TeamTab({ project, router, isAuthor }) {
                       )}
                     </div>
                     {isPending && (
-                      <span className="font-mono text-[7px] tracking-widest flex-shrink-0 mt-0.5" style={{ color: '#FDC214' }}>Invited</span>
+                      <span className="font-mono text-[8px] tracking-widest flex-shrink-0 mt-0.5" style={{ color: '#FDC214' }}>Invited</span>
                     )}
                   </button>
                 )
@@ -1298,13 +1298,13 @@ function TeamTab({ project, router, isAuthor }) {
 
             {selected && (
               <div className="border-t border-[#1a1a1a] pt-3 flex-shrink-0">
-                <p className="font-mono text-[8px] mb-2.5" style={{ color: '#fff' }}>
+                <p className="font-mono text-[9px] mb-2.5" style={{ color: '#fff' }}>
                   Inviting <span style={{ color: '#FDC214' }}>@{selected.username}</span>
                 </p>
 
                 {(selected.tags ?? []).length > 0 && (
                   <>
-                    <p className="font-mono text-[7px] tracking-[0.15em] uppercase mb-1.5" style={{ color: '#fff' }}>
+                    <p className="font-mono text-[8px] tracking-[0.15em] uppercase mb-1.5" style={{ color: '#fff' }}>
                       Select their contribution
                     </p>
                     <div className="flex flex-wrap gap-1.5 mb-3">
@@ -1313,7 +1313,7 @@ function TeamTab({ project, router, isAuthor }) {
                         return (
                           <button key={t}
                             onClick={() => setRole(active ? '' : t)}
-                            className="font-mono text-[8px] tracking-wide px-2 py-1"
+                            className="font-mono text-[9px] tracking-wide px-2 py-1"
                             style={{
                               border: '1px solid #FDC214',
                               background: active ? '#FDC214' : 'transparent',
@@ -1333,11 +1333,11 @@ function TeamTab({ project, router, isAuthor }) {
                   value={role}
                   onChange={e => setRole(e.target.value)}
                   placeholder={(selected.tags ?? []).length > 0 ? 'Or type a custom role...' : 'Role (e.g. Cinematographer)'}
-                  className="w-full bg-transparent border border-[#222] font-mono text-[10px] text-white px-3 py-2 mb-3 outline-none placeholder-white"
+                  className="w-full bg-transparent border border-[#222] font-mono text-[12px] text-white px-3 py-2 mb-3 outline-none placeholder-white"
                 />
 
                 <button onClick={sendInvite} disabled={sending}
-                  className="w-full font-mono text-[9px] tracking-[0.15em] uppercase py-2.5"
+                  className="w-full font-mono text-[10px] tracking-[0.15em] uppercase py-2.5"
                   style={{ background: '#FDC214', color: '#000', opacity: sending ? 0.6 : 1, cursor: sending ? 'default' : 'pointer', borderRadius: 50 }}>
                   {sending ? 'Sending...' : 'Send Invite'}
                 </button>
