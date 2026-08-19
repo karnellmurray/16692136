@@ -413,7 +413,7 @@ export default function BulletinPage() {
                     className="flex-1 font-mono text-[9px] tracking-[0.08em] uppercase px-2 py-2 transition-colors"
                     style={{
                       border: '1px solid', borderRadius: 9999,
-                      borderColor: form.category === t ? '#FDC214' : 'rgba(255,255,255,0.15)',
+                      borderColor: form.category === t ? '#FDC214' : '#777',
                       color: form.category === t ? '#FDC214' : '#777',
                       background: 'transparent',
                     }}>
@@ -475,7 +475,7 @@ export default function BulletinPage() {
                       className="font-mono text-[8px] tracking-[0.08em] uppercase px-2.5 py-1 transition-colors"
                       style={{
                         border: '1px solid', borderRadius: 9999,
-                        borderColor: active ? '#FDC214' : 'rgba(255,255,255,0.15)',
+                        borderColor: active ? '#FDC214' : '#777',
                         color: active ? '#FDC214' : '#777',
                         background: 'transparent',
                       }}>
@@ -522,7 +522,7 @@ export default function BulletinPage() {
                 <div className="flex items-center gap-2 cursor-pointer select-none" onClick={() => setForm(f => ({ ...f, completed: !f.completed }))}>
                   <div style={{
                     width: 12, height: 12, borderRadius: '50%', flexShrink: 0,
-                    border: `1px solid ${form.completed ? '#00C853' : 'rgba(255,255,255,0.3)'}`,
+                    border: `1px solid ${form.completed ? '#00C853' : '#777'}`,
                     background: form.completed ? '#00C853' : 'transparent',
                     boxShadow: form.completed ? '0 0 8px 2px rgba(0,200,83,0.5)' : 'none',
                     transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
