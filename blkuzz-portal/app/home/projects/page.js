@@ -224,7 +224,7 @@ function CreateModal({ onClose, onCreated }) {
 
           {/* Title */}
           <div className="px-5 pt-4 pb-3">
-            <label className="font-mono text-[7px] tracking-[0.25em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
+            <label className="font-mono text-[10px] tracking-[0.25em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
               Project Title *
             </label>
             <input name="title" value={form.title} onChange={handle} required
@@ -233,7 +233,7 @@ function CreateModal({ onClose, onCreated }) {
 
           {/* Tagline */}
           <div className="px-5 pt-4 pb-3">
-            <label className="font-mono text-[7px] tracking-[0.25em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
+            <label className="font-mono text-[10px] tracking-[0.25em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
               Tagline
             </label>
             <input name="tagline" value={form.tagline} onChange={handle}
@@ -242,7 +242,7 @@ function CreateModal({ onClose, onCreated }) {
 
           {/* Description */}
           <div className="px-5 pt-4 pb-3">
-            <label className="font-mono text-[7px] tracking-[0.25em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
+            <label className="font-mono text-[10px] tracking-[0.25em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
               Description
             </label>
             <textarea name="description" value={form.description} onChange={handle} rows={3}
@@ -252,7 +252,7 @@ function CreateModal({ onClose, onCreated }) {
 
           {/* Location */}
           <div className="px-5 pt-4 pb-3">
-            <label className="font-mono text-[7px] tracking-[0.25em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
+            <label className="font-mono text-[10px] tracking-[0.25em] uppercase block mb-2" style={{ color: '#e8e8e8' }}>
               Location
             </label>
             <input name="location" value={form.location} onChange={handle}
@@ -261,7 +261,7 @@ function CreateModal({ onClose, onCreated }) {
 
           {/* Cover image upload */}
           <div className="px-5 pt-4 pb-4">
-            <label className="font-mono text-[7px] tracking-[0.25em] uppercase block mb-3" style={{ color: '#e8e8e8' }}>
+            <label className="font-mono text-[10px] tracking-[0.25em] uppercase block mb-3" style={{ color: '#e8e8e8' }}>
               Cover Image
             </label>
             <input ref={fileInputRef} type="file" accept="image/*" className="hidden"
@@ -321,7 +321,7 @@ function CreateModal({ onClose, onCreated }) {
 
           {/* Status */}
           <div className="px-5 pt-4 pb-4">
-            <label className="font-mono text-[7px] tracking-[0.25em] uppercase block mb-3" style={{ color: '#e8e8e8' }}>
+            <label className="font-mono text-[10px] tracking-[0.25em] uppercase block mb-3" style={{ color: '#e8e8e8' }}>
               Status
             </label>
             <button type="button"
