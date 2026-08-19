@@ -222,8 +222,8 @@ export default function DirectoryPage() {
 
       {/* Topbar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: '1px solid #1a1a1a', flexShrink: 0 }}>
-        <span className="font-head" style={{ fontSize: 15, color: '#FDC214', letterSpacing: '2px' }}>BLKUZZ</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.15em', color: '#008000', border: '1px solid #00800030', padding: '3px 8px' }}>
+        <span className="font-head" style={{ fontSize: 17, color: '#FDC214', letterSpacing: '2px' }}>BLKUZZ</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, letterSpacing: '0.15em', color: '#008000', border: '1px solid #00800030', padding: '3px 8px' }}>
           <span className="w-1.5 h-1.5 rounded-full bg-[#008000] animate-pulse2 inline-block" />
           CLEARANCE GRANTED
         </div>
@@ -232,13 +232,13 @@ export default function DirectoryPage() {
       {/* Header */}
       <div style={{ padding: '16px', borderBottom: '1px solid #141414', flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, opacity: 0.03, backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #008000 2px, #008000 3px)', pointerEvents: 'none' }} />
-        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, letterSpacing: '0.3em', color: '#777', textTransform: 'uppercase', marginBottom: 4 }}>
+        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, letterSpacing: '0.3em', color: '#777', textTransform: 'uppercase', marginBottom: 4 }}>
           Restricted access · member database
         </div>
-        <div className="font-head" style={{ fontSize: 24, letterSpacing: '2px', color: '#fff', lineHeight: 1, marginBottom: 2 }}>
+        <div className="font-head" style={{ fontSize: 28, letterSpacing: '2px', color: '#fff', lineHeight: 1, marginBottom: 2 }}>
           Directory
         </div>
-        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: '#777', letterSpacing: '0.1em' }}>
+        <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, color: '#777', letterSpacing: '0.1em' }}>
           <span style={{ color: '#008000' }}>{loading ? '...' : users.length} members</span>
           {disciplines.length > 0 && <> · {disciplines.length} tags</>}
         </div>
@@ -247,13 +247,13 @@ export default function DirectoryPage() {
       {/* Search */}
       <div style={{ padding: '10px 16px', borderBottom: '1px solid #141414', flexShrink: 0 }}>
         <div style={{ position: 'relative' }}>
-          <Search size={12} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#FDC214' }} />
+          <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#FDC214' }} />
           <input
             value={query}
             onChange={e => { setQuery(e.target.value); setPage(1) }}
             placeholder="SEARCH BY NAME, HANDLE, TAGS..."
             className="dir-search"
-            style={{ width: '100%', background: '#111', border: '1px solid #FDC214', borderRadius: 50, color: '#fff', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, padding: '8px 12px 8px 28px', outline: 'none', letterSpacing: '0.05em', boxSizing: 'border-box' }}
+            style={{ width: '100%', background: '#111', border: '1px solid #FDC214', borderRadius: 50, color: '#fff', fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, padding: '8px 12px 8px 28px', outline: 'none', letterSpacing: '0.05em', boxSizing: 'border-box' }}
           />
         </div>
       </div>
