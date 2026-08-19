@@ -65,7 +65,7 @@ export default function ReportBugPage() {
       ) : (
         <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div>
-            <label style={{ display: 'block', fontFamily: MONO, fontSize: 10, letterSpacing: '0.15em', color: '#777', textTransform: 'uppercase', marginBottom: 8 }}>
+            <label style={{ display: 'block', fontFamily: MONO, fontSize: 10, letterSpacing: '0.15em', color: '#FDC214', textTransform: 'uppercase', marginBottom: 8 }}>
               Subject
             </label>
             <input value={subject} onChange={e => setSubject(e.target.value)} maxLength={200}
@@ -73,7 +73,7 @@ export default function ReportBugPage() {
           </div>
 
           <div>
-            <label style={{ display: 'block', fontFamily: MONO, fontSize: 10, letterSpacing: '0.15em', color: '#777', textTransform: 'uppercase', marginBottom: 8 }}>
+            <label style={{ display: 'block', fontFamily: MONO, fontSize: 10, letterSpacing: '0.15em', color: '#FDC214', textTransform: 'uppercase', marginBottom: 8 }}>
               What happened?
             </label>
             <textarea value={description} onChange={e => setDescription(e.target.value.slice(0, MAX_DESCRIPTION_LEN))} rows={7}
