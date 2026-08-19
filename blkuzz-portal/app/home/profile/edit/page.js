@@ -173,9 +173,9 @@ export default function EditProfilePage() {
     <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden' }}>
 
       {/* Classified band */}
-      <div style={{ background: '#ff4444', padding: '4px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 10, fontWeight: 700, letterSpacing: '0.35em', color: '#fff', textTransform: 'uppercase' }}>✎ Editing member file</span>
-        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>FILE #{memberCode}</span>
+      <div style={{ background: '#D2042D', padding: '4px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, fontWeight: 700, letterSpacing: '0.35em', color: '#fff', textTransform: 'uppercase' }}>✎ Editing member file</span>
+        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, color: '#fff', letterSpacing: '0.1em' }}>FILE #{memberCode}</span>
       </div>
 
       {/* Top bar */}
