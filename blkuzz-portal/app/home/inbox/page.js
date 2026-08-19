@@ -406,8 +406,8 @@ function InboxPageContent() {
               </div>
 
               {/* Encrypted bar */}
-              <div style={{ background: 'rgba(0,255,136,0.03)', borderBottom: '1px solid rgba(0,255,136,0.08)', padding: '5px 14px', display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'IBM Plex Mono, monospace', fontSize: 8, color: 'rgba(0,255,136,0.4)', letterSpacing: '0.1em', flexShrink: 0 }}>
-                <Lock size={9} />
+              <div style={{ background: 'rgba(0,255,136,0.03)', borderBottom: '1px solid rgba(0,255,136,0.08)', padding: '7px 14px', display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, color: 'rgba(0,255,136,0.4)', letterSpacing: '0.1em', flexShrink: 0 }}>
+                <Lock size={12} />
                 End-to-end encrypted · Blkuzz members only
               </div>
 
