@@ -417,7 +417,7 @@ export default function BulletinPage() {
 
       {modal && (
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-          <div className="border rounded-2xl w-full max-w-md p-6 overflow-y-auto max-h-[90vh]" style={{ borderColor: '#FDC214', background: 'transparent', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="border rounded-2xl w-full max-w-md p-6 overflow-y-auto max-h-[90vh] max-h-[90dvh]" style={{ borderColor: '#FDC214', background: 'transparent', scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
             <div className="relative flex items-center justify-center mb-6">
               <h2 className="font-head text-white text-lg tracking-widest uppercase">{editingPost ? 'Edit Callout' : 'Post Callout'}</h2>
               <button onClick={closeModal} className="absolute right-0">
