@@ -164,18 +164,18 @@ export default function EditProfilePage() {
   })()
 
   if (!profile) return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', fontFamily: 'IBM Plex Mono, monospace', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.25em' }}>
       LOADING...
     </div>
   )
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden' }}>
+    <div className="page-fixed-shell" style={{ position: 'fixed', top: 0, left: 240, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', background: '#0a0a0a', color: '#e8e8e8', overflow: 'hidden' }}>
 
       {/* Classified band */}
-      <div style={{ background: '#D2042D', padding: '4px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, fontWeight: 700, letterSpacing: '0.35em', color: '#fff', textTransform: 'uppercase' }}>✎ Editing member file</span>
-        <span style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, color: '#fff', letterSpacing: '0.1em' }}>FILE #{memberCode}</span>
+      <div className="classified-band" style={{ background: '#D2042D', padding: '4px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, gap: 8 }}>
+        <span className="classified-band-left" style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, fontWeight: 700, letterSpacing: '0.35em', color: '#fff', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>✎ Editing member file</span>
+        <span className="classified-band-right" style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: 11, color: '#fff', letterSpacing: '0.1em', whiteSpace: 'nowrap', flexShrink: 0 }}>FILE #{memberCode}</span>
       </div>
 
       {/* Top bar */}

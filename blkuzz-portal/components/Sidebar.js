@@ -124,7 +124,7 @@ export default function Sidebar() {
         <div className="lg:hidden fixed inset-0 bg-black/70 z-40" onClick={() => setMobileOpen(false)} />
       )}
 
-      <aside className={`fixed top-0 left-0 h-screen w-60 bg-black border-r border-[#FDC214] flex flex-col z-50 transition-transform duration-300 ease-out lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed top-0 left-0 h-screen h-[100dvh] w-60 bg-black border-r border-[#FDC214] flex flex-col z-50 transition-transform duration-300 ease-out lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
 
       {/* Logo */}
       <div className="flex items-center justify-center" style={{ height: 120 }}>
@@ -162,7 +162,7 @@ export default function Sidebar() {
       </nav>
 
       {/* User + Settings */}
-      <div className="px-4 py-4 border-t border-white/5 relative" ref={settingsRef}>
+      <div className="px-4 py-4 border-t border-white/5 relative" style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }} ref={settingsRef}>
         <p className="text-[10px] tracking-widest uppercase mb-3" style={{ color: '#777' }}>Member Portal</p>
         {session?.user && (
           <div className="flex items-center gap-3">

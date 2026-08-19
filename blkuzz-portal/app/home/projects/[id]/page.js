@@ -1621,7 +1621,7 @@ export default function ProjectDetailPage() {
         )}
         <div className="absolute bottom-0 left-0 right-0 px-3.5 pb-2.5 flex items-end justify-between"
           style={{ background: 'linear-gradient(transparent, rgba(10,10,10,0.95))' }}>
-          <h1 className="font-head text-[46px] leading-tight" style={{ color: '#FDC214', letterSpacing: '2px' }}>
+          <h1 className="font-head text-[46px] leading-tight project-hero-title" style={{ color: '#FDC214', letterSpacing: '2px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {project.title}
           </h1>
         </div>

@@ -298,9 +298,9 @@ export default function ProfilePage() {
         <div style={{ height: 16, background: '#0a0a0a', flexShrink: 0 }} />
 
         {/* Classified band */}
-        <div style={{ background: RED, padding: '4px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-          <div style={{ fontFamily: MONO, fontSize: 11, fontWeight: 700, letterSpacing: '0.35em', color: '#fff', textTransform: 'uppercase' }}>Member file — restricted access</div>
-          <div style={{ fontFamily: MONO, fontSize: 11, color: '#fff', letterSpacing: '0.1em' }}>FILE #{blkuzzId}</div>
+        <div className="classified-band" style={{ background: RED, padding: '4px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, gap: 8 }}>
+          <div className="classified-band-left" style={{ fontFamily: MONO, fontSize: 11, fontWeight: 700, letterSpacing: '0.35em', color: '#fff', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Member file — restricted access</div>
+          <div className="classified-band-right" style={{ fontFamily: MONO, fontSize: 11, color: '#fff', letterSpacing: '0.1em', whiteSpace: 'nowrap', flexShrink: 0 }}>FILE #{blkuzzId}</div>
         </div>
 
         {/* Top bar */}
@@ -344,7 +344,7 @@ export default function ProfilePage() {
                   {blkuzzId}{user.location ? ` · ${user.location}` : ''}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 3 }}>
-                  <div className="font-head" style={{ fontSize: 27, letterSpacing: '2px', color: GOLD, lineHeight: 1 }}>
+                  <div className="font-head profile-display-name" style={{ fontSize: 27, letterSpacing: '2px', color: GOLD, lineHeight: 1, minWidth: 0, overflowWrap: 'break-word', wordBreak: 'break-word' }}>
                     {user.name || user.username}
                   </div>
                   {!isOwn && (

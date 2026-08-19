@@ -55,6 +55,55 @@
     font-size: 8px !important;
     padding: 2px 7px !important;
   }
+
+  /* ─── Feed screen-wall tiles: callout/project/etc. content runs a
+     little large at tablet width already. ────────────────────────── */
+  .screencard-handle {
+    font-size: 8px !important;
+  }
+  .screencard-title {
+    font-size: 11px !important;
+  }
+  .screencard-description {
+    font-size: 9px !important;
+  }
+
+  /* ─── Red "classified band" banner (profile view + edit) — the
+     wide letter-spacing that reads fine on desktop needs real room
+     that a phone doesn't have, so both sides wrap onto two lines. ── */
+  .classified-band-left {
+    font-size: 9px !important;
+    letter-spacing: 0.15em !important;
+  }
+  .classified-band-right {
+    font-size: 9px !important;
+    letter-spacing: 0.06em !important;
+  }
+
+  /* ─── Project detail hero title — 46px eats a phone-width line in
+     a handful of characters, so long titles wrap to many lines and
+     can run past the hero band's fixed height. ────────────────────── */
+  .project-hero-title {
+    font-size: 30px !important;
+  }
+
+  /* ─── Collaborate header: label/stats sized for desktop's wider
+     column, and the button's full label competes with them for the
+     same row. ───────────────────────────────────────────────────── */
+  .collab-freq-label {
+    font-size: 7px !important;
+    letter-spacing: 0.12em !important;
+  }
+  .collab-stats-row {
+    font-size: 8px !important;
+    gap: 10px !important;
+  }
+  .collab-post-btn {
+    padding: 8px 10px !important;
+  }
+  .collab-post-btn-label {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
@@ -81,5 +130,37 @@
   }
   .feed-ad-dots {
     margin-top: 5px !important;
+  }
+
+  .screencard-handle {
+    font-size: 7px !important;
+  }
+  .screencard-title {
+    font-size: 10px !important;
+  }
+  .screencard-description {
+    font-size: 8px !important;
+  }
+
+  .classified-band-left {
+    font-size: 7px !important;
+    letter-spacing: 0.06em !important;
+  }
+  .classified-band-right {
+    font-size: 8px !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .project-hero-title {
+    font-size: 24px !important;
+  }
+
+  .collab-freq-label {
+    font-size: 6px !important;
+    letter-spacing: 0.08em !important;
+  }
+  .collab-stats-row {
+    font-size: 7px !important;
+    gap: 8px !important;
   }
 }

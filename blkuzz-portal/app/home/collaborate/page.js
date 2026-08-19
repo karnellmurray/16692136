@@ -240,20 +240,20 @@ export default function BulletinPage() {
       {/* Frequency header */}
       <div className="px-6 py-4 flex-shrink-0" style={{ borderBottom: '1px solid #141414' }}>
         <div className="flex items-start justify-between">
-          <div>
-            <p className="font-mono text-[9px] tracking-[0.25em] uppercase mb-1" style={{ color: '#777' }}>
+          <div className="min-w-0">
+            <p className="collab-freq-label font-mono text-[9px] tracking-[0.25em] uppercase mb-1" style={{ color: '#777', whiteSpace: 'nowrap' }}>
               Open frequency — collab requests &amp; call-outs
             </p>
             <h1 className="font-head text-white text-2xl mb-2" style={{ letterSpacing: '2px' }}>Collaborate</h1>
-            <div className="flex gap-4 font-mono text-[9px] tracking-wide" style={{ color: '#777' }}>
+            <div className="collab-stats-row flex gap-4 font-mono text-[9px] tracking-wide" style={{ color: '#777', whiteSpace: 'nowrap' }}>
               <span><span style={{ color: '#FDC214' }}>{stats.open}</span> open listings</span>
               <span><span style={{ color: '#D2042D' }}>{stats.urgent}</span> urgent</span>
               <span><span style={{ color: '#008000' }}>{stats.today}</span> active today</span>
             </div>
           </div>
           <button onClick={openModal}
-            className="flex items-center gap-1.5 bg-gold text-black font-head tracking-widest uppercase text-[12px] px-3.5 py-2 rounded-full hover:bg-yellow-300 transition-colors shrink-0">
-            <Plus size={12} /> Post call-out
+            className="collab-post-btn flex items-center gap-1.5 bg-gold text-black font-head tracking-widest uppercase text-[12px] px-3.5 py-2 rounded-full hover:bg-yellow-300 transition-colors shrink-0">
+            <Plus size={12} /> <span className="collab-post-btn-label">Post call-out</span>
           </button>
         </div>
       </div>
