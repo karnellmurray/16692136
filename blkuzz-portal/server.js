@@ -14,6 +14,11 @@ const handle = app.getRequestHandler()
 
 app.prepare().then(() => {
   const httpServer = createServer(async (req, res) => {
+    // Let Socket.io's own listener (registered below) claim its own path
+    // explicitly, rather than relying on it winning the race against
+    // Next's async 404 handling for a route it doesn't recognize.
+    if (req.url.startsWith('/socket.io')) return
+
     try {
       const parsedUrl = parse(req.url, true)
       await handle(req, res, parsedUrl)
