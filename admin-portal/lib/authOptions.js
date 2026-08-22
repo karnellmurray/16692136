@@ -15,7 +15,7 @@ export const authOptions = {
       },
     }),
   ],
-  pages: { signIn: '/login' },
+  pages: { signIn: '/login', error: '/login' },
   session: { strategy: 'jwt', maxAge: 8 * 60 * 60 },
   callbacks: {
     async jwt({ token, user }) {
