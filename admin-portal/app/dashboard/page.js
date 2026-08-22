@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react'
 import { signOut } from 'next-auth/react'
 import {
   LayoutDashboard, BarChart2, Users, UserCheck, ShieldCheck, Ban,
-  FolderOpen, Pin, Send, Key, Settings, Terminal, LogOut, ChevronRight,
+  FolderOpen, Pin, Send, Key, Settings, Terminal, LogOut, ChevronRight, Megaphone,
 } from 'lucide-react'
+import BroadcastView from './BroadcastView'
 
-function MemberAvatar({ m, size = 30 }) {
+function MemberAvatar({ m, size = 36 }) {
   const [err, setErr] = useState(false)
   const initial = (m.username?.[0] ?? m.name?.[0] ?? '?').toUpperCase()
   return (
@@ -44,6 +45,7 @@ const NAV = [
     { label: 'Requests',     Icon: UserCheck,   key: 'requests',    badgeKey: 'pendingApplications', badgeColor: GOLD },
     { label: 'Verification', Icon: ShieldCheck, key: 'verification', badgeKey: 'pendingVerification', badgeColor: BLUE },
     { label: 'Flagged',      Icon: Ban,         key: 'flagged'      },
+    { label: 'Broadcast',    Icon: Megaphone,   key: 'broadcast'    },
   ]},
   { section: 'Content', items: [
     { label: 'Projects', Icon: FolderOpen, key: 'projects' },
@@ -58,18 +60,18 @@ const NAV = [
 
 function Sidebar({ active, setActive, badges }) {
   return (
-    <div style={{ width: 180, flexShrink: 0, background: '#080808', borderRight: '1px solid #141414', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+    <div style={{ width: 208, flexShrink: 0, background: '#080808', borderRight: '1px solid #141414', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
       {NAV.map(({ section, items }) => (
         <div key={section} style={{ padding: '10px 0 4px' }}>
-          <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.25em', color: '#444', textTransform: 'uppercase', padding: '0 12px 6px' }}>{section}</div>
+          <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.25em', color: '#444', textTransform: 'uppercase', padding: '0 12px 6px' }}>{section}</div>
           {items.map(({ label, Icon, key, badgeKey, badgeColor }) => {
             const isActive = active === key
             const badge = badgeKey ? badges[badgeKey] : null
             return (
-              <button key={key} onClick={() => setActive(key)} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '7px 12px', cursor: 'pointer', background: isActive ? '#0d0d0d' : 'transparent', borderLeft: isActive ? '2px solid #FDC214' : '2px solid transparent', border: 'none', textAlign: 'left' }}>
-                <Icon size={14} style={{ color: isActive ? '#FDC214' : '#555', flexShrink: 0 }} />
-                <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.08em', color: isActive ? '#FDC214' : '#666', textTransform: 'uppercase', flex: 1 }}>{label}</span>
-                {badge ? <span style={{ fontFamily: MONO, fontSize: 7, fontWeight: 700, minWidth: 16, height: 16, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px', background: `${badgeColor}15`, color: badgeColor }}>{badge}</span> : null}
+              <button key={key} onClick={() => setActive(key)} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 9, padding: '9px 14px', cursor: 'pointer', background: isActive ? '#0d0d0d' : 'transparent', borderLeft: isActive ? '2px solid #FDC214' : '2px solid transparent', border: 'none', textAlign: 'left' }}>
+                <Icon size={17} style={{ color: isActive ? '#FDC214' : '#555', flexShrink: 0 }} />
+                <span style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.08em', color: isActive ? '#FDC214' : '#666', textTransform: 'uppercase', flex: 1 }}>{label}</span>
+                {badge ? <span style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, minWidth: 19, height: 19, borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px', background: `${badgeColor}15`, color: badgeColor }}>{badge}</span> : null}
               </button>
             )
           })}
@@ -78,8 +80,8 @@ function Sidebar({ active, setActive, badges }) {
       ))}
       <div style={{ marginTop: 'auto', padding: 12 }}>
         <button onClick={() => signOut({ callbackUrl: '/login' })} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', padding: '6px 0' }}>
-          <LogOut size={12} style={{ color: '#555' }} />
-          <span style={{ fontFamily: MONO, fontSize: 7, color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Sign out</span>
+          <LogOut size={15} style={{ color: '#555' }} />
+          <span style={{ fontFamily: MONO, fontSize: 9, color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Sign out</span>
         </button>
       </div>
     </div>
@@ -89,11 +91,11 @@ function Sidebar({ active, setActive, badges }) {
 // ─── KPI card ────────────────────────────────────────────────────────────────
 function KpiCard({ label, value, delta, deltaUp, color }) {
   return (
-    <div style={{ background: '#0a0a0a', padding: '14px 16px', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ background: '#0a0a0a', padding: '18px 18px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: color, opacity: 0.4 }} />
-      <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.15em', color: '#555', textTransform: 'uppercase', marginBottom: 6 }}>{label}</div>
-      <div style={{ fontSize: 24, fontWeight: 900, letterSpacing: '-0.03em', color: '#fff', lineHeight: 1, marginBottom: 3 }}>{value ?? '—'}</div>
-      <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.08em', color: deltaUp ? GREEN : RED }}>{delta}</div>
+      <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.15em', color: '#555', textTransform: 'uppercase', marginBottom: 6 }}>{label}</div>
+      <div style={{ fontSize: 28, fontWeight: 900, letterSpacing: '-0.03em', color: '#fff', lineHeight: 1, marginBottom: 3 }}>{value ?? '—'}</div>
+      <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.08em', color: deltaUp ? GREEN : RED }}>{delta}</div>
     </div>
   )
 }
@@ -104,11 +106,11 @@ const BAR_COLORS = [BLUE, GREEN, RED, '#ff8833', GOLD, '#aa88ff', '#ff44aa']
 function AnalyticsBar({ label, pct, color, onClick }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-      <div onClick={onClick} title={label} style={{ fontFamily: MONO, fontSize: 8, color: '#FDC214', width: 90, flexShrink: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', cursor: onClick ? 'pointer' : 'default' }}>{label}</div>
+      <div onClick={onClick} title={label} style={{ fontFamily: MONO, fontSize: 10, color: '#FDC214', width: 90, flexShrink: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', cursor: onClick ? 'pointer' : 'default' }}>{label}</div>
       <div style={{ flex: 1, height: 4, background: '#141414', position: 'relative' }}>
         <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: `${pct}%`, background: color }} />
       </div>
-      <div style={{ fontFamily: MONO, fontSize: 8, color, width: 36, textAlign: 'right', flexShrink: 0 }}>{pct}%</div>
+      <div style={{ fontFamily: MONO, fontSize: 10, color, width: 36, textAlign: 'right', flexShrink: 0 }}>{pct}%</div>
     </div>
   )
 }
@@ -120,12 +122,12 @@ function DashboardView({ stats, members, pitches, analytics, setActive, onSelect
       {/* Page header */}
       <div style={{ padding: '14px 18px 12px', borderBottom: '1px solid #141414', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', background: '#0a0a0a', position: 'sticky', top: 0, zIndex: 4 }}>
         <div>
-          <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.2em', color: '#444', textTransform: 'uppercase', marginBottom: 3 }}>Blkuzz HQ · Command centre</div>
-          <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 18, letterSpacing: '2px', color: '#fff' }}>Dashboard</div>
+          <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.2em', color: '#444', textTransform: 'uppercase', marginBottom: 3 }}>Blkuzz HQ · Command centre</div>
+          <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 21, letterSpacing: '2px', color: '#fff' }}>Dashboard</div>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.12em', padding: '5px 10px', border: '1px solid #1e1e1e', color: '#777', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>Export</button>
-          <button style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.12em', padding: '5px 10px', border: `1px solid ${GOLD}40`, color: GOLD, background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>+ Announce</button>
+          <button style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.12em', padding: '5px 10px', border: '1px solid #1e1e1e', color: '#777', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>Export</button>
+          <button style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.12em', padding: '5px 10px', border: `1px solid ${GOLD}40`, color: GOLD, background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>+ Announce</button>
         </div>
       </div>
 
@@ -140,65 +142,65 @@ function DashboardView({ stats, members, pitches, analytics, setActive, onSelect
       {/* Member requests */}
       <div style={{ padding: '14px 18px', borderBottom: '1px solid #0f0f0f' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.2em', color: '#555', textTransform: 'uppercase' }}>Members</div>
-          <span onClick={() => setActive('members')} style={{ fontFamily: MONO, fontSize: 7, color: '#444', cursor: 'pointer', textTransform: 'uppercase' }}>View all →</span>
+          <div style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.2em', color: '#555', textTransform: 'uppercase' }}>Members</div>
+          <span onClick={() => setActive('members')} style={{ fontFamily: MONO, fontSize: 9, color: '#444', cursor: 'pointer', textTransform: 'uppercase' }}>View all →</span>
         </div>
         {(members ?? []).slice(0, 5).map(m => (
           <div key={m._id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', borderBottom: '1px solid #0d0d0d' }}>
             <MemberAvatar m={m} />
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 11, fontWeight: 700, color: '#FDC214', letterSpacing: '2px' }}>{m.name || m.username}</div>
-              <div style={{ fontFamily: MONO, fontSize: 10, color: '#555', marginTop: 1 }}>
+              <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 13, fontWeight: 700, color: '#FDC214', letterSpacing: '2px' }}>{m.name || m.username}</div>
+              <div style={{ fontFamily: MONO, fontSize: 12, color: '#555', marginTop: 1 }}>
                 <span style={{ color: '#fff' }}>@{m.username}</span>
-                {(m.tags ?? []).length > 0 && <span style={{ color: '#FDC214', fontSize: 9 }}> · {m.tags.join(' · ')}</span>}
+                {(m.tags ?? []).length > 0 && <span style={{ color: '#FDC214', fontSize: 11 }}> · {m.tags.join(' · ')}</span>}
               </div>
             </div>
-            <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.1em', padding: '1px 6px', border: '1px solid #1e1e1e', color: '#666', textTransform: 'uppercase', flexShrink: 0 }}>{m.discipline ?? '—'}</div>
-            <span style={{ fontFamily: MONO, fontSize: 7, color: '#555', cursor: 'pointer', flexShrink: 0 }}>Manage →</span>
+            <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', padding: '1px 6px', border: '1px solid #1e1e1e', color: '#666', textTransform: 'uppercase', flexShrink: 0 }}>{m.discipline ?? '—'}</div>
+            <span style={{ fontFamily: MONO, fontSize: 9, color: '#555', cursor: 'pointer', flexShrink: 0 }}>Manage →</span>
           </div>
         ))}
         {(!members || members.length === 0) && (
-          <div style={{ fontFamily: MONO, fontSize: 8, color: '#444', padding: '12px 0' }}>No members found.</div>
+          <div style={{ fontFamily: MONO, fontSize: 10, color: '#444', padding: '12px 0' }}>No members found.</div>
         )}
       </div>
 
       {/* Pitches */}
       <div style={{ padding: '14px 18px', borderBottom: '1px solid #0f0f0f' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.2em', color: '#555', textTransform: 'uppercase' }}>Work with us requests</div>
-          <span onClick={() => setActive('pitches')} style={{ fontFamily: MONO, fontSize: 7, color: '#444', cursor: 'pointer', textTransform: 'uppercase' }}>View all →</span>
+          <div style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.2em', color: '#555', textTransform: 'uppercase' }}>Work with us requests</div>
+          <span onClick={() => setActive('pitches')} style={{ fontFamily: MONO, fontSize: 9, color: '#444', cursor: 'pointer', textTransform: 'uppercase' }}>View all →</span>
         </div>
         {(pitches ?? []).slice(0, 4).map(p => (
           <div key={p._id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '9px 0', borderBottom: '1px solid #0d0d0d', cursor: 'pointer' }}>
             <div style={{ width: 6, height: 6, borderRadius: '50%', marginTop: 4, flexShrink: 0, background: p.status === 'pending' ? GOLD : p.status === 'accepted' ? GREEN : '#777' }} />
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#ccc', letterSpacing: '-0.01em', marginBottom: 2 }}>{p.projectTitle}</div>
-              <div style={{ fontFamily: MONO, fontSize: 7, color: '#555', display: 'flex', gap: 8 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#ccc', letterSpacing: '-0.01em', marginBottom: 2 }}>{p.projectTitle}</div>
+              <div style={{ fontFamily: MONO, fontSize: 9, color: '#555', display: 'flex', gap: 8 }}>
                 <span>@{p.creator?.username ?? '—'}</span>
                 <span>{p.creator?.discipline ?? '—'}</span>
                 <span style={{ color: p.status === 'pending' ? GOLD : p.status === 'accepted' ? GREEN : '#777', textTransform: 'uppercase' }}>{p.status}</span>
               </div>
             </div>
-            <div style={{ fontFamily: MONO, fontSize: 7, color: '#444', whiteSpace: 'nowrap', flexShrink: 0 }}>{p.submittedAt ? ago(p.submittedAt) : '—'}</div>
+            <div style={{ fontFamily: MONO, fontSize: 9, color: '#444', whiteSpace: 'nowrap', flexShrink: 0 }}>{p.submittedAt ? ago(p.submittedAt) : '—'}</div>
           </div>
         ))}
         {(!pitches || pitches.length === 0) && (
-          <div style={{ fontFamily: MONO, fontSize: 8, color: '#444', padding: '12px 0' }}>No pitches yet.</div>
+          <div style={{ fontFamily: MONO, fontSize: 10, color: '#444', padding: '12px 0' }}>No pitches yet.</div>
         )}
       </div>
 
       {/* Analytics */}
       <div style={{ padding: '14px 18px', borderBottom: '1px solid #0f0f0f' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.2em', color: '#555', textTransform: 'uppercase' }}>Activity by tag</div>
-          <span onClick={() => setActive('analytics')} style={{ fontFamily: MONO, fontSize: 7, color: '#444', cursor: 'pointer', textTransform: 'uppercase' }}>Full report →</span>
+          <div style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.2em', color: '#555', textTransform: 'uppercase' }}>Activity by tag</div>
+          <span onClick={() => setActive('analytics')} style={{ fontFamily: MONO, fontSize: 9, color: '#444', cursor: 'pointer', textTransform: 'uppercase' }}>Full report →</span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {(analytics?.byTag ?? []).slice(0, 6).map((d, i) => (
             <AnalyticsBar key={d.label} label={d.label} pct={d.pct} color={BAR_COLORS[i % BAR_COLORS.length]} onClick={() => onSelectTag(d.label)} />
           ))}
           {(!analytics?.byTag?.length) && (
-            <div style={{ fontFamily: MONO, fontSize: 8, color: '#444' }}>No data yet.</div>
+            <div style={{ fontFamily: MONO, fontSize: 10, color: '#444' }}>No data yet.</div>
           )}
         </div>
       </div>
@@ -206,17 +208,99 @@ function DashboardView({ stats, members, pitches, analytics, setActive, onSelect
   )
 }
 
+// ─── Member edit modal ──────────────────────────────────────────────────────
+const MEMBER_EDIT_FIELDS = [
+  { key: 'name',       label: 'Name' },
+  { key: 'username',   label: 'Username' },
+  { key: 'email',      label: 'Email' },
+  { key: 'phone',      label: 'Mobile' },
+  { key: 'location',   label: 'Location' },
+]
+
+function MemberEditModal({ member, onClose, onSaved }) {
+  const [form, setForm] = useState({
+    name: member.name ?? '', username: member.username ?? '', email: member.email ?? '',
+    phone: member.phone ?? '', location: member.location ?? '',
+    bio: member.bio ?? '', tags: (member.tags ?? []).join(', '),
+  })
+  const [saving, setSaving] = useState(false)
+  const [error, setError]   = useState('')
+
+  const set = (key, val) => setForm(f => ({ ...f, [key]: val }))
+
+  const save = async () => {
+    setSaving(true)
+    setError('')
+    const res = await fetch('/bz-admin/api/members', {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        id: member._id,
+        ...form,
+        tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
+      }),
+    })
+    setSaving(false)
+    if (!res.ok) { setError('Failed to save changes.'); return }
+    onSaved()
+  }
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ width: 440, maxHeight: '85vh', overflowY: 'auto', background: '#0d0d0d', border: '1px solid #1e1e1e', padding: '24px 22px' }}>
+        <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 15, color: '#fff', letterSpacing: '1px', marginBottom: 18 }}>
+          Edit <span style={{ color: GOLD }}>@{member.username}</span>
+        </div>
+
+        {MEMBER_EDIT_FIELDS.map(({ key, label }) => (
+          <div key={key} style={{ marginBottom: 12 }}>
+            <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.15em', color: '#555', textTransform: 'uppercase', marginBottom: 4 }}>{label}</div>
+            <input value={form[key]} onChange={e => set(key, e.target.value)}
+              style={{ width: '100%', background: '#080808', border: '1px solid #1e1e1e', color: '#e8e8e8', fontFamily: MONO, fontSize: 12, padding: '9px 11px', outline: 'none', boxSizing: 'border-box' }} />
+          </div>
+        ))}
+
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.15em', color: '#555', textTransform: 'uppercase', marginBottom: 4 }}>Tags (comma separated)</div>
+          <input value={form.tags} onChange={e => set('tags', e.target.value)}
+            style={{ width: '100%', background: '#080808', border: '1px solid #1e1e1e', color: '#e8e8e8', fontFamily: MONO, fontSize: 12, padding: '9px 11px', outline: 'none', boxSizing: 'border-box' }} />
+        </div>
+
+        <div style={{ marginBottom: 18 }}>
+          <div style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.15em', color: '#555', textTransform: 'uppercase', marginBottom: 4 }}>Bio</div>
+          <textarea value={form.bio} onChange={e => set('bio', e.target.value)} rows={3}
+            style={{ width: '100%', background: '#080808', border: '1px solid #1e1e1e', color: '#e8e8e8', fontFamily: MONO, fontSize: 12, padding: '9px 11px', outline: 'none', resize: 'none', boxSizing: 'border-box', lineHeight: 1.5 }} />
+        </div>
+
+        {error && <div style={{ fontFamily: MONO, fontSize: 10, color: RED, marginBottom: 12 }}>{error}</div>}
+
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button onClick={onClose} disabled={saving}
+            style={{ flex: 1, fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '10px 0', background: 'none', border: '1px solid #2a2a2a', color: '#aaa', cursor: 'pointer' }}>
+            Cancel
+          </button>
+          <button onClick={save} disabled={saving}
+            style={{ flex: 1, fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '10px 0', background: GOLD, border: 'none', color: '#000', cursor: 'pointer', opacity: saving ? 0.6 : 1 }}>
+            {saving ? 'Saving...' : 'Save changes'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── Members view ─────────────────────────────────────────────────────────────
-function MembersView({ members, tagFilter, onClearFilter }) {
+function MembersView({ members, tagFilter, onClearFilter, onUpdate }) {
+  const [editing, setEditing] = useState(null)
   const filtered = tagFilter ? (members ?? []).filter(m => (m.tags ?? []).includes(tagFilter)) : (members ?? [])
   return (
     <div>
       <div style={{ padding: '14px 18px 12px', borderBottom: '1px solid #141414', background: '#0a0a0a', position: 'sticky', top: 0, zIndex: 4 }}>
-        <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.2em', color: '#444', marginBottom: 3 }}>Blkuzz HQ · Members</div>
+        <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.2em', color: '#444', marginBottom: 3 }}>Blkuzz HQ · Members</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 18, fontWeight: 900, letterSpacing: '2px', color: '#fff' }}>All Members</div>
+          <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 21, fontWeight: 900, letterSpacing: '2px', color: '#fff' }}>All Members</div>
           {tagFilter && (
-            <span onClick={onClearFilter} style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.05em', padding: '3px 9px', borderRadius: 10, border: '1px solid #FDC21460', color: '#FDC214', textTransform: 'uppercase', cursor: 'pointer' }}>{tagFilter} ×</span>
+            <span onClick={onClearFilter} style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.05em', padding: '3px 9px', borderRadius: 10, border: '1px solid #FDC21460', color: '#FDC214', textTransform: 'uppercase', cursor: 'pointer' }}>{tagFilter} ×</span>
           )}
         </div>
       </div>
@@ -224,8 +308,8 @@ function MembersView({ members, tagFilter, onClearFilter }) {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
-              {['Member', 'Tags', 'Location', 'Joined', 'Projects'].map(h => (
-                <th key={h} style={{ fontFamily: MONO, fontSize: 6, letterSpacing: '0.2em', color: '#444', textTransform: 'uppercase', padding: '8px 0', textAlign: 'left', borderBottom: '1px solid #141414' }}>{h}</th>
+              {['Member', 'Mobile', 'Tags', 'Location', 'Joined', 'Projects', ''].map(h => (
+                <th key={h} style={{ fontFamily: MONO, fontSize: 8, letterSpacing: '0.2em', color: '#444', textTransform: 'uppercase', padding: '8px 0', textAlign: 'left', borderBottom: '1px solid #141414' }}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -234,33 +318,45 @@ function MembersView({ members, tagFilter, onClearFilter }) {
               <tr key={m._id} style={{ borderBottom: '1px solid #0d0d0d' }}>
                 <td style={{ padding: '8px 0' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <MemberAvatar m={m} size={26} />
+                    <MemberAvatar m={m} size={32} />
                     <div>
-                      <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 11, fontWeight: 700, color: '#FDC214', letterSpacing: '2px' }}>{m.name || m.username}</div>
-                      <div style={{ fontFamily: MONO, fontSize: 10, color: '#fff' }}>@{m.username}</div>
+                      <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 13, fontWeight: 700, color: '#FDC214', letterSpacing: '2px' }}>{m.name || m.username}</div>
+                      <div style={{ fontFamily: MONO, fontSize: 12, color: '#fff' }}>@{m.username}</div>
                     </div>
                   </div>
                 </td>
+                <td style={{ fontFamily: MONO, fontSize: 10, color: '#fff', padding: '8px 0' }}>{m.phone ?? '—'}</td>
                 <td style={{ padding: '8px 0' }}>
                   {(m.tags ?? []).length > 0 ? (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                       {m.tags.map(tag => (
-                        <span key={tag} style={{ fontFamily: MONO, fontSize: 7, lineHeight: 1, letterSpacing: '0.05em', display: 'inline-flex', alignItems: 'center', padding: '4px 7px 3px', borderRadius: 10, border: '1px solid #FDC21440', color: '#FDC214', textTransform: 'uppercase' }}>{tag}</span>
+                        <span key={tag} style={{ fontFamily: MONO, fontSize: 9, lineHeight: 1, letterSpacing: '0.05em', display: 'inline-flex', alignItems: 'center', padding: '4px 7px 3px', borderRadius: 10, border: '1px solid #FDC21440', color: '#FDC214', textTransform: 'uppercase' }}>{tag}</span>
                       ))}
                     </div>
-                  ) : <span style={{ fontFamily: MONO, fontSize: 8, color: '#aaa' }}>—</span>}
+                  ) : <span style={{ fontFamily: MONO, fontSize: 10, color: '#aaa' }}>—</span>}
                 </td>
-                <td style={{ fontFamily: MONO, fontSize: 8, color: '#FDC214', padding: '8px 0' }}>{m.location ?? '—'}</td>
-                <td style={{ fontFamily: MONO, fontSize: 8, color: '#fff', padding: '8px 0' }}>{m.createdAt ? new Date(m.createdAt).toLocaleDateString('en-GB', { month: 'short', year: '2-digit' }) : '—'}</td>
-                <td style={{ fontFamily: MONO, fontSize: 8, color: '#FDC214', padding: '8px 0' }}>{m.projectCount ?? 0}</td>
+                <td style={{ fontFamily: MONO, fontSize: 10, color: '#FDC214', padding: '8px 0' }}>{m.location ?? '—'}</td>
+                <td style={{ fontFamily: MONO, fontSize: 10, color: '#fff', padding: '8px 0' }}>{m.createdAt ? new Date(m.createdAt).toLocaleDateString('en-GB', { month: 'short', year: '2-digit' }) : '—'}</td>
+                <td style={{ fontFamily: MONO, fontSize: 10, color: '#FDC214', padding: '8px 0' }}>{m.projectCount ?? 0}</td>
+                <td style={{ padding: '8px 0' }}>
+                  <span onClick={() => setEditing(m)} style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.1em', color: '#666', textTransform: 'uppercase', cursor: 'pointer' }}>Edit</span>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
         {filtered.length === 0 && (
-          <div style={{ fontFamily: MONO, fontSize: 8, color: '#444', padding: '20px 0' }}>No members found.</div>
+          <div style={{ fontFamily: MONO, fontSize: 10, color: '#444', padding: '20px 0' }}>No members found.</div>
         )}
       </div>
+
+      {editing && (
+        <MemberEditModal
+          member={editing}
+          onClose={() => setEditing(null)}
+          onSaved={() => { setEditing(null); onUpdate() }}
+        />
+      )}
     </div>
   )
 }
@@ -283,31 +379,31 @@ function PitchesView({ pitches, onUpdate }) {
   return (
     <div>
       <div style={{ padding: '14px 18px 12px', borderBottom: '1px solid #141414', background: '#0a0a0a', position: 'sticky', top: 0, zIndex: 4 }}>
-        <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.2em', color: '#444', marginBottom: 3 }}>Blkuzz HQ · Content</div>
-        <div style={{ fontSize: 18, fontWeight: 900, letterSpacing: '-0.03em', color: '#fff' }}>Pitches</div>
+        <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.2em', color: '#444', marginBottom: 3 }}>Blkuzz HQ · Content</div>
+        <div style={{ fontSize: 21, fontWeight: 900, letterSpacing: '-0.03em', color: '#fff' }}>Pitches</div>
       </div>
       <div style={{ padding: '0 18px' }}>
         {(pitches ?? []).map(p => (
           <div key={p._id} style={{ padding: '14px 0', borderBottom: '1px solid #0d0d0d' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#e8e8e8', marginBottom: 3 }}>{p.projectTitle}</div>
-                <div style={{ fontFamily: MONO, fontSize: 7, color: '#666' }}>@{p.creator?.username ?? '—'} · {p.creator?.discipline ?? '—'} · {p.submittedAt ? ago(p.submittedAt) : '—'}</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: '#e8e8e8', marginBottom: 3 }}>{p.projectTitle}</div>
+                <div style={{ fontFamily: MONO, fontSize: 9, color: '#666' }}>@{p.creator?.username ?? '—'} · {p.creator?.discipline ?? '—'} · {p.submittedAt ? ago(p.submittedAt) : '—'}</div>
               </div>
-              <span style={{ fontFamily: MONO, fontSize: 7, padding: '2px 7px', border: `1px solid ${p.status === 'pending' ? GOLD + '40' : p.status === 'accepted' ? GREEN + '40' : '#1e1e1e'}`, color: p.status === 'pending' ? GOLD : p.status === 'accepted' ? GREEN : '#777', textTransform: 'uppercase' }}>{p.status}</span>
+              <span style={{ fontFamily: MONO, fontSize: 9, padding: '2px 7px', border: `1px solid ${p.status === 'pending' ? GOLD + '40' : p.status === 'accepted' ? GREEN + '40' : '#1e1e1e'}`, color: p.status === 'pending' ? GOLD : p.status === 'accepted' ? GREEN : '#777', textTransform: 'uppercase' }}>{p.status}</span>
             </div>
-            <p style={{ fontSize: 11, color: '#777', lineHeight: 1.6, marginBottom: 8 }}>{p.pitch?.slice(0, 200)}{p.pitch?.length > 200 ? '…' : ''}</p>
+            <p style={{ fontSize: 13, color: '#777', lineHeight: 1.6, marginBottom: 8 }}>{p.pitch?.slice(0, 200)}{p.pitch?.length > 200 ? '…' : ''}</p>
             {p.status === 'pending' && (
               <div style={{ display: 'flex', gap: 6 }}>
-                <button onClick={() => respond(p._id, 'accepted')} disabled={updating === p._id} style={{ fontFamily: MONO, fontSize: 7, padding: '4px 10px', border: `1px solid ${GREEN}40`, color: GREEN, background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>Accept</button>
-                <button onClick={() => respond(p._id, 'declined')} disabled={updating === p._id} style={{ fontFamily: MONO, fontSize: 7, padding: '4px 10px', border: `1px solid ${RED}40`, color: RED, background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>Decline</button>
-                <button onClick={() => respond(p._id, 'reviewed')} disabled={updating === p._id} style={{ fontFamily: MONO, fontSize: 7, padding: '4px 10px', border: '1px solid #1e1e1e', color: '#777', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>Mark reviewed</button>
+                <button onClick={() => respond(p._id, 'accepted')} disabled={updating === p._id} style={{ fontFamily: MONO, fontSize: 9, padding: '4px 10px', border: `1px solid ${GREEN}40`, color: GREEN, background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>Accept</button>
+                <button onClick={() => respond(p._id, 'declined')} disabled={updating === p._id} style={{ fontFamily: MONO, fontSize: 9, padding: '4px 10px', border: `1px solid ${RED}40`, color: RED, background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>Decline</button>
+                <button onClick={() => respond(p._id, 'reviewed')} disabled={updating === p._id} style={{ fontFamily: MONO, fontSize: 9, padding: '4px 10px', border: '1px solid #1e1e1e', color: '#777', background: 'transparent', cursor: 'pointer', textTransform: 'uppercase' }}>Mark reviewed</button>
               </div>
             )}
           </div>
         ))}
         {(!pitches || pitches.length === 0) && (
-          <div style={{ fontFamily: MONO, fontSize: 8, color: '#444', padding: '20px 0' }}>No pitches yet.</div>
+          <div style={{ fontFamily: MONO, fontSize: 10, color: '#444', padding: '20px 0' }}>No pitches yet.</div>
         )}
       </div>
     </div>
@@ -364,14 +460,15 @@ export default function AdminDashboard() {
   }
 
   const renderMain = () => {
-    if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: MONO, fontSize: 8, letterSpacing: '0.25em', color: '#555', textTransform: 'uppercase' }}>Loading...</div>
+    if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontFamily: MONO, fontSize: 10, letterSpacing: '0.25em', color: '#555', textTransform: 'uppercase' }}>Loading...</div>
     if (active === 'dashboard') return <DashboardView stats={stats} members={members} pitches={pitches} analytics={analytics} setActive={setActive} onSelectTag={selectTag} />
-    if (active === 'members')   return <MembersView members={members} tagFilter={tagFilter} onClearFilter={() => setTagFilter(null)} />
+    if (active === 'members')   return <MembersView members={members} tagFilter={tagFilter} onClearFilter={() => setTagFilter(null)} onUpdate={loadData} />
     if (active === 'pitches')   return <PitchesView pitches={pitches} onUpdate={loadData} />
+    if (active === 'broadcast') return <BroadcastView members={members} />
     if (active === 'analytics') return (
       <div style={{ padding: 18 }}>
-        <div style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.2em', color: '#444', marginBottom: 3 }}>Blkuzz HQ · Analytics</div>
-        <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 18, fontWeight: 900, letterSpacing: '2px', color: '#fff', marginBottom: 20 }}>Analytics</div>
+        <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.2em', color: '#444', marginBottom: 3 }}>Blkuzz HQ · Analytics</div>
+        <div style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 21, fontWeight: 900, letterSpacing: '2px', color: '#fff', marginBottom: 20 }}>Analytics</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {(analytics?.byTag ?? []).map((d, i) => (
             <AnalyticsBar key={d.label} label={d.label} pct={d.pct} color={BAR_COLORS[i % BAR_COLORS.length]} onClick={() => selectTag(d.label)} />
@@ -379,25 +476,25 @@ export default function AdminDashboard() {
         </div>
       </div>
     )
-    return <div style={{ padding: 24, fontFamily: MONO, fontSize: 8, color: '#555', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Coming soon — {active}</div>
+    return <div style={{ padding: 24, fontFamily: MONO, fontSize: 10, color: '#555', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Coming soon — {active}</div>
   }
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#080808', color: '#e8e8e8', overflow: 'hidden' }}>
 
       {/* Command bar */}
-      <div style={{ background: '#0a0a0a', borderBottom: '1px solid #1a1a1a', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 44, flexShrink: 0 }}>
+      <div style={{ background: '#0a0a0a', borderBottom: '1px solid #1a1a1a', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 52, flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 18, letterSpacing: '2px', color: '#FDC214' }}>BLKUZZ</span>
-          <span style={{ fontFamily: MONO, fontSize: 7, letterSpacing: '0.2em', color: RED, border: `1px solid ${RED}60`, padding: '2px 7px', textTransform: 'uppercase', boxShadow: `0 0 8px ${RED}40, 0 0 2px ${RED}60`, textShadow: `0 0 8px ${RED}` }}>Headquarters</span>
+          <span style={{ fontFamily: 'Boldstrom, sans-serif', fontSize: 21, letterSpacing: '2px', color: '#FDC214' }}>BLKUZZ</span>
+          <span style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.2em', color: RED, border: `1px solid ${RED}60`, padding: '2px 7px', textTransform: 'uppercase', boxShadow: `0 0 8px ${RED}40, 0 0 2px ${RED}60`, textShadow: `0 0 8px ${RED}` }}>Headquarters</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: MONO, fontSize: 8, color: '#008000', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: MONO, fontSize: 10, color: '#008000', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#008000', animation: 'pulse 2s infinite' }} />
             Live
           </div>
-          <div style={{ fontFamily: MONO, fontSize: 9, color: '#444', letterSpacing: '0.1em' }}>{clock}</div>
-          <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#1a1700', border: `1px solid ${GOLD}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MONO, fontSize: 7, color: GOLD, fontWeight: 700 }}>BZ</div>
+          <div style={{ fontFamily: MONO, fontSize: 11, color: '#444', letterSpacing: '0.1em' }}>{clock}</div>
+          <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1a1700', border: `1px solid ${GOLD}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MONO, fontSize: 10, color: GOLD, fontWeight: 700 }}>BZ</div>
         </div>
       </div>
 

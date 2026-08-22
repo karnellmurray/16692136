@@ -22,7 +22,7 @@ export async function GET() {
 
   const members = await Signup.find(
     {},
-    'username name discipline location createdAt avatar profileImage tags'
+    'username name email phone discipline location bio createdAt avatar profileImage tags blkuzzId'
   ).sort({ createdAt: -1 }).limit(50).lean()
 
   const withProjects = await Promise.all(members.map(async m => {
@@ -32,4 +32,39 @@ export async function GET() {
   }))
 
   return NextResponse.json(withProjects)
+}
+
+const EDITABLE_FIELDS = ['name', 'username', 'email', 'phone', 'discipline', 'location', 'bio', 'tags']
+
+// Mongoose schema setters don't run on findByIdAndUpdate's $set — only on
+// document.save() — so phone normalisation has to happen here explicitly.
+function normalisePhone(v) {
+  if (!v) return v
+  const c = v.replace(/[\s\-\(\)]/g, '')
+  if (c.startsWith('07'))                        return '+44' + c.slice(1)
+  if (c.startsWith('44') && !c.startsWith('+')) return '+' + c
+  return c
+}
+
+export async function PATCH(req) {
+  const session = await getServerSession(authOptions)
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const { id, ...fields } = await req.json()
+  if (!id) return NextResponse.json({ error: 'Member id is required.' }, { status: 400 })
+
+  const set = {}
+  for (const key of EDITABLE_FIELDS) {
+    if (fields[key] === undefined) continue
+    set[key] = key === 'tags'
+      ? fields[key]
+      : typeof fields[key] === 'string' ? fields[key].trim() : fields[key]
+  }
+  if (set.phone) set.phone = normalisePhone(set.phone)
+
+  await connectDB()
+  const updated = await Signup.findByIdAndUpdate(id, { $set: set }, { new: true }).select('-passwordHash').lean()
+  if (!updated) return NextResponse.json({ error: 'Member not found.' }, { status: 404 })
+
+  return NextResponse.json(updated)
 }
