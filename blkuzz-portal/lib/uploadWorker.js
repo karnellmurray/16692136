@@ -44,7 +44,7 @@ function sanitizeFilename(name, ext) {
   return cleaned
 }
 
-async function getRawObjectWithRetry(bucket, key, maxAttempts = 5, delayMs = 2000) {
+async function getRawObjectWithRetry(bucket, key, maxAttempts = 15, delayMs = 4000) {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       return await s3.send(new GetObjectCommand({ Bucket: bucket, Key: key }))
