@@ -1,9 +1,9 @@
-import connectDB from '@/lib/mongodb'
-import MediaUpload from '@/models/MediaUpload'
+import connectDB from './mongodb.js'
+import MediaUpload from '../models/MediaUpload.js'
 import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { fileTypeFromBuffer } from 'file-type'
 import heicConvert from 'heic-convert'
-import { transcodeToH264, processImage, transcodeAudio } from '@/lib/mediaProcessing'
+import { transcodeToH264, processImage, transcodeAudio } from './mediaProcessing.js'
 
 const HEIC_MIMES  = ['image/heic', 'image/heif', 'image/heic-sequence', 'image/heif-sequence']
 const AUDIO_EXTS  = ['mp3', 'wav', 'm4a', 'aac', 'flac', 'wma', 'opus']
