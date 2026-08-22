@@ -44,6 +44,20 @@ function sanitizeFilename(name, ext) {
   return cleaned
 }
 
+async function getRawObjectWithRetry(bucket, key, maxAttempts = 5, delayMs = 2000) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await s3.send(new GetObjectCommand({ Bucket: bucket, Key: key }))
+    } catch (err) {
+      if (err.name === 'NoSuchKey' && attempt < maxAttempts) {
+        await new Promise(resolve => setTimeout(resolve, delayMs))
+        continue
+      }
+      throw err
+    }
+  }
+}
+
 function notify(ownerId, event, payload) {
   try {
     global.io?.to(`user:${ownerId}`).emit(event, payload)
@@ -70,7 +84,7 @@ export async function runUploadJob(id) {
   if (!doc) return // already finished (ready/failed) or doesn't exist -- nothing to do
 
   try {
-    const raw = await s3.send(new GetObjectCommand({ Bucket: RAW_BUCKET, Key: doc.rawKey }))
+    const raw = await getRawObjectWithRetry(RAW_BUCKET, doc.rawKey)
     const buffer = await streamToBuffer(raw.Body)
 
     const sniffed = await fileTypeFromBuffer(buffer).catch(() => null)
