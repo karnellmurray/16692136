@@ -1,6 +1,9 @@
 const { createServer } = require('http')
 const { parse } = require('url')
 const next = require('next')
+const { loadEnvConfig } = require('@next/env')
+
+loadEnvConfig(__dirname)
 
 const dev  = process.env.NODE_ENV !== 'production'
 const port = parseInt(process.env.PORT || '3002', 10)
